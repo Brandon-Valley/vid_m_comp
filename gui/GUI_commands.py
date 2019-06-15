@@ -148,8 +148,10 @@ def apply_txt_overlay(top_text, bottom_text):
     text_overlay_clip_path = trimmed_cur_clip_path + '__txt_overlay.mp4'
     
     def create_and_log_txt_overlay_clip():
+        row_num = pool_clips_data_handler.get_cur_row_num()
         text_overlay.text_overlay(top_text, bottom_text, cur_clip_path, text_overlay_clip_path)
-        pool_clips_data_handler.write_to_current('txt_overlay_clip_path', text_overlay_clip_path)
+        pool_clips_data_handler.write_to_row_num(row_num, 'txt_overlay_clip_path', text_overlay_clip_path)
+        pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
         print('done with making text overlay, saved in: ', text_overlay_clip_path)
         print('need to finish this thing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         

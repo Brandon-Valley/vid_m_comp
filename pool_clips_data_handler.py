@@ -127,12 +127,11 @@ def get_cur_row_num():
     return utils.get_cur_row_num(row_dl)
 
 
-# def write_to_row_num(row_num, header, value):
-#     row_dl = get_csv_row_dl()
-#     cur_row_num = utils.get_cur_row_num(row_dl)
-#     row_dl[cur_row_num][header] = value
-# 
-#     logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
+def write_to_row_num(row_num, header, value):
+    row_dl = get_csv_row_dl()
+    row_dl[row_num][header] = value
+ 
+    logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
     
 # def delete_csv():
 #     os.remove(POOL_CLIPS_DATA_CSV_PATH)
