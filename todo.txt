@@ -1,0 +1,24 @@
+
+
+make ability to set clip as first / last, maybe with list indexes, like 0 = 1st, -1 = last
+
+add % under clip #
+
+add option to trim out lower rated memes if vid is over x min
+
+add logo to vid (what is the name for logo?) - watermark
+
+add download tab
+
+add compile path in comile tab
+
+add & # ,% accepted, declined, unevaluated
+
+add download stats to dl tab, stuff like % succsessful, maybe how many too long, avg dl time, how many were youtube vs reddit
+
+add button to play comiled video when done
+
+make text overlay work
+
+
+743.5314962863922

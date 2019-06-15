@@ -1,0 +1,4 @@
+{
+	"current_data_dir_path":"C:/Users/Brandon/Documents/Personal_Projects/reddit_comp_big_data/current_data",
+    "POOL_CLIPS_DATA_CSV_HEADER_LIST" : ["status", "postTitle", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "clip_path", "current", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"] 
+}
