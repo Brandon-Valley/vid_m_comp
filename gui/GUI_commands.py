@@ -1,6 +1,8 @@
-from threading import Thread
 from tkinter import *
 from tkinter.messagebox import showinfo
+import time # for testing
+from threading import Thread
+
 
 import Build_Tab
 import Clip_Pool_Data
@@ -50,6 +52,7 @@ def restart_build_tab(master, tab_control, tab_pos):
 
 
 def navigate(move_amount, master, tab_control, skip_evaluated):
+    start_time = time.time()
     try:
         vid_player_control.close_vid_if_open()
     except NameError:
@@ -69,6 +72,8 @@ def navigate(move_amount, master, tab_control, skip_evaluated):
         vid_player_control.open_vid(pool_clips_data_handler.read_from_current('clip_path'))
     except NameError:
         print('Cant open vid because cant import vid_player_pontrol')
+        
+    print('in gui utils, navigation total time: ', time.time() - start_time)
     
     
     

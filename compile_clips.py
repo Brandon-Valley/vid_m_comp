@@ -17,6 +17,8 @@
 import os
 from os import listdir
 from os.path import isfile, join
+from threading import Thread
+
 #    
 import subprocess
 import cv2
@@ -28,6 +30,7 @@ import project_vars_handler
 
 # VIDS_TO_COMPILE_FOLDER_PATH = 'vids_to_compile'
 CLIPS_TO_COMPILE_DIR_PATH = project_vars_handler.get_var('current_data_dir_path') + '/clips_to_compile'
+MAX_CMD_CHARS = 600 #8191
 # OUTPUT_VID_DIMS = [1080, 720, 480, 360, 240, 144] # other heights can work, but not all, so stick to these because they're safe
                        
 #                    w    h              
@@ -199,19 +202,107 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
 #     subprocess.call(cmd, shell=True)
 
 
+#     def _make_input_files_str(vid_filenames_to_compile):
+#         input_files_str = ''
+#         for vid_filename in vid_filenames_to_compile:
+#             vid_file_path = clips_dir_path + '/' + vid_filename 
+#             input_files_str += ' -i ' + vid_file_path
+#         return input_files_str
+    
+    # put this back in below func !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    def _make_input_files_str(vid_path_l):
+        input_files_str = ''
+        for vid_path in vid_path_l:
+            input_files_str += ' -i ' + vid_path
+        return input_files_str
+        
+            
+    def _make_thread_cmd_str_l(vid_paths_to_compile):
+
+        def __make_cmd_str(vid_paths_to_compile, output_file_path):
+            input_files_str = _make_input_files_str(vid_paths_to_compile)
+            num_clips_str = str( len(vid_paths_to_compile) )
+            cmd = 'ffmpeg' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=' + num_clips_str + ':v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + output_file_path + ' -y'
+            return cmd
+        
+        def __all_cmd_str_fit(cmd_str_l):
+            for cmd_str in cmd_str_l:
+                if len(cmd_str) > MAX_CMD_CHARS:
+                    return False
+                return True
+            
+        def __split_list(alist, wanted_parts=1):
+            length = len(alist)
+            return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts] 
+                     for i in range(wanted_parts) ]
+               
+               
+               
+        thread_output_file_path_list = ['thread_temp_1.mp4']
+        cmd_str_l = [__make_cmd_str(vid_paths_to_compile, thread_output_file_path_list[0])]
+        num_threads = 1
+        
+        while(not __all_cmd_str_fit(cmd_str_l)):
+            cmd_str_l = []
+            num_threads += 1
+            thread_output_file_path_list.append('thread_temp_' + str(num_threads) + '.mp4')
+
+            vid_path_ll = __split_list(vid_paths_to_compile, num_threads)
+            for vid_path_l_num, vid_path_l in enumerate(vid_path_ll):
+                cmd_str_l.append(__make_cmd_str(vid_path_l, thread_output_file_path_list[vid_path_l_num]))
+            
+            
+        return cmd_str_l, thread_output_file_path_list
+            
+            
 #     # this one works but cmd line str can be too long !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
-    input_files_str = ''
+    vid_paths_to_compile = []
     for vid_filename in vid_filenames_to_compile:
-        vid_file_path = clips_dir_path + '/' + vid_filename 
-        input_files_str += ' -i ' + vid_file_path
+        vid_paths_to_compile.append(clips_dir_path + '/' + vid_filename)
+    
+    print('vid_paths_to_compile: ', vid_paths_to_compile)#```````````````````````````````````````````````````````````
+    
+    thread_cmd_str_l, thread_output_file_path_list = _make_thread_cmd_str_l(vid_paths_to_compile)
+
+    if len(thread_cmd_str_l) == 1:
+        print('cmd: ', thread_cmd_str_l[0])#````````````````````````````````````````````````````````````````````````````
+        subprocess.call(thread_cmd_str_l[0],shell=True) 
+        os.rename(thread_output_file_path_list[0], output_vid_path)
+    else:
+        def run_subprocess(thread_cmd_str):
+            subprocess.call(thread_cmd_str, shell=True)
+        thread_l = []
+        for thread_cmd_str in thread_cmd_str_l:
+            print(thread_cmd_str)#`````````````````````````````````````````````````````````````````````````````````````
+            th = Thread(target=run_subprocess, args=(thread_cmd_str,) )   
+            thread_l.append(th)
+        
+        for thread in thread_l:
+            thread.start()
+       
+        for thread in thread_l:
+            thread.join()
+        
+        
+        
+        thread_cmd_str_l_2, thread_output_file_path_list_2 = _make_thread_cmd_str_l(vid_paths_to_compile)
+        print(thread_cmd_str_l_2)#```````````````````````````````````````````````````````````````````````````
+
+        subprocess(thread_cmd_str_l_2[0], shell=True)
+        
+        
+#     input_files_str = _make_input_files_str(vid_filenames_to_compile)
+#     for vid_filename in vid_filenames_to_compile:
+#         vid_file_path = clips_dir_path + '/' + vid_filename 
+#         input_files_str += ' -i ' + vid_file_path
          
-    num_clips = str(len(vid_filenames_to_compile))
-  
-    cmd = 'ffmpeg ' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=' + num_clips + ':v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + output_vid_path + ' -y'
-    print('cmd: ', cmd)#`````````````````````````````````````````````````````````````````````````````````````````````````
-  
-    subprocess.call(cmd,shell=True) 
+#     num_clips = str(len(vid_filenames_to_compile))
+#   
+#     cmd = 'ffmpeg ' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=' + num_clips + ':v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + output_vid_path + ' -y'
+#     print('cmd: ', cmd)#`````````````````````````````````````````````````````````````````````````````````````````````````
+#   
+#     subprocess.call(cmd,shell=True) 
 
 
 #     vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]

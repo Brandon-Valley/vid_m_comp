@@ -1,6 +1,6 @@
 {
-    "prune_rating": "3",
     "compiled_output_file_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/output_big_test.mp4",
     "skip_evaluated": "0",
-    "prune_time": "10:00"
+    "prune_time": "10:00",
+    "prune_rating": "5"
 }

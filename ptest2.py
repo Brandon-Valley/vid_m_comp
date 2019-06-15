@@ -1,10 +1,10 @@
-from selenium import webdriver
+def split_list(alist, wanted_parts=1):
+    length = len(alist)
+    return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts] 
+             for i in range(wanted_parts) ]
 
+A = [0,1,2,3,4,5,6,7,8,9]
 
-PHANTOM_JS_PATH = 'C:/Users/Brandon/Downloads/phantomjs-2.1.1-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe' ## SET YOU PATH TO phantomjs
-
-print('  Setting up phanomJS browser (needed for some vid duration stuff)...')
-driver = webdriver.PhantomJS(PHANTOM_JS_PATH)
-# driver.open('https://youtu.be/g05hCckM4G0')
-driver.get('https://youtu.be/g05hCckM4G0')
-print (driver.current_url)
+print( split_list(A, wanted_parts=1))
+print (split_list(A, wanted_parts=3))
+print( split_list(A, wanted_parts=8))

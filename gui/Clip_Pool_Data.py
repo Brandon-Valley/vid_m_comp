@@ -124,7 +124,11 @@ class Clip_Pool_Data():
                 
         def get_time_needed_for_next_prune_str(prune_order_dl):
             total_sec = self.get_total_time(self.row_dl)
-            sec_needed = total_sec - int(prune_order_dl[0]['duration'])
+#             print("in clip pool data, total sec: ", utils.sec_to_min_str(total_sec))#``````````````````````````````````````````
+#             print("int(prune_order_dl[0]['duration']: ", int(prune_order_dl[0]['duration']))#`1`````````````````````````````````````````
+            sec_needed = prune_time() - (total_sec - int(prune_order_dl[0]['duration']))
+#             print("in clip pool data, sec_needed: ", utils.sec_to_min_str(sec_needed))#``````````````````````````````````````````
+
             return utils.sec_to_min_str(sec_needed)
 
                        
@@ -151,6 +155,8 @@ class Clip_Pool_Data():
         
         if num_clips_ready_to_prune == 0:
             prune_info_d['info_str'] = get_time_needed_for_next_prune_str(prune_order_dl) + ' Needed For Next Prune'
+            
+            
             return prune_info_d
             #return get_time_needed_for_next_prune_str(prune_order_dl) + ' Needed For Next Prune'
         
