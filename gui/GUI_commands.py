@@ -21,14 +21,25 @@ for dir in sys.path[0].split('\\')[0:-1]:
 sys.path.append(parent_dir_path[0:-1])
 
 # from parent dir
+print('in gui commands, about to import pool_clips_data_handler')#````````````````````````````````````````````````````````````````````````````````)
+
 import pool_clips_data_handler
+print('in gui commands, past pool_clips_data_handler')#````````````````````````````````````````````````````````````````````````````````)
+
 import json_logger
 import project_vars_handler
+print('in gui commands, past project_vars_handler')#````````````````````````````````````````````````````````````````````````````````)
+
 
 
 try:
+    print('in gui commands, about to import text overlay')#````````````````````````````````````````````````````````````````````````````````)
+
     import text_overlay
+    print('in gui commands, about to import comile_clips')#````````````````````````````````````````````````````````````````````````````````)
     import compile_clips
+    print('in gui commands, about to import comile_clips')#````````````````````````````````````````````````````````````````````````````````)
+
 except:
     print('import_fail')
 
@@ -59,7 +70,7 @@ def navigate(move_amount, master, tab_control, skip_evaluated):
         showinfo("Info", "All Clips Have Been Evaluated")
         return
     
-    print('past all eval check')#```````````````````````````````````````````````````````````````````````````````````````````````````
+    #print('past all eval check')#```````````````````````````````````````````````````````````````````````````````````````````````````
     
     pool_clips_data_handler.move_current(move_amount)
     while (skip_evaluated and pool_clips_data_handler.read_from_current('status') != ''):

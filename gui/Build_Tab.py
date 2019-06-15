@@ -9,12 +9,17 @@ from tkinter import *
 
 #import build_image
 #import GUI_utils
+print('in build tab about to start imports')#````````````````````````````````````````````````````````````
 import GUI
+print('past GUI')#````````````````````````````````````````````````````````````````````````
 import Tab
+print('past Tab')#`````````````````````````````````````````````````````````````````
 import GUI_commands
+print('in build tab done with imports')#````````````````````````````````````````````````````````````
+
 #import pool_clips_data_handler
 
-import Advanced_Tab
+#import Advanced_Tab
 
 
 TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
@@ -28,8 +33,10 @@ class Build_Tab(Tab.Tab):
         GUI_commands.init_current_if_needed()
         
         self.clip_data      = GUI_commands.get_current_clip_data()
+        print('past clip data') #``````````````````````````````````````````````````````````````````````````````````````
         self.clip_pool_data = GUI_commands.get_clip_pool_data()
         self.gui_vars       = GUI_commands.get_gui_vars()
+        print('past gui vars')#@``````````````````````````````````````````````````````````````````````````````
         
         self.clip_info_____widget_setup()
         self.progess_____widget_setup()
@@ -38,6 +45,7 @@ class Build_Tab(Tab.Tab):
         self.rating_____widget_setup()
         self.navigation_____widget_setup() #next and back buttons
         self.prune_clips_____widget_setup()
+        print('past prune')#`````````````````````````````````````````````````````````````````````````````````````
         
         self.grid_widgets()
 		

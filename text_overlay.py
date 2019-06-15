@@ -5,7 +5,7 @@
 
 
 
-import moviepy.editor as mp
+# import moviepy.editor as mp
 import cv2
 from PIL import Image
 import os
@@ -51,6 +51,7 @@ def get_int_vid_dims(vid_file_path):
 
 
 def text_overlay(top_text, bottom_text, vid_file_path, output_vid_file_path):
+    import moviepy.editor as mp # this here so long load and print dosnt happen when open gui
     vid_dims = get_int_vid_dims(vid_file_path)
     
 #     print('vid_dims:  ', vid_dims)
