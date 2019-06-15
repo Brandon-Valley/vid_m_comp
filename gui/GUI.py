@@ -29,7 +29,7 @@ def main(msg = None):
     tab3 = Frame(tab_control)
     tab4 = Frame(tab_control)    
     tab_control.add(tab1, text='Build')
-    #tab_control.add(tab4, text='Compile')
+    tab_control.add(tab4, text='Compile')
     tab_control.add(tab3, text='Edit')
     tab_control.add(tab2, text='Advanced Edit')
     
