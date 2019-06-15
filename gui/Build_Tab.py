@@ -42,8 +42,11 @@ class Build_Tab(Tab.Tab):
         self.progess_____widget_setup()
         self.text_overlay_____widget_setup()
         self.accept_decline_____widget_setup()
+        print('past accept_decline')#@``````````````````````````````````````````````````````````````````````````````
+
         self.rating_____widget_setup()
         self.navigation_____widget_setup() #next and back buttons
+        print('past nav')#11111111111111111````````````````````````````````````````
         self.prune_clips_____widget_setup()
         print('past prune')#`````````````````````````````````````````````````````````````````````````````````````
         
@@ -223,7 +226,7 @@ class Build_Tab(Tab.Tab):
         self.bind_to_edit(self.prune_rating_sbox, update_and_log_prune_widgets)
         
 
-        
+        print('in prune, about to go into prune_cbtn_clk()')#````````````````````````````````````````````````````````````
         # prune check button
         def prune_cbtn_clk():
             self.prune_time_txt_box.configure( state = 'normal' )

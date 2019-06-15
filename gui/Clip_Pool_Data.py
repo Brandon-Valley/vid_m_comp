@@ -144,7 +144,7 @@ class Clip_Pool_Data():
             #return 'Invalid Prune Time'
             
         prune_order_dl = get_prune_order_dl()
-        print(prune_order_dl)#``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+#         print(prune_order_dl)#``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
         num_clips_ready_to_prune = get_num_clips_ready_to_prune(prune_order_dl)
         
         prune_info_d['prune_row_dl'] = prune_order_dl[0:num_clips_ready_to_prune]
