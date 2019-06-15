@@ -61,17 +61,22 @@ class Compile_Tab(Tab.Tab):
         
     def progress_____widget_setup(self):
         self.prog_lbl_frm = LabelFrame(self.master, text=" Compile Progress: ")
-        self.resize_pbar_lbl = Label(self.prog_lbl_frm, text="Resize: ")
+        self.resize_pb_lbl = Label(self.prog_lbl_frm, text="Resize: ")
+        self.resize_pb = Progressbar(self.prog_lbl_frm, length=300, mode='indeterminate')
+        
+        # dict of widgets that will be interacted with after compile btn pressed
+        self.prog_widget_d = {'lbl_frm'   : self.prog_lbl_frm,
+                              'resize_pb' : self.resize_pb}
+
         
         
     def compile_____widget_setup(self):
-        self.compile_btn = Button(self.master, text="Compile Clips", command = lambda: GUI_commands.compile(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get()))
+        self.compile_btn = Button(self.master, text="Compile Clips", command = lambda: GUI_commands.compile(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get(), self.prog_widget_d))
         
         self.output_path_txt_box_lbl = Label(self.master, text="Output Path: ")
                  
                  
         def output_path_text_box_updated(event = None):
-            print('editing txt box')#````````````````````````````````````````````````````````````````````````````````````````
             GUI_commands.log_gui_var('compiled_output_file_path', self.output_path_txt_box.get())
             
                  
@@ -122,7 +127,7 @@ class Compile_Tab(Tab.Tab):
         row_num += 10
         
         # compile progress (all inside lable frame wich is grid on btn clk
-        self.resize_pbar_lbl            .grid(column=1, row=row_num + 1)
+        self.resize_pb_lbl              .grid(column=1, row=row_num)
         
         
         

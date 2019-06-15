@@ -5,7 +5,7 @@ import project_vars_handler
 # status	title	duration	rating	use_text_overlay	top_text	bottom_text	clip_path	current
 
 POOL_CLIPS_DATA_CSV_PATH = project_vars_handler.get_var('current_data_dir_path') + "/pool_clips_data.csv"
-HEADER_LIST = ["status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "clip_path", "txt_overlay_clip_path",  "current", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
+HEADER_LIST = ["status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "clip_path", "txt_overlay_clip_path",  "current", "priority_next", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
 
 def get_csv_row_dl():
     return logger.readCSV(POOL_CLIPS_DATA_CSV_PATH)
@@ -120,6 +120,19 @@ def prune_by_row_dl(prune_row_dl):
             row_d['status'] = 'pruned'
     logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
     
+  
+  
+def get_cur_row_num():
+    row_dl = get_csv_row_dl()
+    return utils.get_cur_row_num(row_dl)
+
+
+# def write_to_row_num(row_num, header, value):
+#     row_dl = get_csv_row_dl()
+#     cur_row_num = utils.get_cur_row_num(row_dl)
+#     row_dl[cur_row_num][header] = value
+# 
+#     logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
     
 # def delete_csv():
 #     os.remove(POOL_CLIPS_DATA_CSV_PATH)
