@@ -9,13 +9,9 @@ from tkinter import *
 
 #import build_image
 #import GUI_utils
-print('in build tab about to start imports')#````````````````````````````````````````````````````````````
 import GUI
-print('past GUI')#````````````````````````````````````````````````````````````````````````
 import Tab
-print('past Tab')#`````````````````````````````````````````````````````````````````
 import GUI_commands
-print('in build tab done with imports')#````````````````````````````````````````````````````````````
 
 #import pool_clips_data_handler
 
@@ -33,22 +29,16 @@ class Build_Tab(Tab.Tab):
         GUI_commands.init_current_if_needed()
         
         self.clip_data      = GUI_commands.get_current_clip_data()
-        print('past clip data') #``````````````````````````````````````````````````````````````````````````````````````
         self.clip_pool_data = GUI_commands.get_clip_pool_data()
         self.gui_vars       = GUI_commands.get_gui_vars()
-        print('past gui vars')#@``````````````````````````````````````````````````````````````````````````````
         
         self.clip_info_____widget_setup()
         self.progess_____widget_setup()
         self.text_overlay_____widget_setup()
         self.accept_decline_____widget_setup()
-        print('past accept_decline')#@``````````````````````````````````````````````````````````````````````````````
-
         self.rating_____widget_setup()
         self.navigation_____widget_setup() #next and back buttons
-        print('past nav')#11111111111111111````````````````````````````````````````
         self.prune_clips_____widget_setup()
-        print('past prune')#`````````````````````````````````````````````````````````````````````````````````````
         
         self.grid_widgets()
 		
@@ -180,7 +170,6 @@ class Build_Tab(Tab.Tab):
         self.rating_sbox.insert(0, self.clip_data.rating) #default 
  
         def log_rating(event = None):
-            #print('self.rating_sbox.get():  ', self.rating_sbox.get())#`````````````````````````````````````````````````````````````
             GUI_commands.log('rating', self.rating_sbox.get())
             self.clip_data = GUI_commands.get_current_clip_data()
         self.bind_to_edit(self.rating_sbox, log_rating)
@@ -226,7 +215,6 @@ class Build_Tab(Tab.Tab):
         self.bind_to_edit(self.prune_rating_sbox, update_and_log_prune_widgets)
         
 
-        print('in prune, about to go into prune_cbtn_clk()')#````````````````````````````````````````````````````````````
         # prune check button
         def prune_cbtn_clk():
             self.prune_time_txt_box.configure( state = 'normal' )
