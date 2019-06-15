@@ -124,7 +124,7 @@ def correct_failed_vid_audio_combine(save_dir_path, vid_save_title):
         
     # move final video file to correct dir and delete temp folder
 #     os.rename(full_vid_temp_save_path, save_dir_path + '/' + vid_save_title + '.mp4')
-    shutil.rmtree(save_dir_path + '/temp')
+#     shutil.rmtree(save_dir_path + '/temp') # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    TOOK THIS  OUT TO FIX FILE NOT FOUND ERROR< MIGHT NEED !!!!!!!!!!
 
 # downloads yt vid at highest resolution
 def download_youtube_vid(videourl, path, save_title):

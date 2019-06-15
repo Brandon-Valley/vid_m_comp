@@ -130,12 +130,12 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
     o_low_rcp_dl  = _order_rcp_dl(uo_low_rcp_dl)
     #o_avg_rcp_dl  = uo_avg_rcp_dl
     
-    print('high: ')
-    print_rcp_dl(o_high_rcp_dl)
-    print('low: ')
-    print_rcp_dl(o_low_rcp_dl)
-    print('avg: ')
-    print_rcp_dl(uo_avg_rcp_dl)
+#     print('high: ')
+#     print_rcp_dl(o_high_rcp_dl)
+#     print('low: ')
+#     print_rcp_dl(o_low_rcp_dl)
+#     print('avg: ')
+#     print_rcp_dl(uo_avg_rcp_dl)
    
     # make empty rcp_dl with enough space for all the rcp_ds
     output_rcp_dl = _make_empty_dl(len(rated_clip_path_dl))

@@ -31,13 +31,13 @@ CLIPS_TO_COMPILE_DIR_PATH = project_vars_handler.get_var('current_data_dir_path'
 # OUTPUT_VID_DIMS = [1080, 720, 480, 360, 240, 144] # other heights can work, but not all, so stick to these because they're safe
                        
 #                    w    h              
-OUTPUT_VID_DIMS_L =  [(3840,2160),
+OUTPUT_VID_DIMS_L =[(3840,2160),
                     (2560,1440),
                     (1920,1080),
-                    (1280,720),
-                    (854, 480),
-                    (640, 360),
-                    (426, 240)]
+                    (1280, 720),
+                     (854, 480),
+                     (640, 360),
+                     (426, 240)]
 
 VID_CONCAT_FILE_PATH = 'concat_filepaths.txt'
 # OUTPUT_VID_FILE_PATH = 'output.mp4'
@@ -98,11 +98,15 @@ def get_height_of_tallest_vid_in_dir(dir_path):
 def smallest_working_dims(tallest_vid_height):
     dims = (0,0)
     
+    if tallest_vid_height > OUTPUT_VID_DIMS_L[0][1]:
+        raise Exception('ERROR:  Clip height > tallest height in OUTPUT_VID_DIMS_L: %s > %s' %(tallest_vid_height, OUTPUT_VID_DIMS_L[0][1]))
+    
     for valid_dims in OUTPUT_VID_DIMS_L:
-        if tallest_vid_height < valid_dims[1]:
+        if tallest_vid_height <= valid_dims[1]:
             dims = valid_dims
         else:
             return dims
+#     return dims
 
 
 # dont delete until you have done a LOT of testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -195,18 +199,18 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
 #     subprocess.call(cmd, shell=True)
 
 
-
+#     # this one works but cmd line str can be too long !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
     input_files_str = ''
     for vid_filename in vid_filenames_to_compile:
         vid_file_path = clips_dir_path + '/' + vid_filename 
         input_files_str += ' -i ' + vid_file_path
-        
+         
     num_clips = str(len(vid_filenames_to_compile))
- 
+  
     cmd = 'ffmpeg ' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=' + num_clips + ':v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + output_vid_path + ' -y'
     print('cmd: ', cmd)#`````````````````````````````````````````````````````````````````````````````````````````````````
- 
+  
     subprocess.call(cmd,shell=True) 
 
 
@@ -223,25 +227,61 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
 
 
 
-#     compile_progress_clip_path = clips_dir_path + '/' + 'A.mp4'
+#     compile_progress_clip_path        = clips_dir_path + '/prog/' + 'A.mp4'
+#     temp_compile_progress_clip_path   = clips_dir_path + '/' + 'temp_prog.mp4'
+#     compile_progress_clip_backup_path = clips_dir_path + '/temp_prog'# + 'A_backup.mp4'
 #     vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
+#     cnt = 0# just for testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# 
 #     while(len(vid_filenames_to_compile) > 1):
+#         cnt += 1 # just for testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #         
-#         input_files_str = ''
-#         for vid_filename in vid_filenames_to_compile[0:2]:
-#             vid_file_path = clips_dir_path + '/' + vid_filename 
-#             input_files_str += ' -i ' + vid_file_path
+# 
+#         
+#         
+#         if os.path.isfile(compile_progress_clip_path):
+#             clip_1_path = compile_progress_clip_path
+#         else:
+#             clip_1_path = clips_dir_path + '/' + vid_filenames_to_compile[0]
+#         clip_2_path = clips_dir_path + '/' + vid_filenames_to_compile[1]
+#         input_files_str = ' -i ' + clip_1_path + ' -i ' + clip_2_path
+#         
+#         
+# #         input_files_str = ''
+# #         for vid_filename in vid_filenames_to_compile[0:2]:
+# #             vid_file_path = clips_dir_path + '/' + vid_filename 
+# #             input_files_str += ' -i ' + vid_file_path
 #             
-#         cmd = 'ffmpeg' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + compile_progress_clip_path
-#         print('cmd: ', cmd)#```````
-#          
-#         for vid_filename in vid_filenames_to_compile[0:2]:
-#             vid_path = clips_dir_path + '/' + vid_filename
-#             if vid_path != compile_progress_clip_path: 
-#                 os.remove(vid_path)
-#  
+#         print('input_files_str: ', input_files_str)
+#              
+# #         cmd = 'ffmpeg ' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + output_vid_path + ' -y'
+#         cmd = 'ffmpeg ' + input_files_str + ' -filter_complex "[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v] [a]" -map "[v]" -map "[a]" ' + 'temp.mp4' + ' -y'
+#        
+# #         print('sleeping...')
+# #         time.sleep(5)
+#         print('cmd: ', cmd)#````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+#         subprocess.call(cmd,shell=True) 
+#         
+#         file_system_utils.delete_if_exists(compile_progress_clip_path)
+#         os.rename('temp.mp4', compile_progress_clip_path)
+#         
+#           
+# #         for vid_filename in vid_filenames_to_compile[0:2]:
+# #             vid_path = clips_dir_path + '/' + vid_filename
+# #             if vid_path != compile_progress_clip_path: 
+# #                 os.remove(vid_path)
+# 
+#         if clip_1_path != compile_progress_clip_path:
+#             os.remove(clip_1_path)
+#         os.remove(clip_2_path)
+# 
+# 
+#   
 #         vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
-#          
+#         
+#         #copy the currently working vid so far just in case something goes wrong
+# #         file_system_utils.copy_files_to_dest([compile_progress_clip_path], compile_progress_clip_backup_path + str(cnt))
+#           
 #     os.rename(compile_progress_clip_path, output_vid_path)
 
 
@@ -254,25 +294,27 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
     
 #     compile_progress_clip_path = clips_dir_path + '/' + 'A.mp4'
 #     vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
+#     cnt = 0# just for testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #     while(len(vid_filenames_to_compile) > 1):
+#         cnt += 1 # just for testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #         clip_0 = VideoFileClip(clips_dir_path + '/' + vid_filenames_to_compile[0])
 #         clip_1 = VideoFileClip(clips_dir_path + '/' + vid_filenames_to_compile[1])
-#          
+#           
 #         final_clip = concatenate_videoclips([clip_0, clip_1], method='compose')
 #         final_clip.write_videofile(compile_progress_clip_path) 
-#         
+#          
 #         clip_0.reader.close()
 #         clip_0.audio.reader.close_proc()
 #         clip_1.reader.close()
 #         clip_1.audio.reader.close_proc()
-#         
+#          
 #         for vid_filename in vid_filenames_to_compile[0:2]:
 #             vid_path = clips_dir_path + '/' + vid_filename
 #             if vid_path != compile_progress_clip_path: 
 #                 os.remove(vid_path)
-# 
+#  
 #         vid_filenames_to_compile = [f for f in listdir(clips_dir_path) if isfile(join(clips_dir_path, f))]
-#         
+#          
 #     os.rename(compile_progress_clip_path, output_vid_path)
          
 #     compile_progress_vid_file_path = 'compile_progress.mp4'
@@ -309,13 +351,15 @@ if __name__ == '__main__':
 #     resize_vid(file_path_l[1], 640)
 #     resize_all_vids_in_dir(720, CLIPS_TO_COMPILE_DIR_PATH)
 
-#     clips_dir_path = 'C:/Users/Brandon/Documents/Personal_Projects/reddit_comp/vids'
+    clips_dir_path = 'C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/vids'
 #     tallest_vid_height = get_height_of_tallest_vid_in_dir(clips_dir_path)
+#     print('tallest_vid_height: ', tallest_vid_height)
 #     output_vid_dims = smallest_working_dims(tallest_vid_height)
+#     print('in comile main test, about to resize all vids in dir to dims: ', output_vid_dims)
 #     resize_all_vids_in_dir(output_vid_dims, clips_dir_path)
 
 
-    compile_all_clips_in_dir('vids', 'vids/big_vid.mp4')
+    compile_all_clips_in_dir(clips_dir_path, clips_dir_path + '/big_vid.mp4')
     print('Test Compile Time: ', time.time() - start_time)
 
 

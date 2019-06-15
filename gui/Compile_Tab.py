@@ -39,6 +39,7 @@ class Compile_Tab(Tab.Tab):
         self.gui_vars       = GUI_commands.get_gui_vars()
         
         self.clip_sort_____widget_setup()
+        self.progress_____widget_setup()
         self.compile_____widget_setup()
         
         
@@ -58,7 +59,9 @@ class Compile_Tab(Tab.Tab):
         self.clip_sort_cbox.current(default_font_index) #set the selected item
         
         
-        
+    def progress_____widget_setup(self):
+        self.prog_lbl_frm = LabelFrame(self.master, text=" Compile Progress: ")
+        self.resize_pbar_lbl = Label(self.prog_lbl_frm, text="Resize: ")
         
         
     def compile_____widget_setup(self):
@@ -114,6 +117,12 @@ class Compile_Tab(Tab.Tab):
         # configuration options
         self.clip_sort_cbox_lbl         .grid(column=1, row=row_num)
         self.clip_sort_cbox             .grid(column=1, row=row_num + 1)
+        
+        
+        row_num += 10
+        
+        # compile progress (all inside lable frame wich is grid on btn clk
+        self.resize_pbar_lbl            .grid(column=1, row=row_num + 1)
         
         
         

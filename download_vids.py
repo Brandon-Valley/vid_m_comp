@@ -54,7 +54,7 @@ UN_BEATABLE_ERROR_STRINGS = ['ERROR: requested format not available',
 
 
 
-QUICK_TEST = False
+QUICK_TEST = True
 def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_from_last_pos = False, include_youtube_downloads = False, start_from_pos = None):
     # add new dirs if don't already exist
     print(INDENT + 'Adding new dirs if needed...')
@@ -78,8 +78,9 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
 
 
     # set up browser
-    print(INDENT + 'Setting up phanomJS browser ...')
-    driver = webdriver.PhantomJS(PHANTOM_JS_PATH)
+    if include_youtube_downloads:
+        print(INDENT + 'Setting up phanomJS browser ...')
+        driver = webdriver.PhantomJS(PHANTOM_JS_PATH)
 
 
 
@@ -195,7 +196,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
         
 
 def test():
-    download_vids(30, ['dankvideos'], 'append', continue_from_last_pos=True, include_youtube_downloads=False, start_from_pos = None)    
+    download_vids(1000, ['dankvideos'], 'append', continue_from_last_pos=True, include_youtube_downloads=False, start_from_pos = None)    
            
 if __name__ == '__main__':
     test()
