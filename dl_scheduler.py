@@ -1,5 +1,8 @@
 import datetime
 import time
+import os
+import subprocess 
+
 
 
 import json_logger
@@ -92,8 +95,15 @@ def get_soonest_dl_event(scheduled_dl_event_l):
             soonest_dl_event = dl_event
     return soonest_dl_event
         
+        
+
+    
+    
+        
 
 def main():
+    os.chdir('C:\\Users\\Brandon\\Documents\\Personal_Projects\\vid_m_comp') # not sure if this is needed for startup folder method
+    
     dl_schedule_dl = json_logger.read(DL_SCHEDULE_JSON_PATH)
     dl_event_l = build_dl_event_l(dl_schedule_dl)
 #     for dl_event in dl_event_l:
