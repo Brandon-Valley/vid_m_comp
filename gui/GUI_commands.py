@@ -63,10 +63,10 @@ def restart_build_tab(master, tab_control, tab_pos):
 
 def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority):
     start_time = time.time()
-    try:
-        vid_player_control.close_vid_if_open()
-    except NameError:
-        print('Cant close vid because cant import vid_player_pontrol')
+#     try:
+#         vid_player_control.close_vid_if_open()
+#     except NameError:
+#         print('Cant close vid because cant import vid_player_pontrol')
     
     if skip_evaluated and not pool_clips_data_handler.non_eval_clips_exist():
         print('all evaluated')

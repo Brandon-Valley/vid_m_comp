@@ -1,26 +1,26 @@
 [
     {
-        "event_name": "r",
-        "subreddit_l": [],
-        "schedule_event": 0,
-        "am_pm": "PM",
         "day": "Monday",
+        "schedule_event": 0,
+        "subreddit_l": [],
+        "event_name": "r",
+        "am_pm": "PM",
         "time": "03:00"
     },
     {
-        "event_name": "5",
-        "subreddit_l": [],
-        "time": "03:00",
-        "am_pm": "PM",
         "day": "Monday",
+        "time": "03:00",
+        "subreddit_l": [],
+        "event_name": "5",
+        "am_pm": "PM",
         "schedule_event": 1
     },
     {
-        "event_name": "sss",
-        "subreddit_l": [],
-        "am_pm": "PM",
-        "schedule_event": 0,
         "day": "Monday",
+        "schedule_event": 0,
+        "subreddit_l": [],
+        "event_name": "sss",
+        "am_pm": "PM",
         "time": "03:00"
     }
 ]
