@@ -1,0 +1,16 @@
+
+ C:/Users/Brandon/Documents/Personal_Projects/reddit_comp/bulk_downloader_for_reddit-1.6.5-windows/bulk-downloader-for-reddit.exe --directory C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data --subreddit dankvideos --limit 1000 --sort hot --NoDownload 
+
+Bulk Downloader for Reddit v1.6.5.1
+
+SUBREDDIT: DANKVIDEOS
+SORT: HOT
+TIME: ALL
+LIMIT: 1000
+
+
+GETTING POSTS
+
+
+Total of 339 submissions found!
+0 GFYCATs, 0 IMGURs, 0 EROMEs, 332 DIRECTs and 7 SELF POSTS

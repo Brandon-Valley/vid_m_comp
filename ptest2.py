@@ -1,10 +1,24 @@
-def split_list(alist, wanted_parts=1):
-    length = len(alist)
-    return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts] 
-             for i in range(wanted_parts) ]
-
-A = [0,1,2,3,4,5,6,7,8,9]
-
-print( split_list(A, wanted_parts=1))
-print (split_list(A, wanted_parts=3))
-print( split_list(A, wanted_parts=8))
+# explore the mouse wheel with the Tkinter GUI toolkit
+# Windows and Linux generate different events
+# tested with Python25
+import tkinter as tk
+def mouse_wheel(event):
+    global count
+    # respond to Linux or Windows wheel event
+    if event.num == 5 or event.delta == -120:
+        count -= 1
+    if event.num == 4 or event.delta == 120:
+        count += 1
+    label['text'] = count
+count = 0
+root = tk.Tk()
+root.title('turn mouse wheel')
+root['bg'] = 'darkgreen'
+# with Windows OS
+root.bind("<MouseWheel>", mouse_wheel)
+# with Linux OS
+root.bind("<Button-4>", mouse_wheel)
+root.bind("<Button-5>", mouse_wheel)
+label = tk.Label(root, font=('courier', 18, 'bold'), width=10)
+label.pack(padx=40, pady=40)
+root.mainloop()

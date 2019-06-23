@@ -2,6 +2,7 @@ import glob
 import os
 # from shutil import copyfile
 import shutil
+from distutils.dir_util import copy_tree
  
 # VVVVV Internal VVVVV
 
@@ -51,6 +52,19 @@ def get_relative_path_of_files_in_dir(dir_path, file_type):
     return path_list
             
             
+# works for files and dirs
+def copy_objects_to_dest(path_l, dest_dir_path):
+    make_dir_if_not_exist(dest_dir_path)
+    
+    for path in path_l:
+        if   os.path.isdir(path):
+            copy_tree(path, dest_dir_path)
+        elif os.path.isfile(path):
+            shutil.copy(path, dest_dir_path)
+
+            
+            
+            
             
 def copy_files_to_dest(file_path_l, dest_dir_path): 
 #     if os.path.isdir(dest_dir_path) == False:
@@ -63,12 +77,43 @@ def copy_files_to_dest(file_path_l, dest_dir_path):
             
 def make_dir_if_not_exist(dir_path):
     if not os.path.exists(dir_path):
-        os.mkdir(dir_path)
+        os.makedirs(dir_path)
         
 def delete_if_exists(path):
     if os.path.exists(path):
-        os.remove(path)
-            
+        if   os.path.isdir(path):
+            shutil.rmtree(path)
+        elif os.path.isfile(path):
+            os.remove(path)
+        else:
+            raise Exception('ERROR:  Gave something that is not a file or a dir, bad path: ', path)
+        
+        
+# gets size of dir (and maybe file?) in bytes
+def get_size(start_path):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            # skip if it is symbolic link
+            if not os.path.islink(fp):
+                total_size += os.path.getsize(fp)
+    return total_size
+        
+
+# returns oldest first, youngest last
+def get_file_paths_in_dir_by_age(dirpath):
+    a = [s for s in os.listdir(dirpath)
+         if os.path.isfile(os.path.join(dirpath, s))]
+    a.sort(key=lambda s: os.path.getmtime(os.path.join(dirpath, s)))
+    
+    abs_path_l = []
+    for rel_path in a:
+        abs_path_l.append(dirpath + '/' + rel_path)
+    return abs_path_l
+
+
+
 
 if __name__ == '__main__':
     print('in file_system_utils main...')

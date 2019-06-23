@@ -1,0 +1,2 @@
+class NotYoutubeVideoError(Exception):
+    pass

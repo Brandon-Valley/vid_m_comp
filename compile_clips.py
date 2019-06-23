@@ -30,7 +30,7 @@ import project_vars_handler
 
 # VIDS_TO_COMPILE_FOLDER_PATH = 'vids_to_compile'
 CLIPS_TO_COMPILE_DIR_PATH = project_vars_handler.get_var('current_data_dir_path') + '/clips_to_compile'
-MAX_CMD_CHARS = 600 #8191
+MAX_CMD_CHARS = 8191
 # OUTPUT_VID_DIMS = [1080, 720, 480, 360, 240, 144] # other heights can work, but not all, so stick to these because they're safe
                        
 #                    w    h              
@@ -209,6 +209,19 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
 #             input_files_str += ' -i ' + vid_file_path
 #         return input_files_str
     
+    def _try_to_rename_until_sucsessful_if_exists(src_path, dest_path):
+        if os.path.exists(src_path):
+            if os.path.exists(dest_path):
+                os.remove(dest_path)
+            while(True):
+                try:
+                    os.rename(src_path, dest_path)
+                    break
+                except PermissionError:
+                    print('got PermissionError while trying to rename %s --> %s, sleeping then trying again...' %(src_path, dest_path))
+                    time.sleep(0.5)
+        
+    
     # put this back in below func !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def _make_input_files_str(vid_path_l):
         input_files_str = ''
@@ -217,7 +230,7 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
         return input_files_str
         
             
-    def _make_thread_cmd_str_l(vid_paths_to_compile):
+    def _make_thread_cmd_str_l(vid_paths_to_compile, save_file_name = None):
 
         def __make_cmd_str(vid_paths_to_compile, output_file_path):
             input_files_str = _make_input_files_str(vid_paths_to_compile)
@@ -236,9 +249,11 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
             return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts] 
                      for i in range(wanted_parts) ]
                
-               
-               
-        thread_output_file_path_list = ['thread_temp_1.mp4']
+        if save_file_name == None:
+            thread_output_file_path_list = ['thread_temp_1.mp4']
+        else: 
+            thread_output_file_path_list = [save_file_name]
+
         cmd_str_l = [__make_cmd_str(vid_paths_to_compile, thread_output_file_path_list[0])]
         num_threads = 1
         
@@ -261,14 +276,19 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
     for vid_filename in vid_filenames_to_compile:
         vid_paths_to_compile.append(clips_dir_path + '/' + vid_filename)
     
-    print('vid_paths_to_compile: ', vid_paths_to_compile)#```````````````````````````````````````````````````````````
+#     print('vid_paths_to_compile: ', vid_paths_to_compile)#```````````````````````````````````````````````````````````
     
     thread_cmd_str_l, thread_output_file_path_list = _make_thread_cmd_str_l(vid_paths_to_compile)
 
     if len(thread_cmd_str_l) == 1:
-        print('cmd: ', thread_cmd_str_l[0])#````````````````````````````````````````````````````````````````````````````
+#         print('cmd: ', thread_cmd_str_l[0])#````````````````````````````````````````````````````````````````````````````
         subprocess.call(thread_cmd_str_l[0],shell=True) 
-        os.rename(thread_output_file_path_list[0], output_vid_path)
+        
+#         print('about to rename')#```````````````````````````````````````````````````````````````````````````````````````````
+        _try_to_rename_until_sucsessful_if_exists(thread_output_file_path_list[0], output_vid_path)
+#         print('just renamed')#```````````````````````````````````````````````````````````````````````````````````````````
+
+        
     else:
         def run_subprocess(thread_cmd_str):
             subprocess.call(thread_cmd_str, shell=True)
@@ -285,12 +305,21 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
             thread.join()
         
         
-        
-        thread_cmd_str_l_2, thread_output_file_path_list_2 = _make_thread_cmd_str_l(vid_paths_to_compile)
-        print(thread_cmd_str_l_2)#```````````````````````````````````````````````````````````````````````````
+        final_output_temp_vid_path = 'final_temp.mp4' # probably dont need to use this, error was unrelated, but im lazy
+        thread_cmd_str_l_2, thread_output_file_path_list_2 = _make_thread_cmd_str_l(thread_output_file_path_list, final_output_temp_vid_path)
+#         print(thread_cmd_str_l_2)#```````````````````````````````````````````````````````````````````````````
 
-        subprocess(thread_cmd_str_l_2[0], shell=True)
+        subprocess.call(thread_cmd_str_l_2[0], shell=True)
         
+        file_system_utils.delete_if_exists(output_vid_path)
+        _try_to_rename_until_sucsessful_if_exists(thread_output_file_path_list_2[0], output_vid_path)
+
+        
+        # delete temp thread vids
+        for thread_output_file_path in thread_output_file_path_list:
+            os.remove(thread_output_file_path)
+        
+    print('done with compile, num threads: ',  len(thread_cmd_str_l))#``````````````````````````````````````````````````````
         
 #     input_files_str = _make_input_files_str(vid_filenames_to_compile)
 #     for vid_filename in vid_filenames_to_compile:
@@ -423,6 +452,9 @@ def compile_clips(clip_path_list, output_file_path, prog_widget_d = None):
         prog_widget_d['lbl_frm'].grid(column=1, row=40)
     
 #     print('in compile, about to comile these clips:  ', clip_path_list)
+    print('deleting all files in dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
+    file_system_utils.delete_all_files_in_dir(CLIPS_TO_COMPILE_DIR_PATH)
+    
     print('copying accepted clips to new dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
     file_system_utils.copy_files_to_dest(clip_path_list, CLIPS_TO_COMPILE_DIR_PATH)
     

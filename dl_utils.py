@@ -17,8 +17,10 @@ import credentials
 import logger
 import pool_clips_data_handler
 import project_vars_handler
+import custom_errors
+# import historical_data
 
-CLIP_DOWNLOAD_LOG_CSV_HEADER_LIST = ['download_success', 'download_time', 'save_name', 'duration', 'postId', 'postTitle', 'postSubmitter', 'postType', 'postURL', 'postSubreddit', 'postContent']
+CLIP_DOWNLOAD_LOG_CSV_HEADER_LIST = ['download_success', 'download_time', 'fail_reason', 'save_name', 'duration', 'postId', 'postTitle', 'postSubmitter', 'postType', 'postURL', 'postSubreddit', 'postContent']
 CLIP_DOWNLOAD_LOG_CSV_PATH = project_vars_handler.get_var('current_data_dir_path') + '/download_log.csv'# 'current_data/download_log.csv'
 
 
@@ -63,14 +65,14 @@ def get_vid_length(filename):
     return int(duration)
 
 
-# '1:36' -->  96
-def time_str_to_total_seconds(time_str):
-    time_str = duration_str.split(':')
-    seconds = int( duration_split_str[1])
-    minutes = int( duration_split_str[0])
-    
-    total_seconds = seconds + (minutes * 60)
-    return total_seconds
+# # '1:36' -->  96
+# def time_str_to_total_seconds(time_str):
+#     time_str = duration_str.split(':')
+#     seconds = int( duration_split_str[1])
+#     minutes = int( duration_split_str[0])
+#     
+#     total_seconds = seconds + (minutes * 60)
+#     return total_seconds
     
 
 def get_vid_duration__reddit(post_id):
@@ -82,9 +84,42 @@ def get_vid_duration__reddit(post_id):
         return int(post.media['reddit_video']['duration'])
 
  
-def get_vid_duration__youtube(post_info_d):
-        myVideo = YouTube(post_info_d['postURL'])
-        return int(myVideo.length) 
+def get_vid_duration__youtube(url):
+#         myVideo = YouTube(post_info_d['postURL'])
+#         return int(myVideo.length) 
+#     print('url: ', url)#`````````````````````````````````````````````````````````````````````````````
+    cmd = 'youtube-dl --get-duration "' + url + '"'
+    
+#     print('cmd: ', cmd)#```````````````````````````````````````````````````````````````````````````````````````
+    dur_time_b = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+    
+
+#     print(dur_time_b)#`````````````````````````````````````````````````````````````````````````````````````````````
+    dur_time_str = str(dur_time_b)[2:-3]
+#     print(dur_time_str)#````````````````````````````````````````````````````````````````````````````
+    
+    #time str -> num_sec
+    split_dur_time_str_l = dur_time_str.split(":")
+    
+    if '\\' in split_dur_time_str_l[0]:
+        raise custom_errors.NotYoutubeVideoError('Error:  got invalid duration so url is not a youtube video, maybe a channle, split_dur_time_str_l[0]: ' + split_dur_time_str_l[0] + '  url: ' + url )
+    
+#     print(split_dur_time_str_l)#````````````````````````````````````````````````````````````````````
+    if len(split_dur_time_str_l) == 3:
+        num_hour = int(split_dur_time_str_l[0])
+        num_min  = int(split_dur_time_str_l[1])
+        num_sec  = int(split_dur_time_str_l[2])
+        return (num_hour * 3600) + (num_min * 60) + num_sec
+    elif len(split_dur_time_str_l) == 2:
+        num_min = int(split_dur_time_str_l[0])
+        num_sec = int(split_dur_time_str_l[1])
+        return num_min * 60 + num_sec
+    else:
+        return int(split_dur_time_str_l[0])
+    
+
+    
+    
  
 
 # # trys to return length of video in seconds, returns false if it cant tell
@@ -109,7 +144,7 @@ def make_vid_save_name(post_num):
         
         
 def correct_failed_vid_audio_combine(save_dir_path, vid_save_title):
-    print('in correct_failed_vid_audio_combine !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ')#```````````````````````````````````````````
+#     print('in correct_failed_vid_audio_combine !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ')#```````````````````````````````````````````
     full_vid_temp_save_path = save_dir_path + '/temp/' + vid_save_title + '.mp4'
     
     #check if it downloaded correctly by checking if correct file exists,
@@ -127,19 +162,23 @@ def correct_failed_vid_audio_combine(save_dir_path, vid_save_title):
 #     shutil.rmtree(save_dir_path + '/temp') # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    TOOK THIS  OUT TO FIX FILE NOT FOUND ERROR< MIGHT NEED !!!!!!!!!!
 
 # downloads yt vid at highest resolution
-def download_youtube_vid(videourl, path, save_title):
+def download_youtube_vid(videourl, vid_save_path):
+#     print(' in dl utils downloading yt vid to : ', path + '/' + save_title + '.mp4')#`````````````````````````````````````````````````
+    cmd = 'youtube-dl -f best "' + videourl + '" -o ' + vid_save_path
+#     print('cmd: ', cmd)#````````````````````````````````````````````````````````````````````````````````````
+    subprocess.call(cmd, shell=True)
  
-    yt = YouTube(videourl)
-    yt = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
-    if not os.path.exists(path):
-        os.makedirs(path)
-    yt.download(path)
-     
-    print('in dl_utils, finding newest file_path...')#`````````````````````````````````````````````````````````````````````````````
-    # rename saved video
-    newest_file_path = file_system_utils.get_newest_file_path(path)
-    print('in dl_utils, renameing...')#`````````````````````````````````````````````````````````````````````````````
-    os.rename(newest_file_path, path + '//' + save_title + '.mp4')
+#     yt = YouTube(videourl)
+#     yt = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
+#     if not os.path.exists(path):
+#         os.makedirs(path)
+#     yt.download(path)
+#      
+#     print('in dl_utils, finding newest file_path...')#`````````````````````````````````````````````````````````````````````````````
+#     # rename saved video
+#     newest_file_path = file_system_utils.get_newest_file_path(path)
+#     print('in dl_utils, renameing...')#`````````````````````````````````````````````````````````````````````````````
+#     os.rename(newest_file_path, path + '//' + save_title + '.mp4')
 # downloadYouTube('https://www.youtube.com/watch?v=zNyYDHCg06c', './videos/FindingNemo1')
 
 
@@ -164,7 +203,6 @@ def download_reddit_vid(video_url, save_dir_path, vid_save_title):
     
     
 def log_to_clip_pool_csv(clip_save_path, post_info_d, clip_duration):
-    print('                                                                                   logging to clip pool!!!!!!!!!!!!!!!!!!!!!')#1111`````
     row_d = {}
     for key, val in post_info_d.items():
         row_d[key] = val
@@ -178,7 +216,7 @@ def log_to_clip_pool_csv(clip_save_path, post_info_d, clip_duration):
     
     
 
-def log_attempted_download(clip_save_path, post_info_d, clip_duration, dl_time):
+def log_attempted_download(clip_save_path, post_info_d, clip_duration, dl_time, fail_reason):
     # check if download was a success
     dl_success = False
     if os.path.isfile(clip_save_path):
@@ -190,6 +228,7 @@ def log_attempted_download(clip_save_path, post_info_d, clip_duration, dl_time):
     row_d['save_name'] = get_filename_from_path(clip_save_path)
     row_d['duration'] = clip_duration
     row_d['download_time'] = dl_time
+    row_d['fail_reason'] = fail_reason
     for key, val in post_info_d.items():
         row_d[key] = val
         
@@ -204,16 +243,16 @@ def correct_youtube_vid_url(url, driver):
     driver.get(url)
     return driver.current_url
 
-def re_install_pytube():        
-    subprocess.call('pip install --upgrade --force-reinstall pytube', shell=True)
-            
-def wait_until_pytube_installed():
-    while(True):
-        try:
-            import pytube
-            return
-        except ImportError as e:
-            pass # module doesn't exist, deal with it.
+# def re_install_pytube():        
+#     subprocess.call('pip install --upgrade --force-reinstall pytube', shell=True)
+#             
+# def wait_until_pytube_installed():
+#     while(True):
+#         try:
+#             import pytube
+#             return
+#         except ImportError as e:
+#             pass # module doesn't exist, deal with it.
         
         
         
@@ -248,6 +287,13 @@ def start_pos(start_from_pos, continue_from_last_pos):
     else:
         starting_pos = start_from_pos
     return starting_pos
+    
+    
+    
+# def get_non_eval_clip_data_d():
+#     return historical_data.get_non_eval_clip_data_d()
+#     
+#     
     
             
 import download_vids

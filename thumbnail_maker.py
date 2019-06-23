@@ -8,5 +8,5 @@ def make_solid_color_img(dims, color, out_file_path):
     
     
     
-img = Image.new('RGB', (1280, 720), 'black')
+img = Image.new('RGB', (2048, 1152), 'white')
 img.save('pics/blank_thumb.png')

@@ -5,7 +5,7 @@ import project_vars_handler
 # status	title	duration	rating	use_text_overlay	top_text	bottom_text	clip_path	current
 
 POOL_CLIPS_DATA_CSV_PATH = project_vars_handler.get_var('current_data_dir_path') + "/pool_clips_data.csv"
-HEADER_LIST = ["status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "clip_path", "txt_overlay_clip_path",  "current", "priority_next", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
+HEADER_LIST = ["current", "priority_next", "status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "clip_path", "txt_overlay_clip_path", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
 
 def get_csv_row_dl():
     return logger.readCSV(POOL_CLIPS_DATA_CSV_PATH)
@@ -69,17 +69,7 @@ def get_accepted_clip_path_list():
     return accepted_clip_path_list
 
 
-def get_rated_clip_path_dl():
-    row_dl = get_csv_row_dl()
-    
-    rated_clip_path_dl = []
-    accepted_clip_path_list = []
-    
-    for row_d in row_dl:
-        if row_d['status'] == 'accepted':
-            rated_clip_path_dl.append( {'rating'    : int(row_d['rating']),
-                                        'clip_path' :     row_d['clip_path'] } )
-    return rated_clip_path_dl
+
 
 
 
@@ -133,6 +123,52 @@ def write_to_row_num(row_num, header, value):
  
     logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
     
+    
+# if there are no rows markd as priority_next, returns False
+def get_next_priority_row_num():
+    row_dl = get_csv_row_dl()
+    for row_d_num, row_d in enumerate(row_dl):
+        if row_d['priority_next'] == '1':
+            return row_d_num
+    return False
+
+
+def move_current_to_row_num(row_num):
+    row_dl = get_csv_row_dl()
+    cur_row_num = utils.get_cur_row_num(row_dl)
+    row_dl[cur_row_num]['current'] = ''
+    row_dl[row_num]['current'] = '1'
+    logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
+
+
+def get_main_clip_path_from_row_d(row_d):
+    if row_d['use_text_overlay'] == '1' and row_d['txt_overlay_clip_path'] != '':
+        return row_d['txt_overlay_clip_path']
+    else:
+        return row_d['clip_path']
+    
+    
+def get_current_main_clip_path():
+    row_dl = get_csv_row_dl()
+    cur_row_num = utils.get_cur_row_num(row_dl)
+    return get_main_clip_path_from_row_d(row_dl[cur_row_num])
+
+
+def get_rated_clip_path_dl():
+    row_dl = get_csv_row_dl()
+    
+    rated_clip_path_dl = []
+    accepted_clip_path_list = []
+    
+    for row_d in row_dl:
+        if row_d['status'] == 'accepted':
+            rated_clip_path_dl.append( {'rating'    : int(row_d['rating']),
+                                        'clip_path' : get_main_clip_path_from_row_d(row_d) } )
+    return rated_clip_path_dl
+
+
+
+
 # def delete_csv():
 #     os.remove(POOL_CLIPS_DATA_CSV_PATH)
 

@@ -23,22 +23,114 @@
 # PermissionError: [Errno 13] Permission denied: 'C:\\Users\\Brandon\\Documents\\Personal_Projects\\reddit_comp\\current_data\\downloaded_clips\\temp\\post_0178.fhls-1235.mp4.ytdl'
 
 
+
+
+
+
+
+#                                             Starting on post_info_d #:  23   title: They did it again...
+#                                             Trying to download youtube video...
+#                                             in new while statement...
+#                                             Getting clip duration...
+# b'36\n'
+#                                               Attempting Download...
+#  in dl utils downloading yt vid to :  C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/downloaded_clips/post_0023.mp4
+# cmd:  youtube-dl -f best "https://m.youtube.com/watch?v=GHR5o5q87M4" -o C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/downloaded_clips/post_0023.mp4
+# [youtube] GHR5o5q87M4: Downloading webpage
+# [youtube] GHR5o5q87M4: Downloading video info webpage
+# [youtube] GHR5o5q87M4: Downloading js player vflWp5u5m
+# ERROR: Signature extraction failed: Traceback (most recent call last):
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\site-packages\youtube_dl\extractor\youtube.py", line 1342, in _decrypt_signature
+#     video_id, player_url, s
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\site-packages\youtube_dl\extractor\youtube.py", line 1250, in _extract_signature_function
+#     res = self._parse_sig_js(code)
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\site-packages\youtube_dl\extractor\youtube.py", line 1314, in _parse_sig_js
+#     jscode, 'Initial JS player signature function name', group='sig')
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\site-packages\youtube_dl\extractor\common.py", line 1004, in _search_regex
+#     raise RegexNotFoundError('Unable to extract %s' % _name)
+# youtube_dl.utils.RegexNotFoundError: Unable to extract Initial JS player signature function name; please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.
+#  (caused by RegexNotFoundError('Unable to extract Initial JS player signature function name; please report this issue on https://yt-dl.org/bug . Make sure you 
+
+
+
+# ERROR: unable to download video data: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after 
+
+
+
+
+
+
+
+
+
+
+# 
+#                                             Starting on post_info_d #:  43   title: mexican kids roast black people in YouTube response video...
+#                                             Trying to download youtube video...
+#                                             in new while statement...
+#                                             Getting clip duration...
+# WARNING: Unable to extract video title
+# ERROR: This video has been removed for violating YouTube's Terms of Service.
+# Traceback (most recent call last):
+#   File "C:\Users\Brandon\Documents\Personal_Projects\vid_m_comp\dl_utils.py", line 294, in <module>
+#     download_vids.test()
+#   File "C:\Users\Brandon\Documents\Personal_Projects\vid_m_comp\download_vids.py", line 238, in test
+#     check_clip_duration_after_download = True
+#   File "C:\Users\Brandon\Documents\Personal_Projects\vid_m_comp\download_vids.py", line 156, in download_vids
+#     
+#   File "C:\Users\Brandon\Documents\Personal_Projects\vid_m_comp\dl_utils.py", line 91, in get_vid_duration__youtube
+#     dur_time_b = subprocess.check_output(cmd, shell=True)
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\subprocess.py", line 626, in check_output
+#     **kwargs).stdout
+#   File "C:\Users\Brandon\AppData\Local\Programs\Python\Python35-32\lib\subprocess.py", line 708, in run
+#     output=stdout, stderr=stderr)
+# subprocess.CalledProcessError: Command 'youtube-dl --get-duration "https://youtu.be/FKhGwLTmYj4"' returned non-zero exit status 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 from selenium import webdriver
 import youtube_dl #need for error detection
 import time
 import os
- # "C:/Users/mt204e/Documents/other/p/reddit_comp/reddit_comp - Copy/current_data",      
+import pytube
+
+# just for exception handling
+import subprocess 
+import prawcore
+# import RegexNotFoundError
 
 import file_system_utils
 import get_post_info_dl
 import dl_utils
+import historical_data
 import project_vars_handler
+import custom_errors
 
 import testing_utils
 # from test.test_optparse import _check_duration
 # from distutils.command.check import check
 
-PHANTOM_JS_PATH = 'C:/Users/Brandon/Downloads/phantomjs-2.1.1-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe' ## SET YOU PATH TO phantomjs
+# PHANTOM_JS_PATH = 'C:/Users/Brandon/Downloads/phantomjs-2.1.1-windows/phantomjs-2.1.1-windows/bin/phantomjs.exe' ## SET YOU PATH TO phantomjs
+
+class NoInternetError(Exception):
+    pass
+
+NO_INTERNET_YT_STR = b"ERROR: Unable to download webpage: <urlopen error [Errno 11001] getaddrinfo failed> (caused by URLError(gaierror(11001, 'getaddrinfo failed'),))\n"
 
 # VIDS_TO_COMPILE_FOLDER_PATH = 'vids_to_compile'
 CURRENT_DATA_DIR_PATH = project_vars_handler.get_var('current_data_dir_path')
@@ -59,7 +151,8 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
     # add new dirs if don't already exist
     print(INDENT + 'Adding new dirs if needed...')
     file_system_utils.make_dir_if_not_exist(CURRENT_DATA_DIR_PATH)
-    file_system_utils.make_dir_if_not_exist(DOWNLOADED_CLIPS_DIR_PATH)
+    file_system_utils.make_dir_if_not_exist(DOWNLOADED_CLIPS_DIR_PATH)    
+    
     
     print(INDENT + 'QUICK_TEST:  ', QUICK_TEST)
     print(INDENT + 'Getting post_info_dl...')
@@ -69,134 +162,157 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
         post_info_dl = get_post_info_dl.get_post_info_dl(num_posts, subreddit_list)
 
 
-#     print('post_info_dl: ',  get_post_info_dl.get_post_info_dl(num_posts, subreddit_list))#111111```````````````````````````````````````````````````````````````````````
-#     print('post_info_dl: ',  post_info_dl)#111111```````````````````````````````````````````````````````````````````````
-
 
     print(INDENT + 'Getting starting pos...')
     start_pos = dl_utils.start_pos(start_from_pos, continue_from_last_pos)
 
 
-    # set up browser
-    if include_youtube_downloads:
-        print(INDENT + 'Setting up phanomJS browser ...')
-        driver = webdriver.PhantomJS(PHANTOM_JS_PATH)
-
-
-
-    
     if dl_type == 'overwrite':
         print(INDENT + 'Deleting all files in %s...' %(DOWNLOADED_CLIPS_DIR_PATH))
         file_system_utils.delete_all_files_in_dir(DOWNLOADED_CLIPS_DIR_PATH)
-        dl_utils.delete_download_log()# just for testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        dl_utils.delete_clip_pool_csv()# just for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        
+        
+    print(INDENT + 'Getting list of previously evaluated postIds...')
+    evaluated_post_id_l = historical_data.get_evaluated_post_id_l()
+        
+    print(INDENT + 'Getting dict list of saved, previously non-evaluated clips...')
+    non_eval_clip_data_d = historical_data.get_non_eval_clip_data_d()
+
 
     for post_num, post_info_d in enumerate(post_info_dl[start_pos:]): 
-        post_num += start_pos
-        
-        dl_start_time = time.time()
-        
-        testing_utils.print_str_wo_error(INDENT + "Starting on post_info_d #:  %s   title: %s..." %(post_num, post_info_d['postTitle']))
- 
-        vid_save_title =  dl_utils.make_vid_save_name(post_num)#'f_' + str(post_num) + '/' +
-        vid_save_path = DOWNLOADED_CLIPS_DIR_PATH + '/' + vid_save_title + '.mp4'
-        clip_duration = 0
-        
-        # keep track of how often this happens, not dealing with it now b/c it seems like too much hassle
-        if post_info_d['postType'] == 'self':
-            pass
-        
-        # youtube video
-        elif post_info_d['postType'] == None:
-            if include_youtube_downloads:
-                print(INDENT + 'Trying to download youtube video...')
-                
-                #make sure you are using the correct url
-                if post_info_d['postURL'].startswith('https://youtu.be/'):
-                    print(INDENT + '  Correcting URL...')
-                    post_url = dl_utils.correct_youtube_vid_url(post_info_d['postURL'], driver)
-                else:
-                    post_url = post_info_d['postURL']
-                    
-    #             try:
-    #                 clip_duration = dl_utils.get_vid_duration__youtube(post_info_d)
-    #                 if clip_duration < MAX_CLIP_DURATION:
-                        
-                while(True):
-                    print(INDENT + 'in new while statement...')
-                    try:
-                        print(INDENT + 'Getting clip duration...')
-                        clip_duration = dl_utils.get_vid_duration__youtube(post_info_d)
-                        if clip_duration < MAX_CLIP_DURATION:
-                            print(INDENT + '  Attempting Download...')
-                            dl_utils.download_youtube_vid(post_url, DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
-                        else:
-                            print(INDENT + '  Clip too long!  Moving on to next clip...')
-    # 
-    #                     print(INDENT + '  Attempting Download...')
-    #                     dl_utils.download_youtube_vid(post_url, DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
-    #                     print(INDENT + '    Finished Download...')
-                        break
-                    except KeyError as e:
-                        message = dl_utils.get_error_message(e)
-#                         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-#                         message = template.format(type(e).__name__, e.args)
-                        print(INDENT + '    Got KeyError (s), re-installing pytube and trying again, msg:  ' + message)
-                        dl_utils.re_install_pytube()
-                        dl_utils.wait_until_pytube_installed()
-    #                     time.sleep(5) #```````````````````````````````````````````````````````````````````````````````````````````````
-                    except pytube.exceptions.VideoUnavailable as e:
-                        message = dl_utils.get_error_message(e)
-                        print(INDENT + '    Video unavailable, moving on to next clip, msg:  ' + message)
-                        
-    
+        post_num += start_pos        
+        while(True):
+            try:
+                fail_reason = None
+                dl_start_time = time.time() 
 
-        # embedded reddit video
-        elif post_info_d['postType'] == 'direct':
-            print(INDENT + 'Trying to download reddit video...')
-            print(INDENT + 'Sleeping...')
-            time.sleep(1)
-            while True:
-                try:
-                    #try to get vid duration
-                    check_clip_duration_after_download = False
-                    clip_duration = dl_utils.get_vid_duration__reddit(post_info_d['postId'])
-                    
-                    if clip_duration == False:
-                        check_clip_duration_after_download = True
-                    elif clip_duration > MAX_CLIP_DURATION:
-                        break
-                    
-#                     if dl_utils.get_clip_duration__reddit(post_info_d['postID']) < MAX_CLIP_DURATION:
-                    dl_utils.download_reddit_vid(post_info_d['postURL'], DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
-                   
-                    # delete video if its too long
-                    if check_clip_duration_after_download == True:
-                        clip_duration = dl_utils.get_vid_length(vid_save_path)
-                        if clip_duration > MAX_CLIP_DURATION:
-                            print('  Video too long, deleting video...')
-                            os.remove(vid_save_path)
-                    break                   
+
+                testing_utils.print_str_wo_error('\n' + INDENT + "Starting on post_info_d #:  %s   title: %s    url: %s ..." %(post_num, post_info_d['postTitle'], post_info_d['postURL']))
+         
+                vid_save_title =  dl_utils.make_vid_save_name(post_num)#'f_' + str(post_num) + '/' +
+                vid_save_path = DOWNLOADED_CLIPS_DIR_PATH + '/' + vid_save_title + '.mp4'
+                clip_duration = 0
                 
-                except (youtube_dl.utils.DownloadError, OSError) as e:
-                    if dl_utils.str_from_list_in_error_msg(UN_BEATABLE_ERROR_STRINGS, e):
-                        print(INDENT + 'Hit un-beatable error skipping clip...')
+                
+                if post_info_d['postId'] in evaluated_post_id_l:
+                    print(INDENT + 'This postId has been previously evaluated, skipping...')
+                    fail_reason = 'prev_eval'
+                
+                # if vid has previously been downloaded but not evaluated and was saved,
+                # just rename it from where it is saved instead of re-downloading
+                elif post_info_d['postId'] in non_eval_clip_data_d.keys():
+                    print(INDENT + 'Pulling from previously download...  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                    historical_data.pull_clip(non_eval_clip_data_d[post_info_d['postId']], vid_save_path)
+                    clip_duration = dl_utils.get_vid_length(vid_save_path)
+                
+                # keep track of how often this happens, not dealing with it now b/c it seems like too much hassle
+                elif post_info_d['postType'] == 'self':
+                    print(INDENT + "post_info_d['postType'] == self, skipping... <-- ASSUMING THIS DOSNT HAPPEN MUCH, IF YOU SEE THIS MESSAGE TOO OFTEN, FIX THIS")
+                    fail_reason = 'postType==self'
+                
+                
+                # youtube video
+                elif post_info_d['postType'] == None:
+                    if not include_youtube_downloads:
+                        print(INDENT + 'Youtube video, include_youtube_downloads == False so skipping...')
+                        fail_reason ='incude_youtube_downloads==False'
                     else:
-                        dl_utils.correct_failed_vid_audio_combine(DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
-                    break
-                
+                        print(INDENT + '  Trying to download youtube video...')
+        
+                        # try to get clip duration
+                        print(INDENT + '    Getting clip duration...')
+                        clip_duration = False
+                        try:
+                            clip_duration = dl_utils.get_vid_duration__youtube(post_info_d['postURL'])
+                        except subprocess.CalledProcessError as e:
+                            if e.output == NO_INTERNET_YT_STR:
+                                raise NoInternetError('ERROR:  No internet connection')
+                            else:
+                                print("Status : FAIL",  e.output)#`````````````````````````````````````````````````````````````````````````
+                                
+    
+                                
+                                
+                                print(INDENT + 'Video not available, possably removed, skipping...')
+                                fail_reason = 'error: youtube video unavailable, possably removed -- subprocess.CalledProcessError'
+                        except custom_errors.NotYoutubeVideoError:
+                            print(INDENT + 'not a youtube vid, skipping...')
+                            fail_reason = 'error: url_not_youtube_vid'
+                        except RegexNotFoundError:
+                            print(INDENT + 'RegexNotFoundError on youtube vid, MIGHT be possable to fix, keep an eye on how often this happens')
+                            fail_reason = 'error: RegexNotFoundError' #vid is available, MIGHT be able to fix later, one time vid had title with weird chars but not always
+                        
+                        
+                        
+                        # download youtube video if clip duration was obtained and is less than MAX_CLIP_DURATION
+                        if clip_duration != False:
+                            if clip_duration < MAX_CLIP_DURATION:
+                                print(INDENT + '  Attempting Download...')
+                                dl_utils.download_youtube_vid(post_info_d['postURL'], vid_save_path)
+                            else:
+                                print(INDENT + '  Clip too long!  Moving on to next clip...')
+                                fail_reason = 'clip_too_long'
+        
+                # embedded reddit video
+                elif post_info_d['postType'] == 'direct':
+        #             print('ONLY TESTING YOUTUBE VIDS< THIS IS A REDDIT VID BREAKING NOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')#````````````
+        #             continue#`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+        #             
+                    
+                    
+                    print(INDENT + 'Trying to download reddit video...')
+                    print(INDENT + 'Sleeping...')
+                    time.sleep(1)
+                    while True:
+                        try:
+                            #try to get vid duration
+                            print(INDENT + 'Trying to get clip duration...')
+                            check_clip_duration_after_download = False
+                            clip_duration = dl_utils.get_vid_duration__reddit(post_info_d['postId'])
+                            
+                            if clip_duration == False:
+                                check_clip_duration_after_download = True
+                            elif clip_duration > MAX_CLIP_DURATION:
+                                fail_reason = 'clip_too_long'
+                                break
+                            
+        #                     if dl_utils.get_clip_duration__reddit(post_info_d['postID']) < MAX_CLIP_DURATION:
+                            dl_utils.download_reddit_vid(post_info_d['postURL'], DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
+                           
+                            # delete video if its too long
+                            if check_clip_duration_after_download == True:
+                                clip_duration = dl_utils.get_vid_length(vid_save_path)
+                                if clip_duration > MAX_CLIP_DURATION:
+                                    print('  Video too long, deleting video...')
+                                    os.remove(vid_save_path)
+                                    fail_reason = 'clip_too_long'
+                            break                   
+                        
+                        except (youtube_dl.utils.DownloadError, OSError) as e:
+                            if dl_utils.str_from_list_in_error_msg(UN_BEATABLE_ERROR_STRINGS, e):
+                                print(INDENT + 'Hit un-beatable error skipping clip...')
+                                fail_reason = 'error: reddit: un-beatable error'
+                            else:
+                                dl_utils.correct_failed_vid_audio_combine(DOWNLOADED_CLIPS_DIR_PATH, vid_save_title)
+                            break
+                break
+            except (NoInternetError, prawcore.exceptions.RequestException) as e:
+                print(INDENT + 'No internet connection, sleeping then trying again...')
+                time.sleep(1)
+                        
                 
                     
         # log all data from this attepted download, even if it was not a success
         print(INDENT + 'logging attempted download...')
         dl_time = time.time() - dl_start_time
         print(INDENT + '          Download attept time: ', dl_time)
-        dl_utils.log_attempted_download(vid_save_path, post_info_d, clip_duration, dl_time)
+        dl_utils.log_attempted_download(vid_save_path, post_info_d, clip_duration, dl_time, fail_reason)
 
         
 
 def test():
-    download_vids(1000, ['dankvideos'], 'append', continue_from_last_pos=True, include_youtube_downloads=False, start_from_pos = None)    
+    download_vids(500, ['dankvideos'], 'append', continue_from_last_pos=True, include_youtube_downloads=True, start_from_pos = None)    
            
 if __name__ == '__main__':
     test()
