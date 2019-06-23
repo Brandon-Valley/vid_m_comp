@@ -1,12 +1,31 @@
 [
     {
-        "time": "03:00",
-        "schedule_event": 1,
-        "event_name": "a",
-        "am_pm": "PM",
         "subreddit_l": [
             "dankvideos"
         ],
-        "day": "Monday"
+        "schedule_event": 1,
+        "time": "03:00",
+        "am_pm": "PM",
+        "day": "Monday",
+        "event_name": "a"
+    },
+    {
+        "subreddit_l": [],
+        "schedule_event": 0,
+        "time": "03:00",
+        "am_pm": "PM",
+        "day": "Monday",
+        "event_name": "b"
+    },
+    {
+        "subreddit_l": [
+            "eeeeee",
+            "5555"
+        ],
+        "schedule_event": 1,
+        "time": "4:55",
+        "am_pm": "AM",
+        "day": "Wednesday",
+        "event_name": "c"
     }
 ]
