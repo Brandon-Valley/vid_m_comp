@@ -1,0 +1,18 @@
+[
+    {
+        "time": "03:00",
+        "subreddit_l": [],
+        "event_name": "test1",
+        "am_pm": "PM",
+        "day": "Monday",
+        "schedule_event": 1
+    },
+    {
+        "time": "03:00",
+        "subreddit_l": [],
+        "event_name": "test2",
+        "am_pm": "PM",
+        "day": "Monday",
+        "schedule_event": 0
+    }
+]

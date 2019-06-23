@@ -48,7 +48,7 @@ print('in gui_commands, done with imports')#````````````````````````````````````
 
 
 GUI_VARS_JSON_FILE_PATH = 'gui_vars.json'
-DL_SCHEDULE_JSON_PATH = 'dl_schedule.json'
+DL_SCHEDULE_JSON_PATH = '../dl_schedule.json'
 
 
 #   VVVVV INTERNAL UTILITIES VVVVV
