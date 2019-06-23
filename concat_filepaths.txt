@@ -1,3 +1,0 @@
-file current_data/clips_to_compile/post_0000.mp4
-file current_data/clips_to_compile/post_0005.mp4
-file current_data/clips_to_compile/post_0027.mp4
