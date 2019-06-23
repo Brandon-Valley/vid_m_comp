@@ -19,7 +19,7 @@ def drawTextWithOutline(text, x, y, font, draw):
 
 def make_lines(text, font, img_w, draw):
     def _cut_last_word(line):
-        print('in _cut_last_word, about to cut line: ', line)#````````````````````````````````````````````````````````````
+#         print('in _cut_last_word, about to cut line: ', line)#````````````````````````````````````````````````````````````
         split_line_str_l = line.split(' ')
         
         if len(split_line_str_l) == 1:
@@ -35,22 +35,23 @@ def make_lines(text, font, img_w, draw):
     
     while(len(text) > 0):
         test_line = text
-        print('above while')#````````````````````````````````````````````````````````````````````````````````````````````
+#         print('above while')#````````````````````````````````````````````````````````````````````````````````````````````
         
         # while the length of the line is wider than the image
         while(draw.textsize(test_line, font)[0] > img_w):
-            print('test_line: ', test_line)#````````````````````````````````````````````````````
-            print('  draw.textsize(test_line, font)[0]: ', draw.textsize(test_line, font)[0])#`````````````````````````
+#             print('test_line: ', test_line)#````````````````````````````````````````````````````
+#             print('  draw.textsize(test_line, font)[0]: ', draw.textsize(test_line, font)[0])#`````````````````````````
             cut_line = _cut_last_word(test_line)
-            print('    cut_line: ', cut_line)#```````````````````````````````````````````````````````````````````
+#             print('    cut_line: ', cut_line)#```````````````````````````````````````````````````````````````````
             
+            # if there is 1 word that is wider than image
             if cut_line == False:
-                print('SINGLE WORD FIX THIS QQQQQ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                break
             else:
                 test_line = cut_line
                 
-            print('end of while test_line: ', test_line)#````````````````````````````````````````````````````
-            print(' ')
+#             print('end of while test_line: ', test_line)#````````````````````````````````````````````````````
+#             print(' ')
 
         lines.append(test_line)
         text = text[len(test_line):]
@@ -62,10 +63,10 @@ def drawText(text, pos, font, img, draw):
     text = text.upper()
     
     img_w, img_h = img.size
-    print('img_w: ', img_w)#```````````````````````````````````````````````````````````````````
+#     print('img_w: ', img_w)#```````````````````````````````````````````````````````````````````
     
     lines = make_lines(text, font, img_w, draw)
-    print('lines (final): ', lines)#`````````````````````````````````````````````````````````````````````
+#     print('lines (final): ', lines)#`````````````````````````````````````````````````````````````````````
     
     w, h = draw.textsize(text, font) # measure the size the text will take
 #     lines = [text]
@@ -155,5 +156,5 @@ def add_caption(in_img_path, out_img_path, top_text, bottom_text):
 
 
 if __name__ == '__main__':  
-    add_caption('pics/test_thumb.png', 'pics/t2.png', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
+    add_caption('pics/test_thumb.png', 'pics/t2.png', 'dhllllllllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
 

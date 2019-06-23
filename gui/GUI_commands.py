@@ -177,11 +177,10 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
         pool_clips_data_handler.write_to_row_num(row_num, 'txt_overlay_clip_path', text_overlay_clip_path)
         pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
         print('done with making text overlay, saved in: ', text_overlay_clip_path)
-        print('need to finish this thing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         
     text_overlay_thread = Thread(target=create_and_log_txt_overlay_clip)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     text_overlay_thread.start()
-#     next()
+    next(master, tab_control, skip_evaluated, skip_to_priority)
     
     
     

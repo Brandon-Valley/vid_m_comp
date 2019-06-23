@@ -88,6 +88,7 @@ class Build_Tab(Tab.Tab):
         self.bottom_txt_txt_box = Entry(self.txt_overlay_lbl_frm)#,width=TEXT_OVERLAY_TEXT_BOX_WIDTH)
         self.bottom_txt_txt_box.insert(END, self.clip_data.bottom_txt) #default
         
+        
         self.apply_txt_overlay_btn = Button(self.txt_overlay_lbl_frm, text="Apply Text Overlay", command = lambda: GUI_commands.apply_txt_overlay(self.top_txt_txt_box.get(), self.bottom_txt_txt_box.get(),self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         
