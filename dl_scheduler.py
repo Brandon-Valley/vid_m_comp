@@ -1,7 +1,10 @@
 import datetime
+import time
 
 
 import json_logger
+# import download_vids
+
 
 DL_SCHEDULE_JSON_PATH = 'dl_schedule.json'
 
@@ -24,6 +27,14 @@ class Download_Event():
         
         self.dl_date        = self.get_dl_date()
         self.dl_datetime    = self.get_dl_datetime()
+        
+    def descrip_str(self):
+        return self.event_name + ': at ' + self.time + ' ' + self.am_pm + ' on ' + self.day + ' with the following subreddits: ' + str(self.subreddit_l)
+        
+    def sec_until_dl(self):
+        cur_datetime = datetime.datetime.now()
+        return (self.dl_datetime - cur_datetime).seconds
+        
         
     def get_dl_date(self):
         def _next_weekday(d, weekday):
@@ -55,30 +66,6 @@ class Download_Event():
 
 
 
-
-
-
-
-
-# 
-# 
-# def get_next_dl_event_data_d():
-#     def _make_dl_event_data_d(dl_schedule_d):
-#          pass
-#          
-#          
-#          
-#     dl_schedule_dl = json_logger.read(DL_SCHEDULE_JSON_PATH)
-#     print(dl_schedule_dl)
-#      
-#     dl_event_data_dl = []
-#     for dl_schedule_d in dl_schedule_dl:
-#         dl_event_data_dl.append(_make_dl_event_data_d(dl_schedule_d))
-#          
-#     print(dl_event_data_dl)
-
-
-
 def build_dl_event_l(dl_schedule_dl):
     dl_event_l = []
     for dl_schedule_d in dl_schedule_dl:
@@ -92,6 +79,19 @@ def get_scheduled_dl_event_l(dl_event_l):
             scheduled_dl_event_l.append(dl_event)
     return scheduled_dl_event_l
 
+def get_soonest_dl_event(scheduled_dl_event_l):
+    def _sec_diff(datetime_1, datetime_2):
+        return (datetime_1 - datetime_2).seconds
+        
+        
+    cur_dt = datetime.datetime.now()
+    soonest_dl_event = scheduled_dl_event_l[0]
+    
+    for dl_event in scheduled_dl_event_l[0:]:
+        if _sec_diff(dl_event.dl_datetime, cur_dt) < _sec_diff(soonest_dl_event.dl_datetime, cur_dt):
+            soonest_dl_event = dl_event
+    return soonest_dl_event
+        
 
 def main():
     dl_schedule_dl = json_logger.read(DL_SCHEDULE_JSON_PATH)
@@ -100,9 +100,23 @@ def main():
 #         print(dl_event.event_name, dl_event.dl_date, dl_event.dl_datetime)
         
     scheduled_dl_event_l = get_scheduled_dl_event_l(dl_event_l)
-    for dl_event in scheduled_dl_event_l:
-        print(dl_event.event_name, dl_event.dl_date, dl_event.dl_datetime)
 
+    
+    if len(scheduled_dl_event_l) == 0:
+        print('no dl events scheduled')
+    else:
+        soonest_dl_event = get_soonest_dl_event(scheduled_dl_event_l)
+        
+        print('The next download event is: ', soonest_dl_event.descrip_str())
+        wait_sec = soonest_dl_event.sec_until_dl()
+        print('sleeping for', wait_sec, 'seconds...')
+        time.sleep(wait_sec)
+        import download_vids
+        download_vids.download_vids(500, soonest_dl_event.subreddit_l, 'overwrite')
+        main()
+        
+        
+    
 
 if __name__ == '__main__':
     main()

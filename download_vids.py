@@ -146,8 +146,8 @@ UN_BEATABLE_ERROR_STRINGS = ['ERROR: requested format not available',
 
 
 
-QUICK_TEST = True
-def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_from_last_pos = False, include_youtube_downloads = False, start_from_pos = None):
+QUICK_TEST = False
+def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_from_last_pos = False, include_youtube_downloads = True, start_from_pos = None):
     # add new dirs if don't already exist
     print(INDENT + 'Adding new dirs if needed...')
     file_system_utils.make_dir_if_not_exist(CURRENT_DATA_DIR_PATH)
