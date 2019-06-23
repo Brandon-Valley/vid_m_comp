@@ -175,7 +175,8 @@ class Download_Tab(Tab.Tab):
             
             # load values from old dl_events if not adding new event
             if dl_event_data_d == None:
-                log_dl_event()
+#                 log_dl_event()
+                pass
             else:
                 schedule_event_cbtn_sel.set(dl_event_data_d['schedule_event'])
                 schedule_event_cbtn_clk()
@@ -186,7 +187,8 @@ class Download_Tab(Tab.Tab):
                 subreddit_cbox['values'] = dl_event_data_d['subreddit_l']
                 if len(subreddit_cbox['values']) > 0:
                     subreddit_cbox.current(0)
-                    
+                
+            log_dl_event()
             update_schedule_event_cbtn()
 
             
