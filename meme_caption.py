@@ -17,11 +17,59 @@ def drawTextWithOutline(text, x, y, font, draw):
     return
 
 
+def make_lines(text, font, img_w, draw):
+    def _cut_last_word(line):
+        print('in _cut_last_word, about to cut line: ', line)#````````````````````````````````````````````````````````````
+        split_line_str_l = line.split(' ')
+        
+        if len(split_line_str_l) == 1:
+            return False
+#             raise Exception('ERROR:  single word in text is wider than image: ', text)
+        
+        new_line = ''
+        for word in split_line_str_l[0:-1]:
+            new_line += word + ' '
+        return new_line[0:-1] # remove extra space at end
+
+    lines = []
+    
+    while(len(text) > 0):
+        test_line = text
+        print('above while')#````````````````````````````````````````````````````````````````````````````````````````````
+        
+        # while the length of the line is wider than the image
+        while(draw.textsize(test_line, font)[0] > img_w):
+            print('test_line: ', test_line)#````````````````````````````````````````````````````
+            print('  draw.textsize(test_line, font)[0]: ', draw.textsize(test_line, font)[0])#`````````````````````````
+            cut_line = _cut_last_word(test_line)
+            print('    cut_line: ', cut_line)#```````````````````````````````````````````````````````````````````
+            
+            if cut_line == False:
+                print('SINGLE WORD FIX THIS QQQQQ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            else:
+                test_line = cut_line
+                
+            print('end of while test_line: ', test_line)#````````````````````````````````````````````````````
+            print(' ')
+
+        lines.append(test_line)
+        text = text[len(test_line):]
+    return lines
+
+
+
 def drawText(text, pos, font, img, draw):
     text = text.upper()
+    
+    img_w, img_h = img.size
+    print('img_w: ', img_w)#```````````````````````````````````````````````````````````````````
+    
+    lines = make_lines(text, font, img_w, draw)
+    print('lines (final): ', lines)#`````````````````````````````````````````````````````````````````````
+    
     w, h = draw.textsize(text, font) # measure the size the text will take
-    lines = [text]
-    lineCount = 1
+#     lines = [text]
+    lineCount = len(lines)
 
 #     lineCount = 1
 #     if w > img.width:
@@ -86,13 +134,13 @@ def drawText(text, pos, font, img, draw):
     if pos == "bottom":
         lastY = img.height - h * (lineCount+1) - 10
 
-#     for i in range(0, lineCount):
+    for i in range(0, lineCount):
 #     print(i)#````````````````````````````````````````````````````````````````````````````````````
-    w, h = draw.textsize(lines[0], font)
-    x = img.width/2 - w/2
-    y = lastY + h
-    drawTextWithOutline(lines[0], x, y, font, draw)
-    lastY = y
+        w, h = draw.textsize(lines[i], font)
+        x = img.width/2 - w/2
+        y = lastY + h
+        drawTextWithOutline(lines[i], x, y, font, draw)
+        lastY = y
 
 
 def add_caption(in_img_path, out_img_path, top_text, bottom_text):
@@ -106,6 +154,6 @@ def add_caption(in_img_path, out_img_path, top_text, bottom_text):
     img.save(out_img_path)
 
 
-
-# add_caption('green.png', 't2.png', 'dhl kkkkkkkk', 'sdssssssssssss')
+if __name__ == '__main__':  
+    add_caption('pics/green.png', 'pics/t2.png', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
 
