@@ -87,7 +87,7 @@ class Build_Tab(Tab.Tab):
         self.bottom_txt_txt_box = Entry(self.txt_overlay_lbl_frm)#,width=TEXT_OVERLAY_TEXT_BOX_WIDTH)
         self.bottom_txt_txt_box.insert(END, self.clip_data.bottom_txt) #default
         
-        self.apply_txt_overlay_btn = Button(self.txt_overlay_lbl_frm, text="Apply Text Overlay", command = lambda: GUI_commands.apply_txt_overlay(self.top_txt_txt_box.get(), self.bottom_txt_txt_box.get()))
+        self.apply_txt_overlay_btn = Button(self.txt_overlay_lbl_frm, text="Apply Text Overlay", command = lambda: GUI_commands.apply_txt_overlay(self.top_txt_txt_box.get(), self.bottom_txt_txt_box.get(),self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         
         # log top and bottom text text boxes each time you edit them
@@ -146,8 +146,8 @@ class Build_Tab(Tab.Tab):
         # evaluation lbl frame
         self.eval_lbl_frm = LabelFrame(self.master, text=" Evaluation: ", fg = self.clip_data.eval_color)
         
-        self.accept_rad_btn   = Radiobutton(self.eval_lbl_frm,text='Accept' , value='accepted' , variable = status, command = lambda: GUI_commands.accept(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get()))
-        self.decline_rad_btn  = Radiobutton(self.eval_lbl_frm,text='Decline', value='declined' , variable = status, command = lambda: GUI_commands.decline(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get()))
+        self.accept_rad_btn   = Radiobutton(self.eval_lbl_frm,text='Accept' , value='accepted' , variable = status, command = lambda: GUI_commands.accept (self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
+        self.decline_rad_btn  = Radiobutton(self.eval_lbl_frm,text='Decline', value='declined' , variable = status, command = lambda: GUI_commands.decline(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # replay and close btns
         self.replay_btn = Button(self.eval_lbl_frm, text="Replay Clip", command = GUI_commands.replay)
@@ -182,12 +182,16 @@ class Build_Tab(Tab.Tab):
         self.nav_lbl_frm = LabelFrame(self.master, text=" Navigation: ")
     
         self.skip_evaluated_cbtn_sel = IntVar(value = int(self.gui_vars['skip_evaluated']))#value sets default
-
         self.skip_evalutated_cbtn = Checkbutton(self.nav_lbl_frm, text="Skip Evaluated", variable=self.skip_evaluated_cbtn_sel, command = lambda: GUI_commands.log_gui_var('skip_evaluated', self.skip_evaluated_cbtn_sel.get()))
 
+        # skip to priority cbtn
+        self.skip_to_prority_cbtn_sel = IntVar(value = int(self.gui_vars['skip_to_priority']))#value sets default
+        self.skip_to_priority_cbtn = Checkbutton(self.nav_lbl_frm, text="Skip To Priority", variable=self.skip_to_prority_cbtn_sel, command = lambda: GUI_commands.log_gui_var('skip_to_priority', self.skip_to_prority_cbtn_sel.get()))
+
         # next and back buttons
-        self.back_btn = Button(self.nav_lbl_frm, text="Back", command = lambda: GUI_commands.back(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get())) #lambda: GUI_commands.back(self.master, self)
-        self.next_btn = Button(self.nav_lbl_frm, text="Next", command = lambda: GUI_commands.next(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get()))
+        self.back_btn = Button(self.nav_lbl_frm, text="Back", command = lambda: GUI_commands.back(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())) #lambda: GUI_commands.back(self.master, self)
+        self.next_btn = Button(self.nav_lbl_frm, text="Next", command = lambda: GUI_commands.next(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
+
 
 
     def prune_clips_____widget_setup(self):
@@ -197,6 +201,8 @@ class Build_Tab(Tab.Tab):
             self.prune_info_lbl.configure(text= self.clip_pool_data.get_prune_info_str(self.prune_cbtn_sel.get(), self.prune_rating_sbox.get(), self.prune_time_txt_box.get()))
             GUI_commands.log_gui_var('prune_time', self.prune_time_txt_box.get())
             GUI_commands.log_gui_var('prune_rating', self.prune_rating_sbox.get())
+            GUI_commands.log_gui_var('prune_clips', self.prune_cbtn_sel.get())
+            
    
         # prune time text box
         self.prune_time_txt_box_lbl = Label(self.prune_lbl_frm, text="Prune To Minimum Time: ")
@@ -230,7 +236,7 @@ class Build_Tab(Tab.Tab):
                 GUI_commands.prune_clips(prune_row_dl)
                 update_and_log_prune_widgets()
         
-        self.prune_cbtn_sel = IntVar(value = 0)#value sets default
+        self.prune_cbtn_sel = IntVar(value = self.gui_vars['prune_clips'])#value sets default
         self.prune_cbtn =   Checkbutton(self.prune_lbl_frm, text="Prune Low Rated Clips", variable=self.prune_cbtn_sel, command = prune_cbtn_clk)
 #         use_txt_overlay_cbtn_clk() #disabled folder name by default if use_txt_overlay_cbtn is 0 by default
         
@@ -325,9 +331,10 @@ class Build_Tab(Tab.Tab):
         
         #navigation
         self.nav_lbl_frm            .grid(column=2, row=row_num - 1, sticky='NSEW', padx=5, pady=5,  ipady=5)
-        self.skip_evalutated_cbtn   .grid(column=1, row=row_num                , columnspan=2)
-        self.back_btn               .grid(column=1, row=row_num + 1, sticky = 'e')
-        self.next_btn               .grid(column=2, row=row_num + 1, sticky = 'w')
+        self.skip_evalutated_cbtn   .grid(column=1, row=row_num    , sticky = 'w', columnspan=2)
+        self.skip_to_priority_cbtn  .grid(column=1, row=row_num + 1, sticky = 'w', columnspan=2)
+        self.back_btn               .grid(column=1, row=row_num + 2, sticky = 'e')
+        self.next_btn               .grid(column=2, row=row_num + 2, sticky = 'w')
         
         
 

@@ -1,4 +1,8 @@
+from tkinter import END
+
 import GUI #only need for testing
+
+
 
 
 DIGITS = '0123456789.-'
@@ -31,8 +35,23 @@ class Tab():
     def bind_to_click(self, widget, func):
         widget.bind("<ButtonRelease>", func)
         widget.bind("<Enter>", func)
-
         
+    # returns length of longest str in a list,
+    # useful for making combo boxes match length of contents
+    # if useing for a combo box, will need to add + 1 so V part
+    # of box doesnt cover end of longest str
+    def max_str_len_in_l(self, str_list):
+        len_max = 0
+        for m in str_list:
+            if len(m) > len_max:
+                len_max = len(m)
+        return len_max + 1
+
+    # fills list box widget from list of strings in order
+    def fill_list_box(self, list_box_widget, str_list):
+        if str_list != None:
+            for str in str_list:
+                list_box_widget.insert(END, str)
     
 
         

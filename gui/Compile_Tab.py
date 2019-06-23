@@ -41,6 +41,7 @@ class Compile_Tab(Tab.Tab):
         self.clip_sort_____widget_setup()
         self.progress_____widget_setup()
         self.compile_____widget_setup()
+        self.log_and_delete_____widget_setup()
         
         
         
@@ -99,7 +100,13 @@ class Compile_Tab(Tab.Tab):
         self.play_output_btn = Button(self.master, text="Play Output", command = lambda: GUI_commands.play_output(self.output_path_txt_box.get()))
 
         
-
+    def log_and_delete_____widget_setup(self):
+        def log_and_delete_btn_pressed(event = None):
+            resp = messagebox.askquestion("Warning", "This action will delete the current_data directory, including the final compiled video.  Would you like to proceed?")
+            if resp == 'yes':
+                GUI_commands.log_and_delete_current_data()
+                
+        self.log_and_delete_btn = Button(self.master, text="Log and Delete Current Data", command = log_and_delete_btn_pressed)
 
 
 
@@ -111,7 +118,7 @@ class Compile_Tab(Tab.Tab):
         row_num = 10
         
         # clip info
-        self.compile_btn                .grid(column=1, row=row_num, sticky = 'e')
+        self.compile_btn                .grid(column=1, row=row_num)
         self.output_path_txt_box_lbl    .grid(column=1, row=row_num + 1, sticky = 'e')
         self.output_path_txt_box        .grid(column=2, row=row_num + 1, sticky = 'e')
         self.output_path_browse_btn     .grid(column=3, row=row_num + 1)
@@ -129,6 +136,9 @@ class Compile_Tab(Tab.Tab):
         # compile progress (all inside lable frame wich is grid on btn clk
         self.resize_pb_lbl              .grid(column=1, row=row_num)
         
+        row_num += 10
+        
+        self.log_and_delete_btn         .grid(column=1, row=row_num)
         
         
 

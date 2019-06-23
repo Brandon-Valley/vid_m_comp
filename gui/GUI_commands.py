@@ -2,12 +2,13 @@ from tkinter import *
 from tkinter.messagebox import showinfo
 import time # for testing
 from threading import Thread
-
+import os
 
 import Build_Tab
 import Clip_Pool_Data
 import Clip_Data
 import clip_order
+import historical_data
 #import txt_logger
 
 try:
@@ -29,6 +30,7 @@ import json_logger
 import project_vars_handler
 
 
+
 try:
     import text_overlay
     import compile_clips
@@ -37,8 +39,8 @@ except ImportError:
 
 
 
-#GUI_VARS_TXT_FILE_PATH = 'gui_vars.txt'
 GUI_VARS_JSON_FILE_PATH = 'gui_vars.json'
+DL_SCHEDULE_JSON_PATH = 'dl_schedule.json'
 
 
 #   VVVVV INTERNAL UTILITIES VVVVV
@@ -51,7 +53,7 @@ def restart_build_tab(master, tab_control, tab_pos):
     Build_Tab.Build_Tab(tab1, tab_control)
 
 
-def navigate(move_amount, master, tab_control, skip_evaluated):
+def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority):
     start_time = time.time()
     try:
         vid_player_control.close_vid_if_open()
@@ -62,14 +64,23 @@ def navigate(move_amount, master, tab_control, skip_evaluated):
         print('all evaluated')
         showinfo("Info", "All Clips Have Been Evaluated")
         return
+    
+    pool_clips_data_handler.write_to_current('priority_next', '')
+    
+    priority_row_num = False
+    if skip_to_priority:
+        priority_row_num = pool_clips_data_handler.get_next_priority_row_num()
         
-    pool_clips_data_handler.move_current(move_amount)
-    while (skip_evaluated and pool_clips_data_handler.read_from_current('status') != ''):
+    if priority_row_num != False:
+        pool_clips_data_handler.move_current_to_row_num(priority_row_num)
+    else:
         pool_clips_data_handler.move_current(move_amount)
+        while (skip_evaluated and pool_clips_data_handler.read_from_current('status') != ''):
+            pool_clips_data_handler.move_current(move_amount)
     restart_build_tab(master, tab_control, 0)
     
     try:
-        vid_player_control.open_vid(pool_clips_data_handler.read_from_current('clip_path'))
+        vid_player_control.open_vid(pool_clips_data_handler.get_current_main_clip_path())
     except NameError:
         print('Cant open vid because cant import vid_player_pontrol')
         
@@ -111,27 +122,27 @@ def log(header, value):
     
 def log_gui_var(header, value):
     #txt_logger.logVars(GUI_VARS_TXT_FILE_PATH, {header:str(value)})
-    json_logger.log_vars({header:str(value)}, GUI_VARS_JSON_FILE_PATH)
+    json_logger.log_vars({header:value}, GUI_VARS_JSON_FILE_PATH)
     
     
     
-def back(master, tab_control, skip_evaluated):
+def back(master, tab_control, skip_evaluated, skip_to_priority):
     print('back')
-    navigate(-1, master, tab_control, skip_evaluated)
+    navigate(-1, master, tab_control, skip_evaluated, skip_to_priority)
    
-def next(master, tab_control, skip_evaluated):
+def next(master, tab_control, skip_evaluated, skip_to_priority):
     print('next')
-    navigate(1, master, tab_control, skip_evaluated)
+    navigate(1, master, tab_control, skip_evaluated, skip_to_priority)
     
-def accept(master, tab_control, skip_evaluated):
+def accept(master, tab_control, skip_evaluated, skip_to_priority):
     print('Clip accepted!')
     pool_clips_data_handler.write_to_current('status', 'accepted')
-    next(master, tab_control, skip_evaluated)
+    next(master, tab_control, skip_evaluated, skip_to_priority)
     
-def decline(master, tab_control, skip_evaluated):
+def decline(master, tab_control, skip_evaluated, skip_to_priority):
     print('Clip declined!')
     pool_clips_data_handler.write_to_current('status', 'declined')
-    next(master, tab_control, skip_evaluated)
+    next(master, tab_control, skip_evaluated, skip_to_priority)
     
 def replay():
     vid_player_control.close_vid_if_open()
@@ -145,7 +156,7 @@ def prune_clips(prune_row_dl):
     pool_clips_data_handler.prune_by_row_dl(prune_row_dl)
     
     
-def apply_txt_overlay(top_text, bottom_text):
+def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated, skip_to_priority):
     print('apply text overlay')
     cur_clip_path = pool_clips_data_handler.read_from_current('clip_path')
     #trim off the .mp4
@@ -162,6 +173,7 @@ def apply_txt_overlay(top_text, bottom_text):
         
     text_overlay_thread = Thread(target=create_and_log_txt_overlay_clip)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     text_overlay_thread.start()
+#     next()
     
     
     
@@ -186,6 +198,91 @@ def play_output(vid_path):
     print('play output')
     vid_player_control.close_vid_if_open()
     vid_player_control.open_vid(vid_path)
+    
+def log_and_delete_current_data():
+    print('log and delete current data')
+    historical_data.log_and_delete_current_data()
+    
+    
+    
+# VVVVV DOWNLOAD TAB VVVVVV  
+
+# VVVVV INTERNAL VVVVV
+def event_name(dl_event_lbl_frm):
+    return dl_event_lbl_frm["text"][1:-2]
+
+# VVVVV EXTERNAL VVVVV
+    
+def get_dl_event_data_dl():
+    if os.path.isfile(DL_SCHEDULE_JSON_PATH):
+        dl_event_dl = json_logger.read(DL_SCHEDULE_JSON_PATH)
+    else:
+        dl_event_dl = []
+    return dl_event_dl
+
+
+
+    
+def log_dl_event(dl_event_lbl_frm, day_cbox, schedule_event_cbtn_sel, time_txt_box, am_pm_cbox, subreddit_cbox):
+    print('log dl event')
+    
+    log_d = {"event_name"     : event_name(dl_event_lbl_frm), # remove the space at the start and the ': ' at the end
+             "day"            : day_cbox.get(),
+             "schedule_event" : schedule_event_cbtn_sel.get(),
+             "time"           : time_txt_box.get(),
+             "am_pm"          : am_pm_cbox.get(),
+             "subreddit_l"    : subreddit_cbox['values']}
+             
+    # print('in gui_commands, log_d: ', log_d)#```````````````````````````````````````````````````````````````````````
+        
+    dl_event_dl = get_dl_event_data_dl()
+        
+    # add to data if event already exists    
+    found = False
+    for d_num, dl_event_d in enumerate(dl_event_dl):
+        if dl_event_d['event_name'] == log_d['event_name']:
+            found = True
+            dl_event_dl[d_num] = log_d
+            break
+    
+    # add new if event does not exist yet
+    if found == False:
+        dl_event_dl.append(log_d)
+            
+    json_logger.write(dl_event_dl, DL_SCHEDULE_JSON_PATH)
+        
+        
+        
+        
+def del_dl_event(dl_event_lbl_frm):
+    dl_event_dl = get_dl_event_data_dl()
+    for d in dl_event_dl:
+        if d['event_name'] == event_name(dl_event_lbl_frm):
+            dl_event_dl.remove(d)
+    json_logger.write(dl_event_dl, DL_SCHEDULE_JSON_PATH)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 if __name__ == '__main__':
     import GUI

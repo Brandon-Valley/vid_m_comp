@@ -219,7 +219,9 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
     # get rid of the ratings and just return a list of clip paths
     output_clip_path_list = []
     for rcp_d in output_rcp_dl:
-        output_clip_path_list.append(rcp_d['clip_path'])
+        if rcp_d != {}: # no clue why there is  an empty d at the end one tim, but it fixes an error
+#             print(rcp_d)#```````````````````````````````````````````````````````````````````````````````````````
+            output_clip_path_list.append(rcp_d['clip_path'])
         
     #print(output_clip_path_list)
         
