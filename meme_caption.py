@@ -155,5 +155,5 @@ def add_caption(in_img_path, out_img_path, top_text, bottom_text):
 
 
 if __name__ == '__main__':  
-    add_caption('pics/green.png', 'pics/t2.png', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
+    add_caption('pics/test_thumb.png', 'pics/t2.png', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
 

@@ -3,6 +3,8 @@ import os
 import time # just for testing 
 import psutil
 
+print('in vid_player_control, done with imports') #``````````````````````````````````````````````````````````
+
 # VVVVV Internal VVVVV
 
 def checkIfProcessRunning(processName):
@@ -34,4 +36,4 @@ def close_vid_if_open():
     
 # open_vid('old/post_0001.mp4')
 # time.sleep(5)
-close_vid_if_open()
+# close_vid_if_open()

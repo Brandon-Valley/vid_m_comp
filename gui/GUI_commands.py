@@ -11,10 +11,16 @@ import clip_order
 import historical_data
 #import txt_logger
 
+# import vid_player_control
+
+print('about to import vid_player_control')
 try:
     import vid_player_control
 except:
     print('cant import vid_player_control')
+    
+print('in gui_commands, done iwth in dir imports')#`````````````````````````````````````````````````
+
 
 # to be able to import from parent dir
 import sys
@@ -36,6 +42,8 @@ try:
     import compile_clips
 except ImportError:
     print('import_fail')
+    
+print('in gui_commands, done with imports')#`````````````````````````````````````````````````````````````
 
 
 
