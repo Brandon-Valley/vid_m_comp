@@ -10,7 +10,6 @@ from tkinter import ttk
 #import build_image
 #import GUI_utils
 
-print('in gui, about to import tabs')#`````````````````````````````````````````````````
 #Tabs
 import Edit_Tab
 import Advanced_Tab
@@ -18,7 +17,6 @@ import Build_Tab
 import Compile_Tab
 import Download_Tab
 
-print('past gui imports')#````````````````````````````````````````````````````````
 
  
 def main(msg = None): 

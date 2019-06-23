@@ -13,7 +13,6 @@ import GUI
 import Tab
 import GUI_commands
 
-print('in build tab, done with imports')#``````````````````````````````````````````````````````````````
 
 #import pool_clips_data_handler
 
