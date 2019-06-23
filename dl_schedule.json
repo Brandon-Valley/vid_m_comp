@@ -2,40 +2,40 @@
     {
         "day": "Monday",
         "schedule_event": 1,
+        "am_pm": "PM",
+        "time": "03:00",
         "subreddit_l": [
             "dankvideos"
         ],
-        "time": "03:00",
-        "am_pm": "PM",
         "event_name": "a"
     },
     {
         "day": "Monday",
         "schedule_event": 0,
-        "subreddit_l": [],
-        "time": "03:00",
         "am_pm": "PM",
+        "time": "03:00",
+        "subreddit_l": [],
         "event_name": "b"
     },
     {
         "day": "Wednesday",
         "schedule_event": 1,
+        "am_pm": "AM",
+        "time": "4:55",
         "subreddit_l": [
             "eeeeee",
             "5555"
         ],
-        "time": "4:55",
-        "am_pm": "AM",
         "event_name": "c"
     },
     {
         "day": "Sunday",
         "schedule_event": 1,
+        "am_pm": "PM",
+        "time": "03:00",
         "subreddit_l": [
             "dankvideos"
         ],
-        "time": "03:00",
-        "am_pm": "PM",
         "event_name": "aaa"
     }
 ]
