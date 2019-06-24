@@ -196,7 +196,9 @@ def compile(output_path, play_output_btn, clip_sort_method_str, prog_widget_d):
     play_output_btn.configure(state = "disabled")
     
     rated_clip_path_dl = pool_clips_data_handler.get_rated_clip_path_dl()
+    print('in gui_commands, len(rated_clip_path_dl)', len(rated_clip_path_dl))#```````````````````````````````````````````````````````
     ordered_clip_path_l = clip_order.order_rated_clip_paths(rated_clip_path_dl, clip_sort_method_str, 2, 2)
+    print('in gui_commands, len(ordered_clip_path_l): ', ordered_clip_path_l)#````````````````````````````````````````````````
     
     compile_clips.compile_clips(ordered_clip_path_l, output_path, prog_widget_d)
     play_output_btn.configure(state = "normal")

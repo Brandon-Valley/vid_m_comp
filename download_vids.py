@@ -146,8 +146,8 @@ UN_BEATABLE_ERROR_STRINGS = ['ERROR: requested format not available',
 
 
 
-QUICK_TEST = False
-def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_from_last_pos = False, include_youtube_downloads = True, start_from_pos = None):
+
+def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = False, continue_from_last_pos = False, include_youtube_downloads = True, start_from_pos = None):
     # add new dirs if don't already exist
     print(INDENT + 'Adding new dirs if needed...')
     file_system_utils.make_dir_if_not_exist(CURRENT_DATA_DIR_PATH)
@@ -170,7 +170,9 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
     if dl_type == 'overwrite':
         print(INDENT + 'Deleting all files in %s...' %(DOWNLOADED_CLIPS_DIR_PATH))
         file_system_utils.delete_all_files_in_dir(DOWNLOADED_CLIPS_DIR_PATH)
-
+        print(INDENT + 'Deleting pool_clips_data.csv and download_log.csv')
+        file_system_utils.delete_if_exists(CURRENT_DATA_DIR_PATH + '/pool_clips_data.csv')
+        file_system_utils.delete_if_exists(CURRENT_DATA_DIR_PATH + '/download_log.csv')
         
         
     print(INDENT + 'Getting list of previously evaluated postIds...')
@@ -312,7 +314,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite', continue_fro
         
 
 def test():
-    download_vids(500, ['dankvideos'], 'append', continue_from_last_pos=True, include_youtube_downloads=True, start_from_pos = None)    
+    download_vids(500, ['dankvideos'], 'overwrite', QUICK_TEST = True, continue_from_last_pos=False, include_youtube_downloads=True, start_from_pos = None)    
            
 if __name__ == '__main__':
     test()

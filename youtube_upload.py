@@ -15,6 +15,9 @@ import subprocess
 # 
 # python upload_thumbnail.py --video-id=TienN2RYmQw --file="C:\Users\Brandon\Downloads\Untitled Design (1).png"
 
+
+
+#  https://studio.youtube.com/channel/UC3cuK7299GycX8OMbpjSFqQ/videos/upload?filter=%5B%5D&sort=%7B"columnType"%3A"date"%2C"sortOrder"%3A"DESCENDING"%7D
 def get_video_id_from_output(output):
 #     split_output_str_l = str(output).split()
     return str(output)[33:-33]
