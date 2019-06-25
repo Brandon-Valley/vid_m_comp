@@ -32,7 +32,7 @@ sys.path.append(parent_dir_path[0:-1])
 import pool_clips_data_handler
 import json_logger
 import project_vars_handler
-
+import youtube_upload
 
 
 try:
@@ -270,8 +270,14 @@ def del_dl_event(dl_event_lbl_frm):
     
     
     
-    
-    
+# VVVVV UPLOAD TAB VVVVV
+def upload(vid_path, title, description, tags, privacy_status, thumbnail_path):
+    print('Uploading Video...')
+    title       = '"' + title       + '"'
+    description = '"' + description + '"'
+    tags        = '"' + tags        + '"'
+    category = '23'
+#     youtube_upload.youtube_upload(vid_path, title, description, tags, category, privacy_status, thumbnail_path)
     
     
     

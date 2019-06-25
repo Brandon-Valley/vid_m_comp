@@ -31,20 +31,22 @@ def youtube_upload(vid_file_path, title, description, keywords, category, privac
     vid_upload_cmd += ' --keywords='      + keywords 
     vid_upload_cmd += ' --category='      + category 
     vid_upload_cmd += ' --privacyStatus=' + privacy_status 
-      
+    
+    print('IN YOUTUBE_UPLOAD, testing, commented out actual upload code, put back in !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')#`````````````````````  
     print(vid_upload_cmd)
-    output = subprocess.check_output(vid_upload_cmd, stderr=subprocess.STDOUT, shell=True)
-    print(output)
-    vid_id = get_video_id_from_output(output)
-    print(vid_id)
     
-    thumbnail_upload_cmd  = 'python upload_thumbnail.py'
-    thumbnail_upload_cmd += ' --video-id=' + vid_id
-    thumbnail_upload_cmd += ' --file='     + thumbnail_pic_path
-    
-    print(thumbnail_upload_cmd)
-    
-    subprocess.call(thumbnail_upload_cmd,shell=True)
+#     output = subprocess.check_output(vid_upload_cmd, stderr=subprocess.STDOUT, shell=True)
+#     print(output)
+#     vid_id = get_video_id_from_output(output)
+#     print(vid_id)
+#     
+#     thumbnail_upload_cmd  = 'python upload_thumbnail.py'
+#     thumbnail_upload_cmd += ' --video-id=' + vid_id
+#     thumbnail_upload_cmd += ' --file='     + thumbnail_pic_path
+#     
+#     print(thumbnail_upload_cmd)
+#     
+#     subprocess.call(thumbnail_upload_cmd,shell=True)
 
     
     

@@ -102,6 +102,22 @@ class Upload_Tab(Tab.Tab):
         def log_tags(event=None): GUI_commands.log_gui_var('tags', self.tags_txt_box.get())
         self.bind_to_edit(self.tags_txt_box, log_tags)
         
+        # Category
+        self.category_cbox_lbl = Label(self.upload_info_lbl_frm, text="Category: ")
+        self.category_cbox = Combobox(self.upload_info_lbl_frm, state = 'readonly')
+        self.category_cbox['values'] = ['Comedy']
+        self.category_cbox.current(0) #set the selected item
+        
+        # Privacy
+        self.privacy_cbox_lbl = Label(self.upload_info_lbl_frm, text="Privacy Status: ")
+        self.privacy_cbox = Combobox(self.upload_info_lbl_frm, state = 'readonly')
+        self.privacy_cbox['values'] = ['Public', 'Private']
+        self.privacy_cbox.current(0) #set the selected item
+        
+        # upload btn
+        self.upload_btn = Button(self.upload_info_lbl_frm, text="Upload", command = lambda: GUI_commands.upload(self.vid_path_txt_box.get(), self.title_txt_box.get(), self.descrip_txt_box.get(), self.tags_txt_box.get(), self.privacy_cbox.get(), self.thumbnail_path_txt_box.get()))
+
+        
     def grid_widgets(self):
 #         self.master.grid_columnconfigure(3, weight=1)
         
@@ -122,7 +138,11 @@ class Upload_Tab(Tab.Tab):
         self.descrip_txt_box            .grid(column=2, row=2)
         self.tags_txt_box_lbl           .grid(column=1, row=3)
         self.tags_txt_box               .grid(column=2, row=3)
-        
+        self.category_cbox_lbl          .grid(column=1, row=4)
+        self.category_cbox              .grid(column=2, row=4, sticky = "W")
+        self.privacy_cbox_lbl           .grid(column=1, row=5)
+        self.privacy_cbox               .grid(column=2, row=5, sticky = "W")
+        self.upload_btn                 .grid(column=1, row=6)
         
 def xview_event_handler(e):
     e.widget.update_idletasks()
