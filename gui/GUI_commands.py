@@ -277,7 +277,7 @@ def upload(vid_path, title, description, tags, privacy_status, thumbnail_path):
     description = '"' + description + '"'
     tags        = '"' + tags        + '"'
     category = '23'
-#     youtube_upload.youtube_upload(vid_path, title, description, tags, category, privacy_status, thumbnail_path)
+    youtube_upload.youtube_upload(vid_path, title, description, tags, category, privacy_status, thumbnail_path)
     
     
     
