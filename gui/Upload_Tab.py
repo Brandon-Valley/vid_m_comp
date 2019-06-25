@@ -19,7 +19,8 @@ import GUI_commands
 #import Advanced_Tab
 
 
-PATH_TEXT_BOX_WIDTH = 80
+PATH_TEXT_BOX_WIDTH  = 80
+TITLE_TEXT_BOX_WIDTH = 40
 
 class Upload_Tab(Tab.Tab):
     def __init__(self, master, tab_control):
@@ -82,13 +83,30 @@ class Upload_Tab(Tab.Tab):
 
     def upload_info_____widget_setup(self):
         self.upload_info_lbl_frm = LabelFrame(self.master, text=" Upload Information: ")
+        
+        # title
+        self.title_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Title: ")
+        self.title_txt_box = Entry(self.upload_info_lbl_frm,width=TITLE_TEXT_BOX_WIDTH)
 
-         
+        # description
+        self.descrip_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Description: ")
+        self.descrip_txt_box = Entry(self.upload_info_lbl_frm,width=TITLE_TEXT_BOX_WIDTH)
+        self.descrip_txt_box.insert(END, self.gui_vars['description']) #default
+        def log_description(event=None): GUI_commands.log_gui_var('description', self.descrip_txt_box.get())
+        self.bind_to_edit(self.descrip_txt_box, log_description)
+
+        # tags
+        self.tags_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Tags: ")
+        self.tags_txt_box = Entry(self.upload_info_lbl_frm,width=TITLE_TEXT_BOX_WIDTH)
+        self.tags_txt_box.insert(END, self.gui_vars['tags']) #default
+        def log_tags(event=None): GUI_commands.log_gui_var('tags', self.tags_txt_box.get())
+        self.bind_to_edit(self.tags_txt_box, log_tags)
+        
     def grid_widgets(self):
 #         self.master.grid_columnconfigure(3, weight=1)
         
-    
-        self.input_lbl_frm              .grid(column=1, row=1, sticky='NSEW', rowspan = 300, padx=5, pady=5, ipadx=5, ipady=5)
+        # input Information
+        self.input_lbl_frm              .grid(column=1, row=1, sticky='', padx=5, pady=5, ipadx=5, ipady=5)
         self.vid_path_txt_box_lbl       .grid(column=1, row=1)
         self.vid_path_txt_box           .grid(column=2, row=1)
         self.vid_path_browse_btn        .grid(column=3, row=1, padx=5)
@@ -96,7 +114,14 @@ class Upload_Tab(Tab.Tab):
         self.thumbnail_path_txt_box     .grid(column=2, row=2)
         self.thumbnail_path_browse_btn  .grid(column=3, row=2, padx=5)
 
-
+        # Upload Information
+        self.upload_info_lbl_frm        .grid(column=1, row=2, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.title_txt_box_lbl          .grid(column=1, row=1)
+        self.title_txt_box              .grid(column=2, row=1)
+        self.descrip_txt_box_lbl        .grid(column=1, row=2)
+        self.descrip_txt_box            .grid(column=2, row=2)
+        self.tags_txt_box_lbl           .grid(column=1, row=3)
+        self.tags_txt_box               .grid(column=2, row=3)
         
         
 def xview_event_handler(e):
