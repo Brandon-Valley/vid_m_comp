@@ -32,6 +32,7 @@ class Upload_Tab(Tab.Tab):
         self.gui_vars       = GUI_commands.get_gui_vars()
         
         self.input_data_____widget_setup()
+        self.upload_info_____widget_setup()
 
         
         self.grid_widgets()
@@ -39,8 +40,8 @@ class Upload_Tab(Tab.Tab):
     def input_data_____widget_setup(self):
         self.input_lbl_frm = LabelFrame(self.master, text=" Input Data: ")
         
+        # vid path
         self.vid_path_txt_box_lbl       = Label(self.input_lbl_frm, text="Video Path: ")
-        self.thumbnail_path_txt_box_lbl = Label(self.input_lbl_frm, text="Bottom Text: ")
                   
         def vid_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('compiled_output_file_path', self.vid_path_txt_box.get())
@@ -50,6 +51,18 @@ class Upload_Tab(Tab.Tab):
         self.vid_path_txt_box.insert(END, self.gui_vars["compiled_output_file_path"]) #default
         self.vid_path_txt_box.bind('<Expose>', xview_event_handler)#scrolls text to end if needed
         self.bind_to_edit(self.vid_path_txt_box, vid_path_txt_box_edit)
+        
+        def vid_path_browse_btn_clk():
+            self.path_tb_browse_btn_clk(self.vid_path_txt_box)
+            vid_path_txt_box_edit()
+            
+        self.vid_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = vid_path_browse_btn_clk)
+
+        
+        
+        
+        # thumbnail path
+        self.thumbnail_path_txt_box_lbl = Label(self.input_lbl_frm, text="Thumbnail Path: ")
 
         def thumbnail_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
@@ -59,7 +72,16 @@ class Upload_Tab(Tab.Tab):
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
         self.thumbnail_path_txt_box.bind('<Expose>', xview_event_handler)#scrolls text to end if needed
         self.bind_to_edit(self.thumbnail_path_txt_box, thumbnail_path_txt_box_edit)
+                
+        def thumbnail_path_browse_btn_clk():
+            self.path_tb_browse_btn_clk(self.thumbnail_path_txt_box)
+            thumbnail_path_txt_box_edit()
+            
+        self.thumbnail_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = thumbnail_path_browse_btn_clk)
 
+
+    def upload_info_____widget_setup(self):
+        self.upload_info_lbl_frm = LabelFrame(self.master, text=" Upload Information: ")
 
          
     def grid_widgets(self):
@@ -69,8 +91,11 @@ class Upload_Tab(Tab.Tab):
         self.input_lbl_frm              .grid(column=1, row=1, sticky='NSEW', rowspan = 300, padx=5, pady=5, ipadx=5, ipady=5)
         self.vid_path_txt_box_lbl       .grid(column=1, row=1)
         self.vid_path_txt_box           .grid(column=2, row=1)
+        self.vid_path_browse_btn        .grid(column=3, row=1, padx=5)
         self.thumbnail_path_txt_box_lbl .grid(column=1, row=2)
         self.thumbnail_path_txt_box     .grid(column=2, row=2)
+        self.thumbnail_path_browse_btn  .grid(column=3, row=2, padx=5)
+
 
         
         

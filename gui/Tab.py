@@ -1,4 +1,5 @@
 from tkinter import END
+from tkinter import filedialog
 
 import GUI #only need for testing
 
@@ -53,7 +54,13 @@ class Tab():
             for str in str_list:
                 list_box_widget.insert(END, str)
     
-
+    def path_tb_browse_btn_clk(self, path_txt_box_widget):
+        #get file path and place it in text box
+        dir = filedialog.askdirectory()
+        path_txt_box_widget.delete(0, "end")
+        path_txt_box_widget.insert(END, dir)
+        
+#         output_path_text_box_updated()
         
         
         
