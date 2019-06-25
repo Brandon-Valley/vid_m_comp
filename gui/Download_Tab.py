@@ -45,7 +45,6 @@ class Download_Tab(Tab.Tab):
         
         
     def subreddits_lbox_clk(self, event = None):
-        print('in dl tab, lbox clk')
         # will fail when init old event_data
         try:
             self.del_subreddit_btn.configure( state = 'normal' )
@@ -54,9 +53,7 @@ class Download_Tab(Tab.Tab):
                     widget.configure( state = 'normal' )
               
             cur_selection_index = self.subreddits_lbox.curselection()
-            print('self.subreddits_lbox.curselection(): ', self.subreddits_lbox.curselection())#```````````````````````````````````````````````````
             if cur_selection_index == ():
-                # print('should disable now')#````````````````````````````````````````````````````````````````````````````````
                 depend_widget_l = self.add_subreddit_btn_l + [self.del_subreddit_btn]
                 for widget in depend_widget_l:
                     widget.configure( state = 'disabled' )
@@ -89,7 +86,6 @@ class Download_Tab(Tab.Tab):
        
         def add_dl_event(event_name, dl_event_data_d = None):
             def log_dl_event(event = None):
-                print('in dl tab, logging dl_event')#```````````````````````````````````````````````````````````````````````````````````````````````````````
                 GUI_commands.log_dl_event(dl_event_lbl_frm, day_cbox, schedule_event_cbtn_sel, time_txt_box, am_pm_cbox, subreddit_cbox)
                 
             def update_schedule_event_cbtn(event = None):
@@ -105,7 +101,6 @@ class Download_Tab(Tab.Tab):
             day_cbox.current(0) #set the selected item
             day_cbox.bind("<<ComboboxSelected>>", log_dl_event)  # add to am_pm and maybe make into tab func !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             # self.bind_to_click(day_cbox, log_dl_event)
-            print('in dl tab, type(day_cbox): ', type(day_cbox))#```````````````````````````````````````````````````````````````````````
             
             
             # time text box
@@ -124,10 +119,7 @@ class Download_Tab(Tab.Tab):
                 subreddit_cbox.current(0) #set the selected item
 
             def add_subreddit_btn_clk():
-                print('in dl tab, add subreddit')
                 cur_selection_index = self.subreddits_lbox.curselection()
-                # print('in dl tab, self.subreddits_lbox.get(cur_selection_index): ', self.subreddits_lbox.get(cur_selection_index[0]))#`````````````````````````````````````
-                print("list(subreddit_cbox['values']).append(self.subreddits_lbox.get(cur_selection_index)):  ", list(subreddit_cbox['values']).append(self.subreddits_lbox.get(cur_selection_index)))#`````````````````````````
                 subreddit_cbox['values'] = [(self.subreddits_lbox.get(cur_selection_index[0]))] + list(subreddit_cbox['values'])
                 subreddit_cbox.current(0)
                 update_schedule_event_cbtn()
@@ -139,7 +131,6 @@ class Download_Tab(Tab.Tab):
             
             # delete download event btn
             def delete_dl_event(event = None):
-                print('in dl tab, delete event')#``````````````````````````````````````````````````````````````````````````````````````````````
                 GUI_commands.del_dl_event(dl_event_lbl_frm)
                 dl_event_lbl_frm.grid_forget()
                 
@@ -152,7 +143,6 @@ class Download_Tab(Tab.Tab):
             self.subreddits_lbox_clk()
 
             def schedule_event_cbtn_clk():
-                print('in dl tab, schedule event')
                 dl_event_widget_l = [day_cbox, time_txt_box, am_pm_cbox, add_subreddit_btn, del_dl_event_btn]
                 for widget in dl_event_widget_l:
                     widget.configure( state = 'normal' )
@@ -208,7 +198,6 @@ class Download_Tab(Tab.Tab):
         
         # add_dl_event_btn
         def add_dl_event_btn_clk(event = None, dl_event_data_d = None):
-            print('in dl tab, add')#```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
             self.num_dl_events += 1
             if dl_event_data_d == None:
                 add_dl_event(self.dl_event_name_txt_box.get())
@@ -245,7 +234,6 @@ class Download_Tab(Tab.Tab):
         
         # subreddits list box
         def del_subreddit_btn_clk():
-            print('in dl tab, delete subreddit')
             cur_selection_index = self.subreddits_lbox.curselection()
             self.subreddits_lbox.delete(cur_selection_index)
             GUI_commands.log_gui_var('subreddit_list', self.subreddits_lbox_values.get())
@@ -269,7 +257,6 @@ class Download_Tab(Tab.Tab):
         
         # add_new_subreddit_btn
         def add_new_subreddit_btn_clk(event = None):
-            print('in dl tab, add new subreddit')
             if self.new_subreddit_txt_box.get() != '':
                 GUI_commands.log_gui_var('subreddit_list', self.gui_vars['subreddit_list'] + [self.new_subreddit_txt_box.get()])
                 self.subreddits_lbox.insert(END, self.new_subreddit_txt_box.get())

@@ -13,13 +13,11 @@ import historical_data
 
 # import vid_player_control
 
-print('about to import vid_player_control')
 try:
     import vid_player_control
 except:
     print('cant import vid_player_control')
     
-print('in gui_commands, done iwth in dir imports')#`````````````````````````````````````````````````
 
 
 # to be able to import from parent dir
@@ -43,7 +41,6 @@ try:
 except ImportError:
     print('import_fail')
     
-print('in gui_commands, done with imports')#`````````````````````````````````````````````````````````````
 
 
 
@@ -233,7 +230,6 @@ def get_dl_event_data_dl():
 
     
 def log_dl_event(dl_event_lbl_frm, day_cbox, schedule_event_cbtn_sel, time_txt_box, am_pm_cbox, subreddit_cbox):
-    print('log dl event')
     
     log_d = {"event_name"     : event_name(dl_event_lbl_frm), # remove the space at the start and the ': ' at the end
              "day"            : day_cbox.get(),
