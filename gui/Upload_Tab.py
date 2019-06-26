@@ -7,11 +7,14 @@ from tkinter.colorchooser import *
 
 from tkinter import *
 
+import os
+
 #import build_image
 #import GUI_utils
 import GUI
 import Tab
 import GUI_commands
+
 
 
 #import pool_clips_data_handler
@@ -38,6 +41,17 @@ class Upload_Tab(Tab.Tab):
         
         self.grid_widgets()
         
+        
+    def update_upload_ability(self, event=None):
+        self.upload_btn.configure( state = 'normal' )
+          
+        if self.title_txt_box.get() == '' or \
+           not os.path.exists(self.vid_path_txt_box.get()) or \
+           not os.path.exists(self.thumbnail_path_txt_box.get()):
+            self.upload_btn.configure( state = 'disabled' )
+        
+        
+        
     def input_data_____widget_setup(self):
         self.input_lbl_frm = LabelFrame(self.master, text=" Input Data: ")
         
@@ -46,7 +60,8 @@ class Upload_Tab(Tab.Tab):
                   
         def vid_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('compiled_output_file_path', self.vid_path_txt_box.get())
-            # MORE LATER
+            self.update_upload_ability()
+                
             
         self.vid_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.vid_path_txt_box.insert(END, self.gui_vars["compiled_output_file_path"]) #default
@@ -67,7 +82,7 @@ class Upload_Tab(Tab.Tab):
 
         def thumbnail_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
-            #MORE LATER
+            self.update_upload_ability()
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
@@ -84,16 +99,13 @@ class Upload_Tab(Tab.Tab):
     def upload_info_____widget_setup(self):
         self.upload_info_lbl_frm = LabelFrame(self.master, text=" Upload Information: ")
         
-        # title
-        def update_upload_ability(event=None):
-            self.upload_btn.configure( state = 'normal' )
-              
-            if self.title_txt_box.get() == '':
-                self.upload_btn.configure( state = 'disabled' )
+        
+
             
+        # title    
         self.title_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Title: ")
         self.title_txt_box = Entry(self.upload_info_lbl_frm,width=TITLE_TEXT_BOX_WIDTH)
-        self.bind_to_edit(self.title_txt_box, update_upload_ability)
+        self.bind_to_edit(self.title_txt_box, self.update_upload_ability)
 
         # description
         self.descrip_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Description: ")
@@ -123,7 +135,7 @@ class Upload_Tab(Tab.Tab):
         
         # upload btn
         self.upload_btn = Button(self.upload_info_lbl_frm, text="Upload", command = lambda: GUI_commands.upload(self.vid_path_txt_box.get(), self.title_txt_box.get(), self.descrip_txt_box.get(), self.tags_txt_box.get(), self.privacy_cbox.get(), self.thumbnail_path_txt_box.get()))
-        update_upload_ability()
+        self.update_upload_ability()
 
         
     def grid_widgets(self):
