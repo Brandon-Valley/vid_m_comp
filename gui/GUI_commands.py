@@ -190,15 +190,21 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
 def compile(output_path, play_output_btn, clip_sort_method_str, prog_widget_d):
     print('compile clips')
     
-    play_output_btn.configure(state = "disabled")
+    def _compile_clips_thread():
+        play_output_btn.configure(state = "disabled")
+        
+        rated_clip_path_dl = pool_clips_data_handler.get_rated_clip_path_dl()
+        print('in gui_commands, len(rated_clip_path_dl)', len(rated_clip_path_dl))#```````````````````````````````````````````````````````
+        ordered_clip_path_l = clip_order.order_rated_clip_paths(rated_clip_path_dl, clip_sort_method_str, 2, 2)
+        print('in gui_commands, len(ordered_clip_path_l): ', ordered_clip_path_l)#````````````````````````````````````````````````
+        
+        compile_clips.compile_clips(ordered_clip_path_l, output_path, prog_widget_d)
+        play_output_btn.configure(state = "normal")
     
-    rated_clip_path_dl = pool_clips_data_handler.get_rated_clip_path_dl()
-    print('in gui_commands, len(rated_clip_path_dl)', len(rated_clip_path_dl))#```````````````````````````````````````````````````````
-    ordered_clip_path_l = clip_order.order_rated_clip_paths(rated_clip_path_dl, clip_sort_method_str, 2, 2)
-    print('in gui_commands, len(ordered_clip_path_l): ', ordered_clip_path_l)#````````````````````````````````````````````````
+    compile_thread = Thread(target=_compile_clips_thread)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
+    compile_thread.start()
     
-    compile_clips.compile_clips(ordered_clip_path_l, output_path, prog_widget_d)
-    play_output_btn.configure(state = "normal")
+    
     
 def play_output(vid_path):
     print('play output')
@@ -271,6 +277,8 @@ def del_dl_event(dl_event_lbl_frm):
     
     
 # VVVVV UPLOAD TAB VVVVV
+
+
 def upload(vid_path, title, description, tags, privacy_status, thumbnail_path):
     print('Uploading Video...')
     title       = '"' + title       + '"'

@@ -32,8 +32,7 @@ def main(msg = None):
     tab_tup_l = [('Upload'  , 'upload'  , Upload_Tab.Upload_Tab),
                  ('Download', 'download', Download_Tab.Download_Tab),
                  ('Build'   , 'build'   , Build_Tab.Build_Tab),
-                 ('Compile' , 'compile' , Compile_Tab.Compile_Tab),
-                 ('Edit'    , 'edit'    , Compile_Tab.Compile_Tab)]
+                 ('Compile' , 'compile' , Compile_Tab.Compile_Tab),]
 #                  ('Advanced', 'advanced', Advanced_Tab.Advanced_Tab)]
     
     tab_dict = {}
