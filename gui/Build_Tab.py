@@ -1,22 +1,14 @@
 from tkinter import *
 from tkinter.ttk import *
-from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
-from tkinter.colorchooser import *
 
-from tkinter import *
 
-#import build_image
-#import GUI_utils
+
 import GUI
 import Tab
 import GUI_commands
 
-
-#import pool_clips_data_handler
-
-#import Advanced_Tab
 
 
 TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
