@@ -34,12 +34,14 @@ class Build_Tab(Tab.Tab):
         self.gui_vars       = GUI_commands.get_gui_vars()
         
         self.clip_info_____widget_setup()
-        self.progess_____widget_setup()
         self.text_overlay_____widget_setup()
         self.accept_decline_____widget_setup()
         self.rating_____widget_setup()
         self.navigation_____widget_setup() #next and back buttons
         self.prune_clips_____widget_setup()
+        self.progess_____widget_setup()
+        self.rating_info_____widget_setup()
+
         
         self.grid_widgets()
 		
@@ -52,27 +54,7 @@ class Build_Tab(Tab.Tab):
         
         self.duration_lbl_lbl = Label(self.clip_info_lbl_frm, text="Duration: ")
         self.duration_lbl     = Label(self.clip_info_lbl_frm, text=self.clip_data.duration_str)
-        
-        
-    def progess_____widget_setup(self):
-        self.prog_lbl_frm = LabelFrame(self.master, text=" Progress Information: ")
-        self.total_time_lbl_lbl = Label(self.prog_lbl_frm, text='Total Time: ') 
-        self.total_time_lbl     = Label(self.prog_lbl_frm, text=self.clip_pool_data.total_time_str) 
-        
-        self.clip_num_lbl_lbl = Label(self.prog_lbl_frm, text='Clip Number: ') 
-        self.clip_num_lbl     = Label(self.prog_lbl_frm, text=self.clip_pool_data.clip_num_str) 
-        
-        self.a_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Accepted:') 
-        self.a_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_accepted_clips) 
-        
-        self.d_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Declined:') 
-        self.d_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_declined_clips) 
-        
-        self.p_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Pruned:') 
-        self.p_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_pruned_clips) 
-        
-        
-        
+     
 
     def text_overlay_____widget_setup(self):
         self.txt_overlay_lbl_frm   = LabelFrame(self.master, text=" Text Overlay: ")
@@ -201,6 +183,7 @@ class Build_Tab(Tab.Tab):
         
         def update_and_log_prune_widgets(event = None):
             self.prune_info_lbl.configure(text= self.clip_pool_data.get_prune_info_str(self.prune_cbtn_sel.get(), self.prune_rating_sbox.get(), self.prune_time_txt_box.get()))
+            # print('in build tab, in update_and_log_prune_widgets, 
             GUI_commands.log_gui_var('prune_time', self.prune_time_txt_box.get())
             GUI_commands.log_gui_var('prune_rating', self.prune_rating_sbox.get())
             GUI_commands.log_gui_var('prune_clips', self.prune_cbtn_sel.get())
@@ -229,86 +212,120 @@ class Build_Tab(Tab.Tab):
             self.prune_rating_sbox .configure( state = 'normal' )
 
             if self.prune_cbtn_sel.get() == 1:
-                self.prune_time_txt_box.configure( state = 'disabled' )
-                self.prune_rating_sbox .configure( state = 'disabled' )
-        
-        
-            if self.prune_cbtn_sel.get() == 1:
                 prune_row_dl = self.clip_pool_data.get_prune_row_dl(self.prune_cbtn_sel.get(), self.prune_rating_sbox.get(), self.prune_time_txt_box.get())
                 GUI_commands.prune_clips(prune_row_dl)
                 update_and_log_prune_widgets()
+                self.prune_time_txt_box.configure( state = 'disabled' )
+                self.prune_rating_sbox .configure( state = 'disabled' )                
         
         self.prune_cbtn_sel = IntVar(value = self.gui_vars['prune_clips'])#value sets default
         self.prune_cbtn =   Checkbutton(self.prune_lbl_frm, text="Prune Low Rated Clips", variable=self.prune_cbtn_sel, command = prune_cbtn_clk)
+        
 #         use_txt_overlay_cbtn_clk() #disabled folder name by default if use_txt_overlay_cbtn is 0 by default
         
         
         # prune info lbl
         self.prune_info_lbl    = Label(self.prune_lbl_frm)#, text= self.clip_pool_data.get_prune_info_str(prune_cbtn_sel.get(), self.prune_rating_sbox.get(), self.prune_time_txt_box.get() ) )
+        
+        prune_cbtn_clk()
+        self.clip_pool_data = GUI_commands.get_clip_pool_data()
         update_and_log_prune_widgets()
+        
+        
+    def progess_____widget_setup(self):
+        self.prog_lbl_frm = LabelFrame(self.master, text=" Progress Information: ")
+        self.total_time_lbl_lbl = Label(self.prog_lbl_frm, text='Total Time: ') 
+        self.total_time_lbl     = Label(self.prog_lbl_frm, text=self.clip_pool_data.total_time_str) 
+        
+        self.clip_num_lbl_lbl = Label(self.prog_lbl_frm, text='Clip Number: ') 
+        self.clip_num_lbl     = Label(self.prog_lbl_frm, text=self.clip_pool_data.clip_num_str) 
+        
+        self.a_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Accepted:') 
+        self.a_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_accepted_clips) 
+        
+        self.d_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Declined:') 
+        self.d_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_declined_clips) 
+        
+        self.p_clips_num_lbl_lbl = Label(self.prog_lbl_frm, text='# Clips Pruned:') 
+        self.p_clips_num_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.num_pruned_clips) 
+        
+        self.prcnt_above_avg_lbl_lbl = Label(self.prog_lbl_frm, text='% Clips Above Avg:') 
+        self.prcnt_above_avg_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.percent_above_avg_str + ' %') 
+        
+        self.prcnt_below_avg_lbl_lbl = Label(self.prog_lbl_frm, text='% Clips Below Avg:') 
+        self.prcnt_below_avg_lbl     = Label(self.prog_lbl_frm, text= self.clip_pool_data.percent_below_avg_str + ' %') 
+        
+
+        
+        
+        
+    def rating_info_____widget_setup(self):
+        self.rating_info_lbl_frm = LabelFrame(self.master, text=" Ratings: ")
+        starting_row_num = 1
+        for r_num, rating_occ_d in enumerate(self.clip_pool_data.ratings_occ_str_dl):
+            rating_lbl      = Label(self.rating_info_lbl_frm, text = rating_occ_d['rating'])
+            num_occ_lbl     = Label(self.rating_info_lbl_frm, text = rating_occ_d['num_occ'])
+            occ_percent_lbl = Label(self.rating_info_lbl_frm, text = rating_occ_d['occ_percent'])
+            rating_lbl      .grid(column=1, row=starting_row_num + r_num, sticky='E', ipadx=5)
+            num_occ_lbl     .grid(column=2, row=starting_row_num + r_num, sticky='E', ipadx=5)
+            occ_percent_lbl .grid(column=3, row=starting_row_num + r_num, sticky='E', ipadx=5)
+    
+    
         
     def grid_widgets(self):
         self.master.grid_columnconfigure(3, weight=1)
     
     
-        blank_lbl_1 = Label(self.master, text="") #for spacing 
-        blank_lbl_2 = Label(self.master, text="") #for spacing 
-        blank_lbl_3 = Label(self.master, text="blank3") #for spacing 
-        blank_lbl_4 = Label(self.master, text="[blank4                                                                                                ]") #for spacing 
+        blank_lbl_1 = Label(self.prog_lbl_frm, text="") #for spacing 
+
         
-        row_num = 10
+        row_num = 1
         
         # clip info
-        self.clip_info_lbl_frm      .grid(column=1, row=row_num, sticky='WE', columnspan=3, ipadx=5, ipady=5, padx=5, pady=5)
-        self.title_lbl_lbl          .grid(column=1, row=row_num, sticky = 'w')
-        self.title_lbl              .grid(column=2, row=row_num, sticky = 'w')
-        self.duration_lbl_lbl       .grid(column=1, row=row_num + 1, sticky = 'w')
-        self.duration_lbl           .grid(column=2, row=row_num + 1, sticky = 'w')
+        self.clip_info_lbl_frm      .grid(column=1, row=1, sticky='WE', columnspan=3, ipadx=5, ipady=5, padx=5, pady=5)
+        self.title_lbl_lbl          .grid(column=1, row=1, sticky = 'w')
+        self.title_lbl              .grid(column=2, row=1, sticky = 'w')
+        self.duration_lbl_lbl       .grid(column=1, row=2, sticky = 'w')
+        self.duration_lbl           .grid(column=2, row=2, sticky = 'w')
         
         # progress
-        self.prog_lbl_frm           .grid(column=4, row=row_num, sticky='NSEW', rowspan = 300, padx=5, pady=5, ipadx=5, ipady=5)
-        self.total_time_lbl_lbl     .grid(column=1, row=row_num    , sticky='W', padx=5)
-        self.total_time_lbl         .grid(column=2, row=row_num)
-        self.clip_num_lbl_lbl       .grid(column=1, row=row_num + 1, sticky='W', padx=5)
-        self.clip_num_lbl           .grid(column=2, row=row_num + 1)
-        self.a_clips_num_lbl_lbl    .grid(column=1, row=row_num + 2, sticky='W', padx=5)
-        self.a_clips_num_lbl        .grid(column=2, row=row_num + 2)
-        self.d_clips_num_lbl_lbl    .grid(column=1, row=row_num + 3, sticky='W', padx=5)
-        self.d_clips_num_lbl        .grid(column=2, row=row_num + 3)
-        self.p_clips_num_lbl_lbl    .grid(column=1, row=row_num + 4, sticky='W', padx=5)
-        self.p_clips_num_lbl        .grid(column=2, row=row_num + 4)
+        self.prog_lbl_frm           .grid(column=4, row=1, sticky='NSEW', rowspan = 3, padx=5, pady=5, ipadx=5, ipady=5)
+        self.total_time_lbl_lbl     .grid(column=1, row=0    , sticky='W', padx=5)
+        self.total_time_lbl         .grid(column=2, row=0)
+        self.clip_num_lbl_lbl       .grid(column=1, row=1, sticky='W', padx=5)
+        self.clip_num_lbl           .grid(column=2, row=1)
+        self.a_clips_num_lbl_lbl    .grid(column=1, row=2, sticky='W', padx=5)
+        self.a_clips_num_lbl        .grid(column=2, row=2)
+        self.d_clips_num_lbl_lbl    .grid(column=1, row=3, sticky='W', padx=5)
+        self.d_clips_num_lbl        .grid(column=2, row=3)
+        self.p_clips_num_lbl_lbl    .grid(column=1, row=4, sticky='W', padx=5)
+        self.p_clips_num_lbl        .grid(column=2, row=4)
+        blank_lbl_1                 .grid(column=1, row=5) 
+        self.prcnt_above_avg_lbl_lbl.grid(column=1, row=6, sticky='W', padx=5)
+        self.prcnt_above_avg_lbl    .grid(column=2, row=6)        
+        self.prcnt_below_avg_lbl_lbl.grid(column=1, row=7, sticky='W', padx=5)
+        self.prcnt_below_avg_lbl    .grid(column=2, row=7)
         
-        #row_num += 10
-        #blank_lbl_1                 .grid(column=1, row=row_num)
-        row_num += 10
-        
+   
         #text_overlay
-        self.txt_overlay_lbl_frm    .grid(column=1, row=row_num,     columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.txt_overlay_lbl_frm    .grid(column=1, row=2,     columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.txt_overlay_lbl_frm.grid_columnconfigure(2, weight=1)
         
-        self.use_txt_overlay_cbtn   .grid(column=1, row=row_num)
-        self.apply_txt_overlay_btn  .grid(column=2, row=row_num, sticky = 'w', padx=5, pady=1)
-        self.top_txt_lbl            .grid(column=1, row=row_num + 1)
-        self.top_txt_txt_box        .grid(column=2, row=row_num + 1, columnspan = 1, sticky = 'WE', padx=5, pady=1)
-        self.bottom_txt_lbl         .grid(column=1, row=row_num + 2)
-        self.bottom_txt_txt_box     .grid(column=2, row=row_num + 2, columnspan = 1, sticky = 'WE', padx=5, pady=1)
+        self.use_txt_overlay_cbtn   .grid(column=1, row=1)
+        self.apply_txt_overlay_btn  .grid(column=2, row=1, sticky = 'w', padx=5, pady=1)
+        self.top_txt_lbl            .grid(column=1, row=2)
+        self.top_txt_txt_box        .grid(column=2, row=2, columnspan = 1, sticky = 'WE', padx=5, pady=1)
+        self.bottom_txt_lbl         .grid(column=1, row=3)
+        self.bottom_txt_txt_box     .grid(column=2, row=3, columnspan = 1, sticky = 'WE', padx=5, pady=1)
         
-        
-        row_num += 10
-              
-        #space between
-        #blank_lbl_2                 .grid(column=1, row=row_num)
-        
-        row_num += 10
         
         #eval
-        self.eval_lbl_frm           .grid(column=1, row=row_num - 1, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.eval_lbl_frm           .grid(column=1, row=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         
         #rating
         self.rating_lbl             .grid(column=1, row=row_num)
         self.rating_sbox            .grid(column=1, row=row_num + 1, sticky = 'w', padx=5)
         
-        #row_num += 10
         
         #accept_decline
         self.accept_rad_btn         .grid(column=2, row=row_num)
@@ -319,7 +336,7 @@ class Build_Tab(Tab.Tab):
         
         
         # prune clips
-        self.prune_lbl_frm          .grid(column=3, row=row_num - 1, sticky = 'NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.prune_lbl_frm          .grid(column=3, row=3, sticky = 'NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.prune_cbtn             .grid(column=1, row=row_num + 1)
         self.prune_time_txt_box_lbl .grid(column=1, row=row_num + 2, sticky = 'w')
         self.prune_time_txt_box     .grid(column=2, row=row_num + 2, sticky = 'w')
@@ -329,16 +346,16 @@ class Build_Tab(Tab.Tab):
         
         
         
-        #row_num += 10
         
         #navigation
-        self.nav_lbl_frm            .grid(column=2, row=row_num - 1, sticky='NSEW', padx=5, pady=5,  ipady=5)
+        self.nav_lbl_frm            .grid(column=2, row=3, sticky='NSEW', padx=5, pady=5,  ipady=5)
         self.skip_evalutated_cbtn   .grid(column=1, row=row_num    , sticky = 'w', columnspan=2)
         self.skip_to_priority_cbtn  .grid(column=1, row=row_num + 1, sticky = 'w', columnspan=2)
         self.back_btn               .grid(column=1, row=row_num + 2, sticky = 'e')
         self.next_btn               .grid(column=2, row=row_num + 2, sticky = 'w')
         
-        
+        # rating info
+        self.rating_info_lbl_frm    .grid(column=5, row=1, rowspan = 3,sticky='NSEW', padx=5, pady=5,  ipady=5)
 
         
         

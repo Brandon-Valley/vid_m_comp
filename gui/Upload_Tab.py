@@ -33,7 +33,7 @@ class Upload_Tab(Tab.Tab):
         
         
 
-        self.gui_vars       = GUI_commands.get_gui_vars()
+        self.gui_vars = GUI_commands.get_gui_vars()
         
         self.input_data_____widget_setup()
         self.upload_info_____widget_setup()
@@ -44,19 +44,30 @@ class Upload_Tab(Tab.Tab):
         
     def update_upload_ability(self, event=None):
         self.upload_btn.configure( state = 'normal' )
+        
+        # self.tabs['compile'].compile_upload_log_btn.configure( state = 'normal' )
           
         if self.title_txt_box.get() == '' or \
            not os.path.exists(self.vid_path_txt_box.get()) or \
            not os.path.exists(self.thumbnail_path_txt_box.get()):
             self.upload_btn.configure( state = 'disabled' )
+            # self.tabs['compile'].compile_upload_log_btn.configure( state = 'disabled' )
+           
+    # def update_compile_upload_log_btn_state(self, event=None):
+        # self.upload_btn.configure( state = 'normal' )
         
-        
+        # self.tabs['compile'].compile_upload_log_btn.configure( state = 'normal' )
+          
+        # if self.title_txt_box.get() == '' or \
+           # not os.path.exists(self.thumbnail_path_txt_box.get()):
+            # self.upload_btn.configure( state = 'disabled' )
+            # self.tabs['compile'].compile_upload_log_btn.configure( state = 'disabled' )
         
     def input_data_____widget_setup(self):
         self.input_lbl_frm = LabelFrame(self.master, text=" Input Data: ")
         
         # vid path
-        self.vid_path_txt_box_lbl       = Label(self.input_lbl_frm, text="Video Path: ")
+        self.vid_path_txt_box_lbl = Label(self.input_lbl_frm, text="Video Path: ")
                   
         def vid_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('compiled_output_file_path', self.vid_path_txt_box.get())
@@ -69,7 +80,7 @@ class Upload_Tab(Tab.Tab):
         self.bind_to_edit(self.vid_path_txt_box, vid_path_txt_box_edit)
         
         def vid_path_browse_btn_clk():
-            self.path_tb_browse_btn_clk(self.vid_path_txt_box)
+            self.path_tb_browse_btn_clk(self.vid_path_txt_box, 'file', '.mp4')
             vid_path_txt_box_edit()
             
         self.vid_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = vid_path_browse_btn_clk)
@@ -83,6 +94,7 @@ class Upload_Tab(Tab.Tab):
         def thumbnail_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
             self.update_upload_ability()
+            self.tabs['compile'].update_compile_upload_log_btn_state()
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
@@ -90,7 +102,7 @@ class Upload_Tab(Tab.Tab):
         self.bind_to_edit(self.thumbnail_path_txt_box, thumbnail_path_txt_box_edit)
                 
         def thumbnail_path_browse_btn_clk():
-            self.path_tb_browse_btn_clk(self.thumbnail_path_txt_box)
+            self.path_tb_browse_btn_clk(self.thumbnail_path_txt_box, 'file')
             thumbnail_path_txt_box_edit()
             
         self.thumbnail_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = thumbnail_path_browse_btn_clk)
@@ -103,9 +115,13 @@ class Upload_Tab(Tab.Tab):
 
             
         # title    
+        def title_txt_box_edit(event=None):
+            self.update_upload_ability
+            self.tabs['compile'].update_compile_upload_log_btn_state()
+
         self.title_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Title: ")
         self.title_txt_box = Entry(self.upload_info_lbl_frm,width=TITLE_TEXT_BOX_WIDTH)
-        self.bind_to_edit(self.title_txt_box, self.update_upload_ability)
+        self.bind_to_edit(self.title_txt_box, title_txt_box_edit)
 
         # description
         self.descrip_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Description: ")

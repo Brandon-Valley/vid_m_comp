@@ -54,11 +54,21 @@ class Tab():
             for str in str_list:
                 list_box_widget.insert(END, str)
     
-    def path_tb_browse_btn_clk(self, path_txt_box_widget):
+    def path_tb_browse_btn_clk(self, path_txt_box_widget, browse_for, file_type = None):
         #get file path and place it in text box
-        dir = filedialog.askdirectory()
+        
+        if browse_for == 'file':
+            if file_type == None:
+                file_system_item = filedialog.askopenfilename()
+
+            else:
+                file_system_item = filedialog.askopenfilename(filetypes = (("Images", "*" + file_type), ("All files", "*")))#filetypes = (("Images", '*.png|*.jpg'), ("All files", "*")))#"*" + file_types   #,("Template files", '*.jpg'), 
+        elif browse_for == 'dir':
+            file_system_item = filedialog.askdirectory()
+        else:
+            raise Exception('ERROR:  In Tab.py, in path_tb_browse_btn_clk, invalid value for browse_for: ', browse_for)
         path_txt_box_widget.delete(0, "end")
-        path_txt_box_widget.insert(END, dir)
+        path_txt_box_widget.insert(END, file_system_item)
         
 #         output_path_text_box_updated()
         

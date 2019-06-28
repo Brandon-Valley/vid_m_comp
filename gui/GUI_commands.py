@@ -33,6 +33,7 @@ import pool_clips_data_handler
 import json_logger
 import project_vars_handler
 import youtube_upload
+import file_system_utils
 
 
 try:
@@ -157,7 +158,6 @@ def close_clip():
     vid_player_control.close_vid_if_open()
     
 def prune_clips(prune_row_dl):
-    print('prune')
     pool_clips_data_handler.prune_by_row_dl(prune_row_dl)
     
     
@@ -215,6 +215,21 @@ def log_and_delete_current_data():
     print('log and delete current data')
     historical_data.log_and_delete_current_data()
     
+    
+# really not the best way to be doing this
+def is_file_path_valid(path, ext):
+    return file_system_utils.is_file_path_valid(path, ext)
+    
+    
+def compile_upload_log(tabs):
+    print('Starting Compile, Upload, then Log/Delete...')
+    compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), tabs['compile'].prog_widget_d)
+    print('finished compile, starting upload...')
+    upload(tabs['upload'].vid_path_txt_box.get(), tabs['upload'].title_txt_box.get(), tabs['upload'].descrip_txt_box.get(), tabs['upload'].tags_txt_box.get(), tabs['upload'].privacy_cbox.get(), tabs['upload'].thumbnail_path_txt_box.get())
+    print('finished upload, logging/deleteing...')
+    log_and_delete_current_data()
+    print('Finished Compile, Upload, then Log/Delete')
+
     
     
 # VVVVV DOWNLOAD TAB VVVVVV  

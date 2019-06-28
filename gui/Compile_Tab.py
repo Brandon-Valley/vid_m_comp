@@ -8,6 +8,8 @@ from tkinter import filedialog
 
 from tkinter import *
 
+import os
+
 #import build_image
 #import GUI_utils
 import GUI
@@ -49,6 +51,17 @@ class Compile_Tab(Tab.Tab):
         
         self.grid_widgets()
         
+    # this function gets run in GUI.py before mainloop!!!
+    def update_compile_upload_log_btn_state(self, event=None):
+        if self.tabs != None:
+            self.compile_upload_log_btn.configure( state = 'normal' )
+                      
+            if self.compile_btn['state'] == 'disabled'       or \
+               self.tabs['upload'].title_txt_box.get() == '' or \
+               not os.path.exists(self.tabs['upload'].thumbnail_path_txt_box.get()):
+                    self.compile_upload_log_btn.configure( state = 'disabled' )
+                
+        
         
         
     def clip_sort_____widget_setup(self):
@@ -72,21 +85,40 @@ class Compile_Tab(Tab.Tab):
         
         
     def compile_____widget_setup(self):
+        # compile btn
+        def update_compile_btn_state():
+            self.compile_btn.configure( state = 'normal' )
+            if not GUI_commands.is_file_path_valid(self.output_path_txt_box.get(), '.mp4'):
+                self.compile_btn.configure( state = 'disabled' )
         self.compile_btn = Button(self.master, text="Compile Clips", command = lambda: GUI_commands.compile(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get(), self.prog_widget_d))
         
-        self.output_path_txt_box_lbl = Label(self.master, text="Output Path: ")
+        
+        #compile, upload, and log/delete btn
+        # def compile_upload_log_btn_press(event=None):
+            # print('in compile tab, comp, up, log')
+            # GUI_commands.compile(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get(), self.prog_widget_d)
+            # print('finished compile, starting upload...')
+            
+        
+        self.compile_upload_log_btn = Button(self.master, text="Compile, Upload, and Log/Delete", command = lambda: GUI_commands.compile_upload_log(self.tabs))
+        
+        
                  
-                 
+        # output path text box
         def output_path_text_box_updated(event = None):
             GUI_commands.log_gui_var('compiled_output_file_path', self.output_path_txt_box.get())
+            update_compile_btn_state()
+            self.update_compile_upload_log_btn_state()
             
-                 
+        self.output_path_txt_box_lbl = Label(self.master, text="Output Path: ")
         self.output_path_txt_box = Entry(self.master,width=OUTPUT_PATH_TEXT_BOX_WIDTH)
         self.output_path_txt_box.insert(END, self.gui_vars["compiled_output_file_path"]) #default
         self.output_path_txt_box.bind('<Expose>', xview_event_handler)#scrolls text to end if needed
         self.output_path_txt_box.bind("<FocusOut>", xview_event_handler)#scrolls text to end if needed when leave txt box focus
         self.bind_to_edit(self.output_path_txt_box, output_path_text_box_updated)
-        
+        update_compile_btn_state()
+        self.update_compile_upload_log_btn_state()
+
         
         def output_path_browse_btn_clk():
             #get file path and place it in text box
@@ -99,6 +131,11 @@ class Compile_Tab(Tab.Tab):
         self.output_path_browse_btn = Button(self.master, text="Browse...", command = output_path_browse_btn_clk)
         self.play_output_btn = Button(self.master, text="Play Output", command = lambda: GUI_commands.play_output(self.output_path_txt_box.get()))
 
+
+
+        
+        
+        
         
     def log_and_delete_____widget_setup(self):
         def log_and_delete_btn_pressed(event = None):
@@ -119,6 +156,7 @@ class Compile_Tab(Tab.Tab):
         
         # clip info
         self.compile_btn                .grid(column=1, row=row_num)
+        self.compile_upload_log_btn     .grid(column=2, row=row_num)
         self.output_path_txt_box_lbl    .grid(column=1, row=row_num + 1, sticky = 'e')
         self.output_path_txt_box        .grid(column=2, row=row_num + 1, sticky = 'e')
         self.output_path_browse_btn     .grid(column=3, row=row_num + 1)

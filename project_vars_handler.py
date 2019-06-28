@@ -1,6 +1,6 @@
 import json_logger
 
-PROJECT_VARS_JSON_PATH = "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp/project_vars.json"#"C:/Users/mt204e/Documents/other/p/reddit_comp/reddit_comp - Copy/project_vars.json"
+PROJECT_VARS_JSON_PATH = "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp/project_vars.json"#"C:\\Users\\mt204e\\Documents\\other\\p\\vid_m_comp\\project_vars.json"
 
 def get_var(key):
     project_vars_d = json_logger.read(PROJECT_VARS_JSON_PATH)
