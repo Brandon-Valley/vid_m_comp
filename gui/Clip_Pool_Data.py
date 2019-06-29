@@ -217,8 +217,11 @@ class Clip_Pool_Data():
             # if len(rating_str) == 1:
                 # rating_str = ' ' + rating_str
             occ_str = _equal_space_str(str(num_occ), 2)
-
-            occ_percent = int(( num_occ / total_ratings ) * 100)
+            
+            if total_ratings == 0:
+                occ_percent = 0
+            else:
+                occ_percent = int(( num_occ / total_ratings ) * 100)
             occ_percent_str = _equal_space_str(str(occ_percent), 3)
             
             ratings_occ_str_dl.append({'rating'     : rating_str + ':',
@@ -247,12 +250,16 @@ class Clip_Pool_Data():
         avg_rating = self.most_common_rating()
         total_ratings = self.sum_list(self.ratings_occ_l)
         num_ratings_below_avg = self.sum_list(self.ratings_occ_l[0:avg_rating])
+        if total_ratings == 0:
+            return 0
         return str( int((num_ratings_below_avg / total_ratings) * 100) )
            
     def get_percent_above_average_str(self):
         avg_rating = self.most_common_rating()
         total_ratings = self.sum_list(self.ratings_occ_l)
         num_ratings_above_avg = self.sum_list(self.ratings_occ_l[avg_rating + 1:HIGHEST_RATING + 1])
+        if total_ratings == 0:
+            return 0
         return str( int((num_ratings_above_avg / total_ratings) * 100) )
         
         

@@ -1,11 +1,12 @@
-import pool_clips_data_handler
-from gui import Clip_Pool_Data
+import subprocess
 
-row_dl = pool_clips_data_handler.get_csv_row_dl()
-cpd = Clip_Pool_Data.Clip_Pool_Data(row_dl)
-#print('in ptest, )
+cmd = ['pgrep -f .*python.*dl_scheduler.py']
+process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, 
+stderr=subprocess.PIPE)
+my_pid, err = process.communicate()
 
-for r in cpd.ratings_occ_str_l:
-  print(r)
-
-print(cpd.percent_below_avg_str)
+if len(my_pid.splitlines()) >0:
+   print("Running")
+   exit()
+else:
+  print("Not Running")
