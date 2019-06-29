@@ -1,14 +1,22 @@
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
+from tkinter.colorchooser import *
 
+from tkinter import *
 
-
+#import build_image
+#import GUI_utils
 import GUI
 import Tab
 import GUI_commands
 
+
+#import pool_clips_data_handler
+
+#import Advanced_Tab
 
 
 TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
@@ -27,6 +35,7 @@ class Build_Tab(Tab.Tab):
         
         self.clip_info_____widget_setup()
         self.text_overlay_____widget_setup()
+        self.trim_clip_____widget_setup()
         self.accept_decline_____widget_setup()
         self.rating_____widget_setup()
         self.navigation_____widget_setup() #next and back buttons
@@ -109,6 +118,40 @@ class Build_Tab(Tab.Tab):
         self.use_txt_overlay_cbtn =   Checkbutton(self.txt_overlay_lbl_frm, text="Text Overlay", variable=self.use_txt_overlay_cbtn_sel, command = use_txt_overlay_cbtn_clk)
         use_txt_overlay_cbtn_clk() #disabled folder name by default if use_txt_overlay_cbtn is 0 by default
 
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    def trim_clip_____widget_setup(self):
+        self.trim_lbl_frm = LabelFrame(self.master, text=" Trip Clip: ")
+
+        # trim cbtn
+        def trim_cbtn_clk(event=None):
+            print('in build tab, trim_cbtn clk')
+            GUI_commands.log('use_trimmed_clip', self.trim_cbtn_sel.get())
+        
+        self.trim_cbtn_sel = IntVar(value = self.clip_data.use_trimmed_clip)#value sets default     
+        self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
 
         
@@ -281,7 +324,7 @@ class Build_Tab(Tab.Tab):
         self.duration_lbl           .grid(column=2, row=2, sticky = 'w')
         
         # progress
-        self.prog_lbl_frm           .grid(column=4, row=1, sticky='NSEW', rowspan = 3, padx=5, pady=5, ipadx=5, ipady=5)
+        self.prog_lbl_frm           .grid(column=4, row=1, sticky='NSEW', rowspan = 4, padx=5, pady=5, ipadx=5, ipady=5)
         self.total_time_lbl_lbl     .grid(column=1, row=0    , sticky='W', padx=5)
         self.total_time_lbl         .grid(column=2, row=0)
         self.clip_num_lbl_lbl       .grid(column=1, row=1, sticky='W', padx=5)
@@ -310,9 +353,12 @@ class Build_Tab(Tab.Tab):
         self.bottom_txt_lbl         .grid(column=1, row=3)
         self.bottom_txt_txt_box     .grid(column=2, row=3, columnspan = 1, sticky = 'WE', padx=5, pady=1)
         
+        # trim
+        self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.trim_cbtn              .grid(column=1, row=1)
         
         #eval
-        self.eval_lbl_frm           .grid(column=1, row=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.eval_lbl_frm           .grid(column=1, row=4, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         
         #rating
         self.rating_lbl             .grid(column=1, row=row_num)
@@ -328,7 +374,7 @@ class Build_Tab(Tab.Tab):
         
         
         # prune clips
-        self.prune_lbl_frm          .grid(column=3, row=3, sticky = 'NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.prune_lbl_frm          .grid(column=3, row=4, sticky = 'NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.prune_cbtn             .grid(column=1, row=row_num + 1)
         self.prune_time_txt_box_lbl .grid(column=1, row=row_num + 2, sticky = 'w')
         self.prune_time_txt_box     .grid(column=2, row=row_num + 2, sticky = 'w')
@@ -340,14 +386,14 @@ class Build_Tab(Tab.Tab):
         
         
         #navigation
-        self.nav_lbl_frm            .grid(column=2, row=3, sticky='NSEW', padx=5, pady=5,  ipady=5)
+        self.nav_lbl_frm            .grid(column=2, row=4, sticky='NSEW', padx=5, pady=5,  ipady=5)
         self.skip_evalutated_cbtn   .grid(column=1, row=row_num    , sticky = 'w', columnspan=2)
         self.skip_to_priority_cbtn  .grid(column=1, row=row_num + 1, sticky = 'w', columnspan=2)
         self.back_btn               .grid(column=1, row=row_num + 2, sticky = 'e')
         self.next_btn               .grid(column=2, row=row_num + 2, sticky = 'w')
         
         # rating info
-        self.rating_info_lbl_frm    .grid(column=5, row=1, rowspan = 3,sticky='NSEW', padx=5, pady=5,  ipady=5)
+        self.rating_info_lbl_frm    .grid(column=5, row=1, rowspan = 4,sticky='NSEW', padx=5, pady=5,  ipady=5)
 
         
         

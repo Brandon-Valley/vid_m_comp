@@ -24,7 +24,13 @@ class Clip_Data():
         
         self.duration_str = utils.sec_to_min_str(int(row_d['duration']))
         self.eval_color = self.get_eval_color(row_d['status'])
+        self.use_trimmed_clip = self.get_use_trimmed_clip(row_d['use_trimmed_clip'])
         
+        
+    def get_use_trimmed_clip(self, use_trimmed_clip):
+        if use_trimmed_clip == '1':
+            return True
+        return False 
         
     def get_eval_color(self, status):
         def _from_rgb(rgb):
