@@ -1,2 +1,0 @@
-prune_time: 10:00
-prune_rating: 5

@@ -311,7 +311,8 @@ def open_snappa_in_chrome():
 def load_snappa_dl_as_thumbnail(thumbnail_path):
     snappa_utils.load_snappa_dl_as_thumbnail(thumbnail_path)
     
-    
+def update_thumbnail_canvas(thumbnail_path, thumnail_canvas):
+    print('in gui_commands, update thumbnail cavas')
     
     
     

@@ -9,17 +9,13 @@ from tkinter import *
 
 import os
 
-#import build_image
-#import GUI_utils
+
 import GUI
 import Tab
 import GUI_commands
 
 
 
-#import pool_clips_data_handler
-
-#import Advanced_Tab
 
 
 PATH_TEXT_BOX_WIDTH  = 80
@@ -52,17 +48,7 @@ class Upload_Tab(Tab.Tab):
            not os.path.exists(self.vid_path_txt_box.get()) or \
            not os.path.exists(self.thumbnail_path_txt_box.get()):
             self.upload_btn.configure( state = 'disabled' )
-            # self.tabs['compile'].compile_upload_log_btn.configure( state = 'disabled' )
-           
-    # def update_compile_upload_log_btn_state(self, event=None):
-        # self.upload_btn.configure( state = 'normal' )
-        
-        # self.tabs['compile'].compile_upload_log_btn.configure( state = 'normal' )
-          
-        # if self.title_txt_box.get() == '' or \
-           # not os.path.exists(self.thumbnail_path_txt_box.get()):
-            # self.upload_btn.configure( state = 'disabled' )
-            # self.tabs['compile'].compile_upload_log_btn.configure( state = 'disabled' )
+
         
     def input_data_____widget_setup(self):
         self.input_lbl_frm = LabelFrame(self.master, text=" Input Data: ")
@@ -91,11 +77,16 @@ class Upload_Tab(Tab.Tab):
         
         # thumbnail path
         self.thumbnail_path_txt_box_lbl = Label(self.input_lbl_frm, text="Thumbnail Path: ")
+        
+        def update_thumbnail_canvas(event=None):
+            if os.path.isfile(self.thumbnail_path_txt_box.get()):
+                GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
 
         def thumbnail_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
             self.update_upload_ability()
             self.tabs['compile'].update_compile_upload_log_btn_state()
+            update_thumbnail_canvas()
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
@@ -177,7 +168,7 @@ class Upload_Tab(Tab.Tab):
         self.snappa_lbl_frm = LabelFrame(self.master, text=" Snappa: ")
         
         self.open_snappa_btn = Button(self.snappa_lbl_frm, text="Open Snappa In Chrome", command = GUI_commands.open_snappa_in_chrome)
-        self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download as thumbnail", command = lambda: GUI_commands.load_snappa_dl_as_thumbnail(self.thumbnail_path_txt_box.get()))
+        self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download\n as thumbnail", command = lambda: GUI_commands.load_snappa_dl_as_thumbnail(self.thumbnail_path_txt_box.get()))
 
 
 
@@ -189,13 +180,10 @@ class Upload_Tab(Tab.Tab):
     def grid_widgets(self):
 #         self.master.grid_columnconfigure(3, weight=1)
         
-         # snappa
-        self.snappa_lbl_frm             .grid(column=1, row=1, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
-        self.open_snappa_btn            .grid(column=1, row=1, padx=5)
-        self.load_snappa_dl_as_thumb_btn.grid(column=1, row=2, padx=5)
+
         
         # input Information
-        self.input_lbl_frm              .grid(column=1, row=2, sticky='', padx=5, pady=5, ipadx=5, ipady=5)
+        self.input_lbl_frm              .grid(column=1, row=1, sticky='', padx=5, pady=5, ipadx=5, ipady=5)
         self.vid_path_txt_box_lbl       .grid(column=1, row=1)
         self.vid_path_txt_box           .grid(column=2, row=1)
         self.vid_path_browse_btn        .grid(column=3, row=1, padx=5)
@@ -204,7 +192,7 @@ class Upload_Tab(Tab.Tab):
         self.thumbnail_path_browse_btn  .grid(column=3, row=2, padx=5)
 
         # Upload Information
-        self.upload_info_lbl_frm        .grid(column=1, row=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.upload_info_lbl_frm        .grid(column=1, row=2, sticky='NSW', padx=5, pady=5, ipadx=5, ipady=5)
         self.title_txt_box_lbl          .grid(column=1, row=1)
         self.title_txt_box              .grid(column=2, row=1)
         self.descrip_txt_box_lbl        .grid(column=1, row=2)
@@ -218,7 +206,10 @@ class Upload_Tab(Tab.Tab):
         self.upload_btn                 .grid(column=1, row=6)
         self.thumnail_canvas            .grid(column=3, row=1, rowspan = 6, padx=5)
         
-
+         # snappa
+        self.snappa_lbl_frm             .grid(column=2, row=1, sticky='NW', rowspan = 2, padx=5, pady=5, ipadx=5, ipady=5)
+        self.open_snappa_btn            .grid(column=1, row=1, padx=5, pady=5)
+        self.load_snappa_dl_as_thumb_btn.grid(column=1, row=2, padx=5, pady=5)
         
 def xview_event_handler(e):
     e.widget.update_idletasks()
