@@ -3,6 +3,8 @@ from tkinter.messagebox import showinfo
 import time # for testing
 from threading import Thread
 import os
+from PIL import Image
+
 
 import Build_Tab
 import Clip_Pool_Data
@@ -48,6 +50,16 @@ except ImportError:
 
 GUI_VARS_JSON_FILE_PATH = 'gui_vars.json'
 DL_SCHEDULE_JSON_PATH = '../dl_schedule.json'
+
+THUMBNAIL_DOES_NOT_EXIST_IMG_PATH = "thumbnail_does_not_exist.png"
+
+# these must be global because:
+#  when you return from the function and if the image object
+#  is stored in a variable local to that function, the image
+#  is cleared by the garbage collector even if it's
+#  displayed by tkinter.
+global_thumbnail_PhotoImage = ''
+# global_photo_img = ''
 
 
 #   VVVVV INTERNAL UTILITIES VVVVV
@@ -311,9 +323,32 @@ def open_snappa_in_chrome():
 def load_snappa_dl_as_thumbnail(thumbnail_path):
     snappa_utils.load_snappa_dl_as_thumbnail(thumbnail_path)
     
-def update_thumbnail_canvas(thumbnail_path, thumnail_canvas):
-    print('in gui_commands, update thumbnail cavas')
+# this should be in something like GUI_utils
+def update_thumbnail_canvas(thumbnail_path, thumbnail_canvas):
+    im = Image.open(THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)
+    thumbnail_canvas['width'], thumbnail_canvas['height'] = im.size
+    im.close()
     
+    global global_thumbnail_PhotoImage
+#     global global_photo_img
+    print('in gui_commands, update thumbnail cavas')
+    if os.path.isfile(thumbnail_path):
+        print('in gui commands, exists!!!!!!!!!!!! add to this')#``````````````````````````````````````````````````````````````
+        img = Image.open(thumbnail_path)
+        print('in gui commands, width: ', thumbnail_canvas['width'], type(thumbnail_canvas['width']))#```````````````````````````````````````````````````````````````````````
+        w = int(thumbnail_canvas['width'])
+        h = int(thumbnail_canvas['height'])
+        
+        img.thumbnail((w, h))
+        img.save('temp.png')
+#         global_photo_img = PhotoImage(file='temp.png') 
+        global_thumbnail_PhotoImage = PhotoImage(file='temp.png')  
+        os.remove('temp.png')
+
+    else:
+        global_thumbnail_PhotoImage = PhotoImage(file=THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)  
+    thumbnail_canvas.create_image(0,0, anchor="nw", image=global_thumbnail_PhotoImage)    
+        
     
     
     

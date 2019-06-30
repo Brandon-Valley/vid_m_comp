@@ -78,15 +78,14 @@ class Upload_Tab(Tab.Tab):
         # thumbnail path
         self.thumbnail_path_txt_box_lbl = Label(self.input_lbl_frm, text="Thumbnail Path: ")
         
-        def update_thumbnail_canvas(event=None):
-            if os.path.isfile(self.thumbnail_path_txt_box.get()):
-                GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
+
 
         def thumbnail_path_txt_box_edit(event = None):
             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
             self.update_upload_ability()
             self.tabs['compile'].update_compile_upload_log_btn_state()
-            update_thumbnail_canvas()
+            GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
+
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
@@ -98,6 +97,7 @@ class Upload_Tab(Tab.Tab):
             thumbnail_path_txt_box_edit()
             
         self.thumbnail_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = thumbnail_path_browse_btn_clk)
+
 
 
     def upload_info_____widget_setup(self):
@@ -156,10 +156,13 @@ class Upload_Tab(Tab.Tab):
 #         canvas = Canvas(root, width = w, height = h)   
         
         
-        self.thumnail_canvas = Canvas(self.upload_info_lbl_frm, width = w, height = h)
+        self.thumnail_canvas = Canvas(self.upload_info_lbl_frm)#, width = w, height = h)
+#         self.thumnail_canvas['width'] = 3000
         self.img = PhotoImage(file="../pics/test_thumb.png")   
 #         file_system_utils.delete_if_exists('../test_thumb.png')   
         self.thumnail_canvas.create_image(0,0, anchor="nw", image=self.img)    
+        GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
+
 
 
 
