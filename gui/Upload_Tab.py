@@ -37,6 +37,7 @@ class Upload_Tab(Tab.Tab):
         
         self.input_data_____widget_setup()
         self.upload_info_____widget_setup()
+        self.snappa_____widget_setup()
 
         
         self.grid_widgets()
@@ -111,9 +112,6 @@ class Upload_Tab(Tab.Tab):
     def upload_info_____widget_setup(self):
         self.upload_info_lbl_frm = LabelFrame(self.master, text=" Upload Information: ")
         
-        
-
-            
         # title    
         def title_txt_box_edit(event=None):
             self.update_upload_ability
@@ -153,12 +151,33 @@ class Upload_Tab(Tab.Tab):
         self.upload_btn = Button(self.upload_info_lbl_frm, text="Upload", command = lambda: GUI_commands.upload(self.vid_path_txt_box.get(), self.title_txt_box.get(), self.descrip_txt_box.get(), self.tags_txt_box.get(), self.privacy_cbox.get(), self.thumbnail_path_txt_box.get()))
         self.update_upload_ability()
 
+
+
+
+
+    def snappa_____widget_setup(self):
+        self.snappa_lbl_frm = LabelFrame(self.master, text=" Snappa: ")
+        
+        self.open_snappa_btn = Button(self.snappa_lbl_frm, text="Open Snappa In Chrome", command = GUI_commands.open_snappa_in_chrome)
+        self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download as thumbnail", command = lambda: GUI_commands.load_snappa_dl_as_thumbnail(self.thumbnail_path_txt_box.get()))
+
+
+
+
+
+
+
         
     def grid_widgets(self):
 #         self.master.grid_columnconfigure(3, weight=1)
         
+         # snappa
+        self.snappa_lbl_frm             .grid(column=1, row=1, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.open_snappa_btn            .grid(column=1, row=1, padx=5)
+        self.load_snappa_dl_as_thumb_btn.grid(column=1, row=2, padx=5)
+        
         # input Information
-        self.input_lbl_frm              .grid(column=1, row=1, sticky='', padx=5, pady=5, ipadx=5, ipady=5)
+        self.input_lbl_frm              .grid(column=1, row=2, sticky='', padx=5, pady=5, ipadx=5, ipady=5)
         self.vid_path_txt_box_lbl       .grid(column=1, row=1)
         self.vid_path_txt_box           .grid(column=2, row=1)
         self.vid_path_browse_btn        .grid(column=3, row=1, padx=5)
@@ -167,7 +186,7 @@ class Upload_Tab(Tab.Tab):
         self.thumbnail_path_browse_btn  .grid(column=3, row=2, padx=5)
 
         # Upload Information
-        self.upload_info_lbl_frm        .grid(column=1, row=2, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.upload_info_lbl_frm        .grid(column=1, row=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.title_txt_box_lbl          .grid(column=1, row=1)
         self.title_txt_box              .grid(column=2, row=1)
         self.descrip_txt_box_lbl        .grid(column=1, row=2)
@@ -179,6 +198,8 @@ class Upload_Tab(Tab.Tab):
         self.privacy_cbox_lbl           .grid(column=1, row=5)
         self.privacy_cbox               .grid(column=2, row=5, sticky = "W")
         self.upload_btn                 .grid(column=1, row=6)
+        
+
         
 def xview_event_handler(e):
     e.widget.update_idletasks()

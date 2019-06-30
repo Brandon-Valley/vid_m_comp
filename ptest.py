@@ -1,12 +1,11 @@
-import subprocess
+import webbrowser
 
-cmd = ['pgrep -f .*python.*dl_scheduler.py']
-process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, 
-stderr=subprocess.PIPE)
-my_pid, err = process.communicate()
 
-if len(my_pid.splitlines()) >0:
-   print("Running")
-   exit()
-else:
-  print("Not Running")
+def open_snappa_in_chrome():   
+    url = "https://snappa.com/app/graphic/d8334e8f-a11a-467c-a4ca-52fd4f748f26"
+#     webbrowser.open_new_tab(url)
+    chrome_browser = webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s")
+    chrome_browser.open_new_tab(url)
+    
+    
+open_snappa_in_chrome()

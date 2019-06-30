@@ -9,6 +9,7 @@ import Clip_Pool_Data
 import Clip_Data
 import clip_order
 import historical_data
+import snappa_utils
 #import txt_logger
 
 # import vid_player_control
@@ -304,7 +305,11 @@ def upload(vid_path, title, description, tags, privacy_status, thumbnail_path):
     
     
     
+def open_snappa_in_chrome():
+    snappa_utils.open_snappa_in_chrome()
     
+def load_snappa_dl_as_thumbnail(thumbnail_path):
+    snappa_utils.load_snappa_dl_as_thumbnail(thumbnail_path)
     
     
     

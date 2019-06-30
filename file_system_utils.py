@@ -3,6 +3,7 @@ import os
 # from shutil import copyfile
 import shutil
 from distutils.dir_util import copy_tree
+import ntpath
  
 # VVVVV Internal VVVVV
 
@@ -114,7 +115,7 @@ def get_file_paths_in_dir_by_age(dirpath):
 
 
 
-def is_path_creatable(pathname: str) -> bool:
+def is_path_creatable(pathname):
     '''
     `True` if the current user has sufficient permissions to create the passed
     pathname; `False` otherwise.
@@ -133,9 +134,13 @@ def is_file_path_valid(path, extention = None):
     return True
     
     
+def get_filename_from_path(path):
+    return ntpath.basename(path)
     
     
-    
+def rename_file_overwrite(src_file_path, dest_file_path):
+    delete_if_exists(dest_file_path)
+    os.rename(src_file_path, dest_file_path)
     
 
 if __name__ == '__main__':
