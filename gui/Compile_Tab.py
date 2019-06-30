@@ -109,6 +109,7 @@ class Compile_Tab(Tab.Tab):
             GUI_commands.log_gui_var('compiled_output_file_path', self.output_path_txt_box.get())
             update_compile_btn_state()
             self.update_compile_upload_log_btn_state()
+            self.tabs['upload'].vid_path_txt_box.insert(END, self.output_path_txt_box.get())
             
         self.output_path_txt_box_lbl = Label(self.master, text="Output Path: ")
         self.output_path_txt_box = Entry(self.master,width=OUTPUT_PATH_TEXT_BOX_WIDTH)

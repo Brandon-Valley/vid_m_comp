@@ -235,7 +235,7 @@ def is_file_path_valid(path, ext):
     
 def compile_upload_log(tabs):
     print('Starting Compile, Upload, then Log/Delete...')
-    compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), tabs['compile'].prog_widget_d)
+#     compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), tabs['compile'].prog_widget_d)
     print('finished compile, starting upload...')
     upload(tabs['upload'].vid_path_txt_box.get(), tabs['upload'].title_txt_box.get(), tabs['upload'].descrip_txt_box.get(), tabs['upload'].tags_txt_box.get(), tabs['upload'].privacy_cbox.get(), tabs['upload'].thumbnail_path_txt_box.get())
     print('finished upload, logging/deleteing...')
