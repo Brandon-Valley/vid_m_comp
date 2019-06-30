@@ -219,7 +219,7 @@ def compile(output_path, play_output_btn, clip_sort_method_str, processing_pb_d,
     
     compile_clips.compile_clips(ordered_clip_path_l, output_path)
     play_output_btn.configure(state = "normal")
-    processing_pb_d['compile'].stop()
+#     processing_pb_d['compile'].stop()
 
 
 
