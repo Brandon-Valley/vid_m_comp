@@ -72,6 +72,7 @@ def main(msg = None):
     # but before any user input
     
     tab_dict['compile'].update_compile_upload_log_btn_state()
+#     tab_dict['upload'].update_upload_ability()
 
     print('starting gui...')
     root.mainloop()

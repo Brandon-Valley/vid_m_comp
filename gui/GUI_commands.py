@@ -198,10 +198,13 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
 
     
 # VVVVV COMPILE TAB VVVVV
+def grid_processing_pb_d_lbl_frm(processing_pb_d_lbl_frm):
+    processing_pb_d_lbl_frm.grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
 
-def compile(output_path, play_output_btn, clip_sort_method_str, prog_widget_d):
+
+def compile(output_path, play_output_btn, clip_sort_method_str, prog_widget_d=None):
     print('compile clips')
-    
+
     def _compile_clips_thread():
         play_output_btn.configure(state = "disabled")
         
@@ -233,14 +236,28 @@ def is_file_path_valid(path, ext):
     return file_system_utils.is_file_path_valid(path, ext)
     
     
-def compile_upload_log(tabs):
+def compile_upload_log(tabs, processing_pb_d):
+    grid_processing_pb_d_lbl_frm(processing_pb_d['lbl_frm'])
+
+#     processing_pb_d['lbl_frm'].grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
     print('Starting Compile, Upload, then Log/Delete...')
-#     compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), tabs['compile'].prog_widget_d)
+    processing_pb_d['compile'].start(10)
+    compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), tabs['compile'].prog_widget_d)
+    processing_pb_d['compile']['value'] = 100
+    processing_pb_d['compile'].stop()
+    
     print('finished compile, starting upload...')
+    processing_pb_d['upload'].start(10)
+
     upload(tabs['upload'].vid_path_txt_box.get(), tabs['upload'].title_txt_box.get(), tabs['upload'].descrip_txt_box.get(), tabs['upload'].tags_txt_box.get(), tabs['upload'].privacy_cbox.get(), tabs['upload'].thumbnail_path_txt_box.get())
+    processing_pb_d['upload'].stop()
     print('finished upload, logging/deleteing...')
+    processing_pb_d['log_delete'].start(10)
+
     log_and_delete_current_data()
     print('Finished Compile, Upload, then Log/Delete')
+    processing_pb_d['log_delete'].stop()
+
 
     
     

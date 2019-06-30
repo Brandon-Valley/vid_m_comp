@@ -44,6 +44,7 @@ class Compile_Tab(Tab.Tab):
         self.progress_____widget_setup()
         self.compile_____widget_setup()
         self.log_and_delete_____widget_setup()
+        self.processing_____widget_setup()
         
         
         
@@ -100,7 +101,7 @@ class Compile_Tab(Tab.Tab):
             # print('finished compile, starting upload...')
             
         
-        self.compile_upload_log_btn = Button(self.master, text="Compile, Upload, and Log/Delete", command = lambda: GUI_commands.compile_upload_log(self.tabs))
+        self.compile_upload_log_btn = Button(self.master, text="Compile, Upload, and Log/Delete", command = lambda: GUI_commands.compile_upload_log(self.tabs, self.processing_pb_d))
         
         
                  
@@ -135,10 +136,7 @@ class Compile_Tab(Tab.Tab):
 
 
 
-        
-        
-        
-        
+
     def log_and_delete_____widget_setup(self):
         def log_and_delete_btn_pressed(event = None):
             resp = messagebox.askquestion("Warning", "This action will delete the current_data directory, including the final compiled video.  Would you like to proceed?")
@@ -149,6 +147,26 @@ class Compile_Tab(Tab.Tab):
 
 
 
+    
+    def processing_____widget_setup(self):
+        self.processing_lbl_frm = LabelFrame(self.master, text=" Processing: ")
+        
+        # compile
+        self.compile_pb_lbl = Label(self.processing_lbl_frm, text="Compiling...: ")
+        self.compile_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
+        
+        # upload
+        self.upload_pb_lbl = Label(self.processing_lbl_frm, text="Uploading...: ")
+        self.upload_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
+        
+        # log/delete
+        self.log_delete_pb_lbl = Label(self.processing_lbl_frm, text="Logging/Deleteing...: ")
+        self.log_delete_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
+        
+        self.processing_pb_d = {'lbl_frm'   : self.processing_lbl_frm,
+                                'compile'   : self.compile_pb,
+                                'upload'    : self.upload_pb,
+                                'log_delete': self.log_delete_pb}
 
 
     def grid_widgets(self):
@@ -180,8 +198,17 @@ class Compile_Tab(Tab.Tab):
         
         self.log_and_delete_btn         .grid(column=1, row=row_num)
         
+        # processing
+#         processing_pb_d['lbl_frm']    .grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.compile_pb_lbl             .grid(column=1, row=1)
+        self.compile_pb                 .grid(column=2, row=1, sticky='EW', padx=5)
+        self.upload_pb_lbl              .grid(column=1, row=2)
+        self.upload_pb                  .grid(column=2, row=2, sticky='EW', padx=5)
+        self.log_delete_pb_lbl          .grid(column=1, row=3)
+        self.log_delete_pb              .grid(column=2, row=3, sticky='EW', padx=5)
         
-
+        
+        
 def xview_event_handler(e):
     e.widget.update_idletasks()
     e.widget.xview_moveto(1)

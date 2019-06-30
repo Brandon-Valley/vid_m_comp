@@ -448,8 +448,8 @@ def compile_all_clips_in_dir(clips_dir_path, output_vid_path):
 def compile_clips(clip_path_list, output_file_path, prog_widget_d = None):
     c_start = time.time()
     
-    if prog_widget_d != None:
-        prog_widget_d['lbl_frm'].grid(column=1, row=40)
+#     if prog_widget_d != None:
+#         prog_widget_d['lbl_frm'].grid(column=1, row=40)
     
 #     print('in compile, about to comile these clips:  ', clip_path_list)
     print('deleting all files in dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
@@ -458,9 +458,9 @@ def compile_clips(clip_path_list, output_file_path, prog_widget_d = None):
     print('copying accepted clips to new dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
     file_system_utils.copy_files_to_dest(clip_path_list, CLIPS_TO_COMPILE_DIR_PATH)
     
-    print('resizing clips in dir...')
-    if prog_widget_d != None:
-        prog_widget_d['resize_pb'].start(10)
+#     print('resizing clips in dir...')
+#     if prog_widget_d != None:
+#         prog_widget_d['resize_pb'].start(10)
     
     tallest_vid_height = get_height_of_tallest_vid_in_dir(CLIPS_TO_COMPILE_DIR_PATH)
     output_vid_dims = smallest_working_dims(tallest_vid_height)

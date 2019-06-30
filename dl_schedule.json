@@ -1,12 +1,12 @@
 [
     {
+        "time": "07:30",
+        "event_name": "saterday_test",
         "day": "Saterday",
-        "schedule_event": 1,
-        "am_pm": "AM",
         "subreddit_l": [
             "dankvideos"
         ],
-        "event_name": "saterday_test",
-        "time": "07:30"
+        "am_pm": "AM",
+        "schedule_event": 1
     }
 ]

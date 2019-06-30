@@ -26,8 +26,7 @@ class Upload_Tab(Tab.Tab):
         self.tab_control = tab_control
     
         Tab.Tab.__init__(self, master)
-        
-        
+
 
         self.gui_vars = GUI_commands.get_gui_vars()
         
@@ -35,15 +34,12 @@ class Upload_Tab(Tab.Tab):
         self.upload_info_____widget_setup()
         self.snappa_____widget_setup()
 
-        
         self.grid_widgets()
         
         
     def update_upload_ability(self, event=None):
         self.upload_btn.configure( state = 'normal' )
-        
-        # self.tabs['compile'].compile_upload_log_btn.configure( state = 'normal' )
-          
+
         if self.title_txt_box.get() == '' or \
            not os.path.exists(self.vid_path_txt_box.get()) or \
            not os.path.exists(self.thumbnail_path_txt_box.get()):
@@ -105,7 +101,7 @@ class Upload_Tab(Tab.Tab):
         
         # title    
         def title_txt_box_edit(event=None):
-            self.update_upload_ability
+            self.update_upload_ability()
             self.tabs['compile'].update_compile_upload_log_btn_state()
 
         self.title_txt_box_lbl = Label(self.upload_info_lbl_frm, text="Video Title: ")
@@ -135,7 +131,7 @@ class Upload_Tab(Tab.Tab):
         # Privacy
         self.privacy_cbox_lbl = Label(self.upload_info_lbl_frm, text="Privacy Status: ")
         self.privacy_cbox = Combobox(self.upload_info_lbl_frm, state = 'readonly')
-        self.privacy_cbox['values'] = ['Public', 'Private']
+        self.privacy_cbox['values'] = ['public', 'private']
         self.privacy_cbox.current(0) #set the selected item
         
         # upload btn

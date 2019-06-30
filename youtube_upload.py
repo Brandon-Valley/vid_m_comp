@@ -1,6 +1,8 @@
 import subprocess
 import os
 
+import file_system_utils
+
 
 # 
 # API_KEY = 'AIzaSyATOtqcASYH3wjVPZwm5c__953LAWajVQE'
@@ -24,9 +26,12 @@ def get_video_id_from_output(output):
     return str(output)[33:-33]
 
 
+#vid_id: 1mZXOtlVuBs
+# https://www.youtube.com/watch?v=1mZXOtlVuBs
 def youtube_upload(vid_file_path, title, description, keywords, category, privacy_status, thumbnail_pic_path):
-    upload_video_script_abs_path = os.path.abspath('upload_video.py')
-    vid_upload_cmd  = 'python ' + upload_video_script_abs_path
+    cur_file_abs_path = file_system_utils.get_path_to_current_file(__file__)
+#     upload_video_script_abs_path = file_system_utils.get_path_to_current_file(__file__) + '/upload_video.py'
+    vid_upload_cmd  = 'python ' + cur_file_abs_path + '/upload_video.py'
     vid_upload_cmd += ' --file='          + vid_file_path 
     vid_upload_cmd += ' --title='         + title 
     vid_upload_cmd += ' --description='   + description 
@@ -42,7 +47,7 @@ def youtube_upload(vid_file_path, title, description, keywords, category, privac
     vid_id = get_video_id_from_output(output)
     print(vid_id)
      
-    thumbnail_upload_cmd  = 'python upload_thumbnail.py'
+    thumbnail_upload_cmd  = 'python ' + cur_file_abs_path + '/upload_thumbnail.py'
     thumbnail_upload_cmd += ' --video-id=' + vid_id
     thumbnail_upload_cmd += ' --file='     + thumbnail_pic_path
      
