@@ -151,6 +151,24 @@ class Upload_Tab(Tab.Tab):
         self.upload_btn = Button(self.upload_info_lbl_frm, text="Upload", command = lambda: GUI_commands.upload(self.vid_path_txt_box.get(), self.title_txt_box.get(), self.descrip_txt_box.get(), self.tags_txt_box.get(), self.privacy_cbox.get(), self.thumbnail_path_txt_box.get()))
         self.update_upload_ability()
 
+        # thumbnail canvas
+        from PIL import Image
+
+        im = Image.open("../pics/test_thumb.png")
+        w, h = im.size
+         
+         
+#         print(w,h)
+         
+         
+#         root = Tk()      
+#         canvas = Canvas(root, width = w, height = h)   
+        
+        
+        self.thumnail_canvas = Canvas(self.upload_info_lbl_frm, width = w, height = h)
+        self.img = PhotoImage(file="../pics/test_thumb.png")   
+#         file_system_utils.delete_if_exists('../test_thumb.png')   
+        self.thumnail_canvas.create_image(0,0, anchor="nw", image=self.img)    
 
 
 
@@ -198,6 +216,7 @@ class Upload_Tab(Tab.Tab):
         self.privacy_cbox_lbl           .grid(column=1, row=5)
         self.privacy_cbox               .grid(column=2, row=5, sticky = "W")
         self.upload_btn                 .grid(column=1, row=6)
+        self.thumnail_canvas            .grid(column=3, row=1, rowspan = 6, padx=5)
         
 
         
