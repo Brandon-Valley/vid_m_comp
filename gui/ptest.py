@@ -8,7 +8,7 @@ class Interface:
         self.master = master
         self.browse_button= Button (master, text="Browse", command=self.browser)
         self.browse_button.pack()
-        self.progressbar = Progressbar(mode="determinate", maximum=75)
+        self.progressbar = Progressbar(mode="indeterminate", maximum=75)
 
     def browser (self):
         t = threading.Thread(target=self.read_file, args=("filename",))
@@ -16,10 +16,15 @@ class Interface:
         self.browse_button.config(state="disabled")
         self.master.config(cursor="wait")
         self.master.update()
-
+        pbar_init = False
+        
+        
         t.start()
         while t.is_alive():
-            self.progressbar.step(1)
+            if pbar_init == False:
+                self.progressbar.start(10)
+                pbar_init = True
+#             self.progressbar.step(1)
             self.master.update_idletasks()  # or try self.master.update()
             t.join(0.1)
 

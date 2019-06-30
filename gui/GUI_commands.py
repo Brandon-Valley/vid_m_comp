@@ -202,10 +202,12 @@ def grid_processing_pb_d_lbl_frm(processing_pb_d_lbl_frm):
     processing_pb_d_lbl_frm.grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
 
 
-def compile(output_path, play_output_btn, clip_sort_method_str):#, processing_pb_d):
+def compile(output_path, play_output_btn, clip_sort_method_str, processing_pb_d, master):
     print('compile clips')
 #     grid_processing_pb_d_lbl_frm(processing_pb_d['lbl_frm'])
 #     processing_pb_d['compile'].start(10)
+#     master.update_idletasks()
+
 
 
     play_output_btn.configure(state = "disabled")
@@ -217,17 +219,17 @@ def compile(output_path, play_output_btn, clip_sort_method_str):#, processing_pb
     
     compile_clips.compile_clips(ordered_clip_path_l, output_path)
     play_output_btn.configure(state = "normal")
-#     processing_pb_d['compile'].stop()
+    processing_pb_d['compile'].stop()
 
 
 
     
     
 
-def compile_in_seperate_thread(output_path, play_output_btn, clip_sort_method_str, prog_widget_d=None):
+def compile_in_seperate_thread(output_path, play_output_btn, clip_sort_method_str, master):
     print('compile clips in seperate thread')    
 #   thread_list.append(Thread(target=extract_text_and_add_to_qo_dict, args=(img_path_list[0], 'question' , qo_dict)))
-    compile_thread = Thread(target=compile, args=(output_path, play_output_btn, clip_sort_method_str))#, args=(img_path_list[3], 'option_3' , qo_dict)))  
+    compile_thread = Thread(target=compile, args=(output_path, play_output_btn, clip_sort_method_str, master))#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     compile_thread.start()
     
     
@@ -250,31 +252,35 @@ def is_file_path_valid(path, ext):
 def compile_upload_log(tabs, processing_pb_d, master):
     grid_processing_pb_d_lbl_frm(processing_pb_d['lbl_frm'])
     master.update_idletasks()
-
-#     processing_pb_d['lbl_frm'].grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
-#     print('Starting Compile, Upload, then Log/Delete...')
+    processing_pb_d['compile'].start(10)
+    master.update_idletasks()
+# 
+# #     processing_pb_d['lbl_frm'].grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+    print('Starting Compile, Upload, then Log/Delete...')
 #     def t1_test():
 #         processing_pb_d['compile'].start(10)
-#     
+#      
 #     t1 = Thread(target=t1_test)
 #     t1.start()
+#     master.update_idletasks()
 #     processing_pb_d['compile'].start(10)
-    time.sleep(5)#``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-#     compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get())#, processing_pb_d)
-#     processing_pb_d['compile']['value'] = 100
-#     processing_pb_d['compile'].stop()
+#     time.sleep(5)#``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+    compile(tabs['compile'].output_path_txt_box.get(), tabs['compile'].play_output_btn, tabs['compile'].clip_sort_cbox.get(), processing_pb_d, master)
+    processing_pb_d['compile'].stop()
 #     
-#     print('finished compile, starting upload...')
-#     processing_pb_d['upload'].start(10)
+    print('finished compile, starting upload...')
+    processing_pb_d['upload'].start(10)
+    master.update_idletasks()
 # 
-# #     upload(tabs['upload'].vid_path_txt_box.get(), tabs['upload'].title_txt_box.get(), tabs['upload'].descrip_txt_box.get(), tabs['upload'].tags_txt_box.get(), tabs['upload'].privacy_cbox.get(), tabs['upload'].thumbnail_path_txt_box.get())
-#     processing_pb_d['upload'].stop()
-#     print('finished upload, logging/deleteing...')
-#     processing_pb_d['log_delete'].start(10)
-# 
-# #     log_and_delete_current_data()
-#     print('Finished Compile, Upload, then Log/Delete')
-#     processing_pb_d['log_delete'].stop()
+    upload(tabs['upload'].vid_path_txt_box.get(), tabs['upload'].title_txt_box.get(), tabs['upload'].descrip_txt_box.get(), tabs['upload'].tags_txt_box.get(), tabs['upload'].privacy_cbox.get(), tabs['upload'].thumbnail_path_txt_box.get())
+    processing_pb_d['upload'].stop()
+    print('finished upload, logging/deleteing...')
+    processing_pb_d['log_delete'].start(10)
+    master.update_idletasks()
+    
+    log_and_delete_current_data()
+    print('Finished Compile, Upload, then Log/Delete')
+    processing_pb_d['log_delete'].stop()
 
 
     
