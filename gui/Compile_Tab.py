@@ -91,7 +91,7 @@ class Compile_Tab(Tab.Tab):
             self.compile_btn.configure( state = 'normal' )
             if not GUI_commands.is_file_path_valid(self.output_path_txt_box.get(), '.mp4'):
                 self.compile_btn.configure( state = 'disabled' )
-        self.compile_btn = Button(self.master, text="Compile Clips", command = lambda: GUI_commands.compile(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get(), self.prog_widget_d))
+        self.compile_btn = Button(self.master, text="Compile Clips", command = lambda: GUI_commands.compile_in_seperate_thread(self.output_path_txt_box.get(), self.play_output_btn, self.clip_sort_cbox.get(), self.prog_widget_d))
         
         
         #compile, upload, and log/delete btn

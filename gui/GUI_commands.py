@@ -202,21 +202,27 @@ def grid_processing_pb_d_lbl_frm(processing_pb_d_lbl_frm):
     processing_pb_d_lbl_frm.grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
 
 
-def compile(output_path, play_output_btn, clip_sort_method_str, prog_widget_d=None):
+def compile(output_path, play_output_btn, clip_sort_method_str):
     print('compile clips')
 
-    def _compile_clips_thread():
-        play_output_btn.configure(state = "disabled")
-        
-        rated_clip_path_dl = pool_clips_data_handler.get_rated_clip_path_dl()
-        print('in gui_commands, len(rated_clip_path_dl)', len(rated_clip_path_dl))#```````````````````````````````````````````````````````
-        ordered_clip_path_l = clip_order.order_rated_clip_paths(rated_clip_path_dl, clip_sort_method_str, 2, 2)
-        print('in gui_commands, len(ordered_clip_path_l): ', ordered_clip_path_l)#````````````````````````````````````````````````
-        
-        compile_clips.compile_clips(ordered_clip_path_l, output_path, prog_widget_d)
-        play_output_btn.configure(state = "normal")
+    play_output_btn.configure(state = "disabled")
     
-    compile_thread = Thread(target=_compile_clips_thread)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
+    rated_clip_path_dl = pool_clips_data_handler.get_rated_clip_path_dl()
+    print('in gui_commands, len(rated_clip_path_dl)', len(rated_clip_path_dl))#```````````````````````````````````````````````````````
+    ordered_clip_path_l = clip_order.order_rated_clip_paths(rated_clip_path_dl, clip_sort_method_str, 2, 2)
+    print('in gui_commands, len(ordered_clip_path_l): ', ordered_clip_path_l)#````````````````````````````````````````````````
+    
+    compile_clips.compile_clips(ordered_clip_path_l, output_path)
+    play_output_btn.configure(state = "normal")
+
+
+    
+    
+
+def compile_in_seperate_thread(output_path, play_output_btn, clip_sort_method_str, prog_widget_d=None):
+    print('compile clips in seperate thread')    
+#   thread_list.append(Thread(target=extract_text_and_add_to_qo_dict, args=(img_path_list[0], 'question' , qo_dict)))
+    compile_thread = Thread(target=compile,                         args=(output_path, play_output_btn, clip_sort_method_str))#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     compile_thread.start()
     
     
