@@ -59,7 +59,6 @@ THUMBNAIL_DOES_NOT_EXIST_IMG_PATH = "thumbnail_does_not_exist.png"
 #  is cleared by the garbage collector even if it's
 #  displayed by tkinter.
 global_thumbnail_PhotoImage = ''
-# global_photo_img = ''
 
 
 #   VVVVV INTERNAL UTILITIES VVVVV
@@ -330,18 +329,14 @@ def update_thumbnail_canvas(thumbnail_path, thumbnail_canvas):
     im.close()
     
     global global_thumbnail_PhotoImage
-#     global global_photo_img
-    print('in gui_commands, update thumbnail cavas')
+    
     if os.path.isfile(thumbnail_path):
-        print('in gui commands, exists!!!!!!!!!!!! add to this')#``````````````````````````````````````````````````````````````
         img = Image.open(thumbnail_path)
-        print('in gui commands, width: ', thumbnail_canvas['width'], type(thumbnail_canvas['width']))#```````````````````````````````````````````````````````````````````````
         w = int(thumbnail_canvas['width'])
         h = int(thumbnail_canvas['height'])
         
         img.thumbnail((w, h))
         img.save('temp.png')
-#         global_photo_img = PhotoImage(file='temp.png') 
         global_thumbnail_PhotoImage = PhotoImage(file='temp.png')  
         os.remove('temp.png')
 

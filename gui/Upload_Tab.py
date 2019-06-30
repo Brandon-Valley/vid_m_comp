@@ -143,24 +143,7 @@ class Upload_Tab(Tab.Tab):
         self.update_upload_ability()
 
         # thumbnail canvas
-        from PIL import Image
-
-        im = Image.open("../pics/test_thumb.png")
-        w, h = im.size
-         
-         
-#         print(w,h)
-         
-         
-#         root = Tk()      
-#         canvas = Canvas(root, width = w, height = h)   
-        
-        
         self.thumnail_canvas = Canvas(self.upload_info_lbl_frm)#, width = w, height = h)
-#         self.thumnail_canvas['width'] = 3000
-        self.img = PhotoImage(file="../pics/test_thumb.png")   
-#         file_system_utils.delete_if_exists('../test_thumb.png')   
-        self.thumnail_canvas.create_image(0,0, anchor="nw", image=self.img)    
         GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
 
 
