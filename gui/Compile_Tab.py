@@ -101,7 +101,7 @@ class Compile_Tab(Tab.Tab):
             # print('finished compile, starting upload...')
             
         
-        self.compile_upload_log_btn = Button(self.master, text="Compile, Upload, and Log/Delete", command = lambda: GUI_commands.compile_upload_log(self.tabs, self.processing_pb_d))
+        self.compile_upload_log_btn = Button(self.master, text="Compile, Upload, and Log/Delete", command = lambda: GUI_commands.compile_upload_log(self.tabs, self.processing_pb_d, self.master))
         
         
                  
@@ -152,15 +152,15 @@ class Compile_Tab(Tab.Tab):
         self.processing_lbl_frm = LabelFrame(self.master, text=" Processing: ")
         
         # compile
-        self.compile_pb_lbl = Label(self.processing_lbl_frm, text="Compiling...: ")
+        self.compile_pb_lbl = Label(self.processing_lbl_frm, text="Compiling: ")
         self.compile_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
         
         # upload
-        self.upload_pb_lbl = Label(self.processing_lbl_frm, text="Uploading...: ")
+        self.upload_pb_lbl = Label(self.processing_lbl_frm, text="Uploading: ")
         self.upload_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
         
         # log/delete
-        self.log_delete_pb_lbl = Label(self.processing_lbl_frm, text="Logging/Deleteing...: ")
+        self.log_delete_pb_lbl = Label(self.processing_lbl_frm, text="Logging/Deleteing: ")
         self.log_delete_pb = Progressbar(self.processing_lbl_frm, mode='indeterminate')
         
         self.processing_pb_d = {'lbl_frm'   : self.processing_lbl_frm,

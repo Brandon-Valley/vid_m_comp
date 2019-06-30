@@ -1,32 +1,36 @@
-import tkinter as Tkinter
-import tkinter.ttk as ttk
+from tkinter import *
+from tkinter.ttk import *
 import time
 import threading
 
-#Define your Progress Bar function, 
-def task(root):
-    ft = ttk.Frame()
-    ft.pack(expand=True, fill=Tkinter.BOTH, side=Tkinter.TOP)
-    pb_hD = ttk.Progressbar(ft, orient='horizontal', mode='indeterminate')
-    pb_hD.pack(expand=True, fill=Tkinter.BOTH, side=Tkinter.TOP)
-    pb_hD.start(50)
-    root.mainloop()
+class Interface:
+    def __init__(self, master):
+        self.master = master
+        self.browse_button= Button (master, text="Browse", command=self.browser)
+        self.browse_button.pack()
+        self.progressbar = Progressbar(mode="determinate", maximum=75)
 
-# Define the process of unknown duration with root as one of the input And once done, add root.quit() at the end.
-def process_of_unknown_duration(root):
-    time.sleep(5)
-    print ('Done')
-    root.destroy()
+    def browser (self):
+        t = threading.Thread(target=self.read_file, args=("filename",))
+        self.progressbar.pack()
+        self.browse_button.config(state="disabled")
+        self.master.config(cursor="wait")
+        self.master.update()
 
-# Now define our Main Functions, which will first define root, then call for call for "task(root)" --- that's your progressbar, and then call for thread1 simultaneously which will  execute your process_of_unknown_duration and at the end destroy/quit the root.
+        t.start()
+        while t.is_alive():
+            self.progressbar.step(1)
+            self.master.update_idletasks()  # or try self.master.update()
+            t.join(0.1)
 
-def Main():
-    root = Tkinter.Tk()
-    t1=threading.Thread(target=process_of_unknown_duration, args=(root,))
-    t1.start()
-    task(root)  # This will block while the mainloop runs
-    t1.join()
+        self.progressbar.config(value="0")
+        self.progressbar.pack_forget()
+        self.browse_button.config(state="enabled")
+        self.master.config(cursor="")
 
-#Now just run the functions by calling our Main() function,
-if __name__ == '__main__':
-    Main()
+    def read_file (self, filename):
+        time.sleep(7)  # actually do the read here
+
+window = Tk()
+starter = Interface(window)
+window.mainloop()
