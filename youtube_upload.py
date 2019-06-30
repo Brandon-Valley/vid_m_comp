@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 
 # 
@@ -24,7 +25,8 @@ def get_video_id_from_output(output):
 
 
 def youtube_upload(vid_file_path, title, description, keywords, category, privacy_status, thumbnail_pic_path):
-    vid_upload_cmd  = 'python upload_video.py'
+    upload_video_script_abs_path = os.path.abspath('upload_video.py')
+    vid_upload_cmd  = 'python ' + upload_video_script_abs_path
     vid_upload_cmd += ' --file='          + vid_file_path 
     vid_upload_cmd += ' --title='         + title 
     vid_upload_cmd += ' --description='   + description 

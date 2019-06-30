@@ -110,6 +110,7 @@ class Compile_Tab(Tab.Tab):
             update_compile_btn_state()
             self.update_compile_upload_log_btn_state()
             self.tabs['upload'].vid_path_txt_box.insert(END, self.output_path_txt_box.get())
+            self.tabs['upload'].update_upload_ability()
             
         self.output_path_txt_box_lbl = Label(self.master, text="Output Path: ")
         self.output_path_txt_box = Entry(self.master,width=OUTPUT_PATH_TEXT_BOX_WIDTH)

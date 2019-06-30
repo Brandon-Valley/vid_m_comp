@@ -1,26 +1,19 @@
 import os
 
+print(os.path.abspath('../upload_video.py'))
+
+import sys
+# print(sys.path[0])
 
 
-def is_path_creatable(pathname: str) -> bool:
-    '''
-    `True` if the current user has sufficient permissions to create the passed
-    pathname; `False` otherwise.
-    '''
-    # Parent directory of the passed path. If empty, we substitute the current
-    # working directory (CWD) instead.
-    dirname = os.path.dirname(pathname) or os.getcwd()
-    return os.access(dirname, os.W_OK)
+# to be able to import from parent dir
+import sys
+parent_dir_path = ''
+for dir in sys.path[0].split('\\')[0:-1]:
+    parent_dir_path += dir + '\\'
+sys.path.append(parent_dir_path[0:-1])
 
-# returns true if path could be created and ends with ext
-def is_file_path_valid(path, extention = None):
-    if not is_path_creatable(path):
-        return False
-    if extention != None and not path.endswith(extention):
-        return False
-    return True
+# from parent dir
+import ptest2
 
-
-
-
-print(is_file_path_valid('tryt1.m\4', 'mp4'))
+print('in gui ptest, ptest2 sys path: ', ptest2.PTEST2_SYS_PATH)

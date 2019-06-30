@@ -143,6 +143,21 @@ def rename_file_overwrite(src_file_path, dest_file_path):
     os.rename(src_file_path, dest_file_path)
     
 
+# !!!!! ONLY WAY TO USE THIS FUNC:  file_system_utils.get_path_to_current_file(__file__) !!!!!
+# returns absolute path to the FILE that calls this function,
+# NOT the current working directory
+# the only reason this function is here is because I know that
+# if it isn't, I wont be able to find it later
+def get_path_to_current_file(file_obj):
+    return os.path.dirname(os.path.abspath(file_obj))
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     print('in file_system_utils main...')
 #     import download_vids
