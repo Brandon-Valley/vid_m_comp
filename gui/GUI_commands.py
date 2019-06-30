@@ -202,7 +202,7 @@ def grid_processing_pb_d_lbl_frm(processing_pb_d_lbl_frm):
     processing_pb_d_lbl_frm.grid(column=1, row=500, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
 
 
-def compile(output_path, play_output_btn, clip_sort_method_str, processing_pb_d, master):
+def compile(output_path, play_output_btn, clip_sort_method_str, processing_pb_d, master=None):
     print('compile clips')
 #     grid_processing_pb_d_lbl_frm(processing_pb_d['lbl_frm'])
 #     processing_pb_d['compile'].start(10)

@@ -1,4 +1,5 @@
 import random
+from nltk.tbl.demo import demo_high_accuracy_rules
 
 # just for testing VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
@@ -154,10 +155,11 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
     for pos in range( end_high_rated_pad ):
         if len(o_high_rcp_dl) > 0:
             if len( output_rcp_dl ) - 1 > pos:
-#                 print(pos)#`````````````````````````````````````````````````````````````````````````
                 output_rcp_dl[-1-pos] = o_high_rcp_dl[0]
             o_high_rcp_dl.pop(0)
-    #print_rcp_dl(output_rcp_dl)
+    print_rcp_dl(o_high_rcp_dl)#````````````````````````````````````````````````````````````````````
+    print('output_rcp_dl after begin and end padding: ')#````````````````````````````````````````
+    print_rcp_dl(output_rcp_dl)#````````````````````````````````````````````````````````````````
 
     # add the rest of the high rated, spaced out evenly with the highest rated towards the beginning and end,
     # if cant space out evenly, assign the remainder randomly
@@ -170,11 +172,17 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
     
     for rcp_d_num, rcp_d in enumerate( highest_on_ends_high_rcp_dl ):
         try:
-            output_rcp_dl[beginning_high_rated_pad + (rcp_d_num * high_rated_spacing)] = highest_on_ends_high_rcp_dl[rcp_d_num]
+            insert_pos = beginning_high_rated_pad + (rcp_d_num * high_rated_spacing)
+            if output_rcp_dl[insert_pos] != {}:
+                raise IndexError('WOW THIS IS THE SUPER WRONG WAY TO DO THIS BUT IM LAZY')
+            
+            print('about to try to put  ', highest_on_ends_high_rcp_dl[rcp_d_num], '  in pos: ', beginning_high_rated_pad + (rcp_d_num * high_rated_spacing))#`````````````````````````````
+            output_rcp_dl[insert_pos] = highest_on_ends_high_rcp_dl[rcp_d_num]
         except IndexError:
             pos = _random_empty_pos(output_rcp_dl)
             output_rcp_dl[pos] = highest_on_ends_high_rcp_dl[rcp_d_num]
-    #print_rcp_dl(output_rcp_dl)
+    print('output_rcp_dl after filling rest of high rated: ')#```````````````````````````````````````````````````````
+    print_rcp_dl(output_rcp_dl)#```````````````````````````````````````````````````````````````````````````````````````````````
        
     # add the low rated, spaced out evenly but then moved forward so that a low rated clip is always followed by a high rated clip
     # if possable, put the highest rated bad clips on the ends with the worst in the middle
@@ -203,7 +211,7 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
             pos += 1
         output_rcp_dl[pos] = highest_on_ends_low_rcp_dl[rcp_d_num]
         
-    #print_rcp_dl(output_rcp_dl)
+#     print_rcp_dl(output_rcp_dl)
     
     
     # fill the rest randomly with the average clips
@@ -212,9 +220,7 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
         pos = _random_empty_pos(output_rcp_dl)
         output_rcp_dl[pos] = rcp_d
         
-        
-    #print_rcp_dl(output_rcp_dl)
-    
+    print_rcp_dl(output_rcp_dl)#`````````````````````````````````````````````````````````````````````````
     
     # get rid of the ratings and just return a list of clip paths
     output_clip_path_list = []
@@ -223,9 +229,22 @@ def order_rated_clip_paths___balanced_with_padding(rated_clip_path_dl, beginning
 #             print(rcp_d)#```````````````````````````````````````````````````````````````````````````````````````
             output_clip_path_list.append(rcp_d['clip_path'])
         
-    #print(output_clip_path_list)
+#     print(output_clip_path_list)#````````````````````````````````````````````````````````````````````````````````````````
         
-        
+    #````````````````````````````````````````````````````````````````````````````````````````````````````````````
+#     for output_clip_path in output_clip_path_list:
+#         path_found = False
+#         for rcp_d in rated_clip_path_dl:
+#             if output_clip_path == rcp_d['clip_path']:
+#                 path_found = True
+#         if path_found == False:
+#             print('missing path: ', output_clip_path)
+#``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+    for rcp_d in rated_clip_path_dl:
+        if not rcp_d['clip_path'] in output_clip_path_list:
+            print('missing path: ', rcp_d)
+
+#         
     return output_clip_path_list
     
     
