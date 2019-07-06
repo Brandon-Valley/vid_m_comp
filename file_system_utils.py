@@ -142,9 +142,9 @@ def rename_file_overwrite(src_file_path, dest_file_path):
     delete_if_exists(dest_file_path)
     os.rename(src_file_path, dest_file_path)
     
-
+# SHOULD PROBABLY RENAME
 # !!!!! ONLY WAY TO USE THIS FUNC:  file_system_utils.get_path_to_current_file(__file__) !!!!!
-# returns absolute path to the FILE that calls this function,
+# returns absolute path to the dir that contains the file that calls this function,
 # NOT the current working directory
 # the only reason this function is here is because I know that
 # if it isn't, I wont be able to find it later

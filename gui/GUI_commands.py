@@ -3,13 +3,13 @@ from tkinter.messagebox import showinfo
 import time # for testing
 from threading import Thread
 import os
-from PIL import Image
+
 
 
 import Build_Tab
 import Clip_Pool_Data
 import Clip_Data
-import clip_order
+
 import historical_data
 import snappa_utils
 #import txt_logger
@@ -18,8 +18,11 @@ import snappa_utils
 
 try:
     import vid_player_control
+    import clip_order
+    
+    from PIL import Image
 except:
-    print('cant import vid_player_control')
+    print('import fail')
     
 
 
@@ -365,26 +368,28 @@ def load_snappa_dl_as_thumbnail(thumbnail_path):
     
 # this should be in something like GUI_utils
 def update_thumbnail_canvas(thumbnail_path, thumbnail_canvas):
-    im = Image.open(THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)
-    thumbnail_canvas['width'], thumbnail_canvas['height'] = im.size
-    im.close()
-    
-    global global_thumbnail_PhotoImage
-    
-    if os.path.isfile(thumbnail_path):
-        img = Image.open(thumbnail_path)
-        w = int(thumbnail_canvas['width'])
-        h = int(thumbnail_canvas['height'])
+    try:
+        im = Image.open(THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)
+        thumbnail_canvas['width'], thumbnail_canvas['height'] = im.size
+        im.close()
         
-        img.thumbnail((w, h))
-        img.save('temp.png')
-        global_thumbnail_PhotoImage = PhotoImage(file='temp.png')  
-        os.remove('temp.png')
+        global global_thumbnail_PhotoImage
+        
+        if os.path.isfile(thumbnail_path):
+            img = Image.open(thumbnail_path)
+            w = int(thumbnail_canvas['width'])
+            h = int(thumbnail_canvas['height'])
+            
+            img.thumbnail((w, h))
+            img.save('temp.png')
+            global_thumbnail_PhotoImage = PhotoImage(file='temp.png')  
+            os.remove('temp.png')
 
-    else:
-        global_thumbnail_PhotoImage = PhotoImage(file=THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)  
-    thumbnail_canvas.create_image(0,0, anchor="nw", image=global_thumbnail_PhotoImage)    
-        
+        else:
+            global_thumbnail_PhotoImage = PhotoImage(file=THUMBNAIL_DOES_NOT_EXIST_IMG_PATH)  
+        thumbnail_canvas.create_image(0,0, anchor="nw", image=global_thumbnail_PhotoImage)    
+    except AttributeError:
+        print('cant update thumbnail')
     
     
     
