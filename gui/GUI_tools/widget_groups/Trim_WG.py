@@ -10,7 +10,8 @@ from gui.GUI_tools import GUI_tools_utils
 class Trim_WG():
     def __init__(self, 
                  master, 
-                 range,
+                 max,
+                 min,
                  min_diff,
                  type):
         
@@ -21,45 +22,40 @@ class Trim_WG():
             def _trying_to_overlap():
                 return self.start_scale.get() < self.end_scale.get() + min_diff or self.end_scale.get() > self.start_scale.get() - min_diff
                 
-            print('which_scale_moving: ', which_scale_moving.get())
                 
             if _trying_to_overlap():
-                print('trying to overlap!')
                 if   which_scale_moving.get() == 'start_scale':
                     self.start_scale.set(self.end_scale.get() + min_diff)
                 elif which_scale_moving.get() == 'end_scale':
                     self.end_scale.set(self.start_scale.get() - min_diff)
                     
-            start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(leftValue.get()))
-            end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(rightValue.get()))
-            diff_time_str.set(GUI_tools_utils.sec_to_min_str(leftValue.get() - rightValue.get()))
+            start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
+            end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
+            diff_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get() - end_val.get()))
     
         
-        leftValue = IntVar()  # IntVars to hold
-        rightValue = IntVar() # values of scales
+        start_val = IntVar()  # IntVars to hold
+        end_val = IntVar() # values of scales
         
+                
+        self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=start_val, command=prevent_overlap_and_update_lbls)
+        self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=end_val  , command=prevent_overlap_and_update_lbls)
+        self.start_scale.set(min)
+        self.end_scale  .set(max)
         
-        
-        
-        self.start_scale  = Scale(master, from_=0, to=range, orient = "horizontal", command=prevent_overlap_and_update_lbls, showvalue=0, label="VVV", variable=leftValue)
-        self.start_scale.set(range)
-        self.end_scale = Scale(master, from_=0, to=range, orient = "horizontal", command=prevent_overlap_and_update_lbls, showvalue=0, variable=rightValue)
-    
         start_scale_time_str = StringVar()
         end_scale_time_str = StringVar()
         diff_time_str = StringVar()
-        print('GUI_tools_utils.sec_to_min_str(leftValue.get()): ', GUI_tools_utils.sec_to_min_str(leftValue.get()))
-        start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(leftValue.get()))
-        end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(rightValue.get()))
-        diff_time_str.set(GUI_tools_utils.sec_to_min_str(leftValue.get() - rightValue.get()))
+        
+        start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
+        end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
+        diff_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get() - end_val.get()))
         
         
-        leftLabel = Label(master, textvariable=start_scale_time_str)   # labels that will update
-        rightLabel = Label(master, textvariable=end_scale_time_str) # with IntVars as start_scale moves
-        diff_lbl = Label(master, textvariable=diff_time_str) # with IntVars as start_scale moves
+        self.start_lbl = Label(master, textvariable=start_scale_time_str)   # labels that will update
+        self.end_lbl   = Label(master, textvariable=end_scale_time_str) # with IntVars as start_scale moves
+        self.diff_lbl  = Label(master, textvariable=diff_time_str) # with IntVars as start_scale moves
     
-        # start_scale.config(state = 'disabled')
-        # end_scale.config(state = 'disabled')
         
         def start_scale_clk(event):
             which_scale_moving.set('start_scale')

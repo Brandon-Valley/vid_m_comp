@@ -45,7 +45,7 @@ class Color_Select_WG():
  
 if __name__ == '__main__':
     import os
-    sys.path.insert(1, os.path.join(sys.path[0], '..')) # to import from parent dir
+    sys.path.insert(1, os.path.join(sys.path[0], '..\\..')) # to import from parent dir
     #from parent dir
     import GUI
     GUI.main()

@@ -162,13 +162,15 @@ class Tab():
 
     def Trim_WG( self,
                  master, 
-                 range,
+                 max,
+                 min = 0,
                  min_diff = 0,
                  type = 'time'):
         
         wg = Trim_WG.Trim_WG(
                              master, 
-                             range,
+                             max,
+                             min,
                              min_diff,
                              type)
         return wg        

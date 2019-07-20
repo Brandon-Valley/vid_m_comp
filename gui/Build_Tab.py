@@ -135,7 +135,7 @@ class Build_Tab(Tab.Tab):
         self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
         
         # trim widget group
-        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, range = self.clip_data.duration, min_diff = MIN_TRIM_DIFF)
+        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF)
         
         
         
@@ -352,8 +352,14 @@ class Build_Tab(Tab.Tab):
         
         # trim
         self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
+        self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
         self.trim_cbtn              .grid(column=1, row=1)
-        self.trim_wg.start_scale    .grid(column=1, row=1)
+        self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
+        self.trim_wg.diff_lbl       .grid(column=2, row=2)
+        self.trim_wg.end_lbl        .grid(column=3, row=2, sticky='E', padx=5)
+        self.trim_wg.end_scale      .grid(column=1, row=3, columnspan=3, sticky="EW", padx=5)
+        self.trim_wg.start_scale    .grid(column=1, row=4, columnspan=3, sticky="EW", padx=5)
+        
         
         #eval
         self.eval_lbl_frm           .grid(column=1, row=4, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
