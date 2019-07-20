@@ -1,17 +1,11 @@
-from tkinter import *
 from tkinter.ttk import *
-from tkinter import filedialog
-import tkinter as tk
-from tkinter import ttk
-from tkinter.colorchooser import *
-
 from tkinter import *
+
+from GUI_tools import Tab
 
 import os
 
 
-import GUI
-import Tab
 import GUI_commands
 
 
@@ -61,6 +55,17 @@ class Upload_Tab(Tab.Tab):
         self.vid_path_txt_box.insert(END, self.gui_vars["compiled_output_file_path"]) #default
         self.vid_path_txt_box.bind('<Expose>', xview_event_handler)#scrolls text to end if needed
         self.bind_to_edit(self.vid_path_txt_box, vid_path_txt_box_edit)
+        
+        def update_func(event = None):
+            print('in upload tab, updated')
+            self.vid_path_txt_box.xview_moveto(1)        
+        def update_func_2(event = None):
+            print('in upload tab, updated 2')
+            self.vid_path_txt_box.xview_moveto(1)
+            
+        self.bind_to_update(self.vid_path_txt_box, update_func)
+        self.bind_to_update(self.vid_path_txt_box, update_func_2)
+        
         
         def vid_path_browse_btn_clk():
             self.path_tb_browse_btn_clk(self.vid_path_txt_box, 'file', '.mp4')
@@ -199,4 +204,5 @@ def xview_event_handler(e):
     e.widget.unbind('<Expose>')
         
 if __name__ == '__main__':
+    import GUI
     GUI.main()

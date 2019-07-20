@@ -1,18 +1,12 @@
-from tkinter import *
-from tkinter.ttk import *
-from tkinter import filedialog
-import tkinter as tk
-from tkinter import ttk
-from tkinter.colorchooser import *
 
-from tkinter import *
 from tkinter.messagebox import showinfo
+from tkinter.ttk import *
+from tkinter import *
 
+from GUI_tools import Tab
 
 #import build_image
 #import GUI_utils
-import GUI
-import Tab
 import GUI_commands
 
 #import pool_clips_data_handler
@@ -288,4 +282,5 @@ class Download_Tab(Tab.Tab):
         
         
 if __name__ == '__main__':
+    import GUI
     GUI.main()

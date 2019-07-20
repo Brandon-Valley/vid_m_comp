@@ -1,41 +1,22 @@
 from tkinter import *
-from tkinter.ttk import *
-import time
-import threading
 
-class Interface:
-    def __init__(self, master):
-        self.master = master
-        self.browse_button= Button (master, text="Browse", command=self.browser)
-        self.browse_button.pack()
-        self.progressbar = Progressbar(mode="indeterminate", maximum=75)
+master = Tk()
 
-    def browser (self):
-        t = threading.Thread(target=self.read_file, args=("filename",))
-        self.progressbar.pack()
-        self.browse_button.config(state="disabled")
-        self.master.config(cursor="wait")
-        self.master.update()
-        pbar_init = False
-        
-        
-        t.start()
-        while t.is_alive():
-            if pbar_init == False:
-                self.progressbar.start(10)
-                pbar_init = True
-#             self.progressbar.step(1)
-            self.master.update_idletasks()  # or try self.master.update()
-            t.join(0.1)
+leftValue = IntVar()  # IntVars to hold
+rightValue = IntVar() # values of scales
 
-        self.progressbar.config(value="0")
-        self.progressbar.pack_forget()
-        self.browse_button.config(state="enabled")
-        self.master.config(cursor="")
+leftScale = Scale(master, from_=0, to=249, variable=leftValue, showvalue=0)
+leftScale.set(152)
 
-    def read_file (self, filename):
-        time.sleep(7)  # actually do the read here
+rightScale = Scale(master, from_=0, to=249, variable=rightValue, showvalue=0)
+rightScale.set(152)
 
-window = Tk()
-starter = Interface(window)
-window.mainloop()
+leftLabel = Label(master, textvariable=leftValue)   # labels that will update
+rightLabel = Label(master, textvariable=rightValue) # with IntVars as slider moves
+
+leftLabel.grid(row=0, column=0)
+leftScale.grid(row=0, column=1)
+rightLabel.grid(row=0, column=3)
+rightScale.grid(row=0, column=2)
+
+mainloop()

@@ -83,6 +83,7 @@ def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority)
     
     if skip_evaluated and not pool_clips_data_handler.non_eval_clips_exist():
         print('all evaluated')
+        print('in gui commands,   pool_clips_data_handler.non_eval_clips_exist(): ', pool_clips_data_handler.non_eval_clips_exist())#``````````````````````````````````````````````````````````
         showinfo("Info", "All Clips Have Been Evaluated")
         return
     
@@ -130,7 +131,10 @@ def get_gui_vars():
     return json_logger.read(GUI_VARS_JSON_FILE_PATH)
 
 def init_current_if_needed():
-    pool_clips_data_handler.init_current_if_needed()
+    try:
+        pool_clips_data_handler.init_current_if_needed()
+    except FileNotFoundError:
+        print('in init_current_if_needed in GUI_commands, current data does not exist')
     
 
             

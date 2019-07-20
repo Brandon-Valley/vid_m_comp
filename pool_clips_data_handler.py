@@ -86,6 +86,7 @@ def init_current_if_needed():
             return
     row_dl[0]['current'] = '1'
     logger.logList(row_dl, POOL_CLIPS_DATA_CSV_PATH, False, HEADER_LIST, 'overwrite')
+
     
     
 def non_eval_clips_exist():

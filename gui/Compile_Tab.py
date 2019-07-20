@@ -1,19 +1,12 @@
-from tkinter import *
 from tkinter.ttk import *
-from tkinter import filedialog
-import tkinter as tk
-from tkinter import ttk
-# from tkinter.colorchooser import *
-from tkinter import filedialog
-
 from tkinter import *
+
+from GUI_tools import Tab
 
 import os
 
 #import build_image
 #import GUI_utils
-import GUI
-import Tab
 import GUI_commands
 # import project_vars_handler
 #import pool_clips_data_handler
@@ -217,4 +210,5 @@ def xview_event_handler(e):
         
         
 if __name__ == '__main__':
+    import GUI
     GUI.main()

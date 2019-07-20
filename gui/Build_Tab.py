@@ -1,22 +1,20 @@
-from tkinter import *
 from tkinter.ttk import *
-from tkinter import filedialog
-import tkinter as tk
-from tkinter import ttk
-from tkinter.colorchooser import *
-
 from tkinter import *
+
+import os
+
+from GUI_tools import Tab
 
 #import build_image
 #import GUI_utils
-import GUI
-import Tab
 import GUI_commands
-
+import project_vars
 
 #import pool_clips_data_handler
 
 #import Advanced_Tab
+
+
 
 
 TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
@@ -24,27 +22,27 @@ TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
 class Build_Tab(Tab.Tab):
     def __init__(self, master, tab_control):
         self.tab_control = tab_control
-    
         Tab.Tab.__init__(self, master)
         
-        GUI_commands.init_current_if_needed()
-        
-        self.clip_data      = GUI_commands.get_current_clip_data()
-        self.clip_pool_data = GUI_commands.get_clip_pool_data()
-        self.gui_vars       = GUI_commands.get_gui_vars()
-        
-        self.clip_info_____widget_setup()
-        self.text_overlay_____widget_setup()
-        self.trim_clip_____widget_setup()
-        self.accept_decline_____widget_setup()
-        self.rating_____widget_setup()
-        self.navigation_____widget_setup() #next and back buttons
-        self.prune_clips_____widget_setup()
-        self.progess_____widget_setup()
-        self.rating_info_____widget_setup()
-
-        
-        self.grid_widgets()
+        if os.path.exists(project_vars.CURRENT_DATA_DIR_PATH):
+            GUI_commands.init_current_if_needed()
+            
+            self.clip_data      = GUI_commands.get_current_clip_data()
+            self.clip_pool_data = GUI_commands.get_clip_pool_data()
+            self.gui_vars       = GUI_commands.get_gui_vars()
+            
+            self.clip_info_____widget_setup()
+            self.text_overlay_____widget_setup()
+            self.trim_clip_____widget_setup()
+            self.accept_decline_____widget_setup()
+            self.rating_____widget_setup()
+            self.navigation_____widget_setup() #next and back buttons
+            self.prune_clips_____widget_setup()
+            self.progess_____widget_setup()
+            self.rating_info_____widget_setup()
+    
+            
+            self.grid_widgets()
 		
         
 
@@ -423,4 +421,5 @@ class Build_Tab(Tab.Tab):
         
         
 if __name__ == '__main__':
+    import GUI
     GUI.main()

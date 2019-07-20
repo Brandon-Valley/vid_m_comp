@@ -1,18 +1,16 @@
 # https://dzone.com/articles/python-gui-examples-tkinter-tutorial-like-geeks
 
-
-from tkinter import *
 from tkinter.ttk import *
-from tkinter import filedialog
-import tkinter as tk
-from tkinter import ttk
+from tkinter import *
+
+#from GUI_tools import Tab
 
 #import build_image
 #import GUI_utils
 
 #Tabs
-import Edit_Tab
-import Advanced_Tab
+#import Edit_Tab
+#import Advanced_Tab
 import Build_Tab
 import Compile_Tab
 import Download_Tab
@@ -25,11 +23,11 @@ def main(msg = None):
     
     root.title("Text Image Maker")
 
-    tab_control = ttk.Notebook(root)
+    tab_control = Notebook(root)
     tab_control.grid(row=1, column=0, sticky='NESW')
     
     
-    tab_tup_l = [('Build'   , 'build'   , Build_Tab.Build_Tab),
+    tab_tup_l = [#('Build'   , 'build'   , Build_Tab.Build_Tab),
                  ('Compile' , 'compile' , Compile_Tab.Compile_Tab),
                  ('Upload'  , 'upload'  , Upload_Tab.Upload_Tab),
                  ('Download', 'download', Download_Tab.Download_Tab)]
