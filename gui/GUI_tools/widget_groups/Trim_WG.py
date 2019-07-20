@@ -26,9 +26,9 @@ class Trim_WG():
                 
             if _trying_to_overlap():
                 if   which_scale_moving.get() == 'start_scale':
-                    self.start_scale.set(self.end_scale.get() + min_diff)
+                    self.start_scale.set(self.end_scale.get() - min_diff)
                 elif which_scale_moving.get() == 'end_scale':
-                    self.end_scale.set(self.start_scale.get() - min_diff)
+                    self.end_scale.set(self.start_scale.get() + min_diff)
                     
             start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
             end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
