@@ -127,7 +127,6 @@ def get_current_clip_data():
     get_current_clip_data()
             
 def get_gui_vars():
-    #return txt_logger.readVars(GUI_VARS_TXT_FILE_PATH)
     return json_logger.read(GUI_VARS_JSON_FILE_PATH)
 
 def init_current_if_needed():

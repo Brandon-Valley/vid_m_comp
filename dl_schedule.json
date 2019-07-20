@@ -1,22 +1,22 @@
 [
     {
         "day": "Tuesday",
-        "time": "5:38",
-        "am_pm": "PM",
         "subreddit_l": [
             "dankvideos"
         ],
-        "schedule_event": 1,
-        "event_name": "saterday_test"
+        "am_pm": "PM",
+        "event_name": "saterday_test",
+        "time": "5:38",
+        "schedule_event": 1
     },
     {
         "day": "Saterday",
-        "time": "12:50",
-        "am_pm": "PM",
         "subreddit_l": [
             "dankvideos"
         ],
-        "schedule_event": 1,
-        "event_name": "aa"
+        "am_pm": "PM",
+        "event_name": "aa",
+        "time": "12:50",
+        "schedule_event": 0
     }
 ]

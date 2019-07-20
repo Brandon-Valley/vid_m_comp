@@ -11,7 +11,7 @@ import project_vars
 
 
 
-
+MIN_TRIM_DIFF = 1 # min # seconds you can trim a clip to
 
 TEXT_OVERLAY_TEXT_BOX_WIDTH = 80
 
@@ -133,6 +133,9 @@ class Build_Tab(Tab.Tab):
         
         self.trim_cbtn_sel = IntVar(value = self.clip_data.use_trimmed_clip)#value sets default     
         self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
+        
+        # trim widget group
+        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, range = self.clip_data.duration, min_diff = MIN_TRIM_DIFF)
         
         
         
@@ -350,6 +353,7 @@ class Build_Tab(Tab.Tab):
         # trim
         self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.trim_cbtn              .grid(column=1, row=1)
+        self.trim_wg.start_scale    .grid(column=1, row=1)
         
         #eval
         self.eval_lbl_frm           .grid(column=1, row=4, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)

@@ -52,8 +52,8 @@ def read(json_file_path):
 # print(read('project_vars.json'))
 
 
-var_data = {'a': 5,
-            'b': 6}
-
-#log_vars(var_data, 'test.json')
-log_vars({'c': 11}, 'test.json')
+# var_data = {'a': 5,
+#             'b': 6}
+# 
+# #log_vars(var_data, 'test.json')
+# log_vars({'c': 11}, 'test.json')

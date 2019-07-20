@@ -8,12 +8,13 @@ from tkinter import *
 
 import sys
 import os
-from GUI_tools.widget_groups import Color_Select_WG
 sys.path.insert(1, os.path.dirname(__file__)) # so you can import relative to this file even when it is called from elsewhere
 
 from widget_groups import File_System_Browse_WG
 from widget_groups import Font_Config_WG
 from widget_groups import Color_Select_WG
+from widget_groups import Trim_WG
+
 
 
 
@@ -143,24 +144,34 @@ class Tab():
                                              font_cbox_lbl_txt,
                                              self.digits_only,
                                              self.max_str_len_in_l)
-
-
-    def Color_Select_WG(self,
-                        master,
-                        lbl_txt,
-                        default_rgb_tup = (255, 255, 255),
-                        btn_txt = 'Change Color'):
+         
         
+    def Color_Select_WG(self,
+                    master,
+                    lbl_txt,
+                    default_rgb_tup = (255, 255, 255),
+                    btn_txt = 'Change Color'):
+    
         wg = Color_Select_WG.Color_Select_WG(
                         master,
                         lbl_txt,
                         default_rgb_tup,
                         btn_txt)
         return wg
-         
+    
+
+    def Trim_WG( self,
+                 master, 
+                 range,
+                 min_diff = 0,
+                 type = 'time'):
         
-        
-        
+        wg = Trim_WG.Trim_WG(
+                             master, 
+                             range,
+                             min_diff,
+                             type)
+        return wg        
         
         
         

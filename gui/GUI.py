@@ -3,6 +3,10 @@
 from tkinter.ttk import *
 from tkinter import *
 
+import os
+os.chdir( os.path.dirname(__file__)) # so everything still works when you call main from another dir (like widget_groups)
+
+
 #from GUI_tools import Tab
 
 #import build_image
@@ -27,7 +31,7 @@ def main(msg = None):
     tab_control.grid(row=1, column=0, sticky='NESW')
     
     
-    tab_tup_l = [#('Build'   , 'build'   , Build_Tab.Build_Tab),
+    tab_tup_l = [('Build'   , 'build'   , Build_Tab.Build_Tab),
                  ('Compile' , 'compile' , Compile_Tab.Compile_Tab),
                  ('Upload'  , 'upload'  , Upload_Tab.Upload_Tab),
                  ('Download', 'download', Download_Tab.Download_Tab)]
