@@ -92,7 +92,7 @@ def init_current_if_needed():
 def non_eval_clips_exist():
     row_dl = get_csv_row_dl()
     for row_d in row_dl:
-        if row_d['status'] == None:
+        if row_d['status'] == '':
             return True
     return False
 

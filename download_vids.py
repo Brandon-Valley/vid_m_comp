@@ -314,7 +314,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = 
         
 
 def test():
-    download_vids(500, ['dankvideos'], 'overwrite', QUICK_TEST = True, continue_from_last_pos=False, include_youtube_downloads=True, start_from_pos = None)    
+    download_vids(500, ['dankvideos'], 'overwrite', QUICK_TEST = False, continue_from_last_pos=False, include_youtube_downloads=True, start_from_pos = None)    
            
 if __name__ == '__main__':
     test()

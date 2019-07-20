@@ -5,14 +5,10 @@ import os
 
 from GUI_tools import Tab
 
-#import build_image
-#import GUI_utils
 import GUI_commands
 import project_vars
 
-#import pool_clips_data_handler
 
-#import Advanced_Tab
 
 
 

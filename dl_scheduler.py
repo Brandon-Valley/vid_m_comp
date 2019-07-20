@@ -26,6 +26,7 @@ class Download_Event():
         self.subreddit_l    = dl_schedule_d['subreddit_l']
         self.day            = dl_schedule_d['day']
         self.time           = dl_schedule_d['time']
+        print('in dl_scheduler, time: ', dl_schedule_d['time'])#``````````````````````````````````````````````
         self.am_pm          = dl_schedule_d['am_pm']
         
         self.dl_date        = self.get_dl_date()
@@ -57,13 +58,17 @@ class Download_Event():
             hour = int(split_time_str_l[0])
             min  = int(split_time_str_l[1])
             
-            if self.am_pm == 'AM':
+            
+            if   self.am_pm == 'AM' and self.time.startswith('12'):
+                hour -= 12
+            elif self.am_pm == 'AM' or (self.am_pm == 'PM' and self.time.startswith('12')):
                 hour += 0
             else: 
                 hour += 12
             return (hour, min, 0)
             
         time = _make_time_tup()
+        print('in dl_sch, (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]): ', (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]))
         return datetime.datetime(self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2])
         
 
