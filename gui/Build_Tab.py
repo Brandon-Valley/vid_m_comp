@@ -146,7 +146,7 @@ class Build_Tab(Tab.Tab):
         # auto accept cbtn
         self.auto_accept_trim_cbtn_sel = IntVar(value = 1)#value sets default     
         self.auto_accept_trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Auto Accept")#, variable=self.auto_accept_trim_cbtn_sel)#, command = trim_cbtn_clk)
-#         self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
+        self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
         
         # trim clip btn
         self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip")#, command = GUI_commands.replay)
@@ -161,7 +161,7 @@ class Build_Tab(Tab.Tab):
         def test(event=None):
             print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
         # bind widgets to log
-        self.bind_to_update(self.auto_accept_trim_cbtn, test)
+        self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
         
 #         def test(event=None):
 #             print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
