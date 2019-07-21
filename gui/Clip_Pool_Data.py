@@ -50,7 +50,7 @@ class Clip_Pool_Data():
         total_sec = 0
         for row_d in row_dl:
             if row_d['status'] == 'accepted':
-                total_sec += self.main_duration(row_d) #int(row_d['duration'])
+                total_sec += self.main_duration(row_d) 
         return total_sec
     
    
@@ -81,7 +81,7 @@ class Clip_Pool_Data():
                     if   int(prune_row_dl[row_num]['rating']) < int(prune_row_dl[lowest_priority_row_num]['rating']):
                         lowest_priority_row_num = row_num
                     elif prune_row_dl[row_num]['rating'] == prune_row_dl[lowest_priority_row_num]['rating']:
-                        if int(prune_row_dl[row_num]['duration']) < int(prune_row_dl[lowest_priority_row_num]['duration']):
+                        if self.main_duration(prune_row_dl[row_num]) < self.main_duration(prune_row_dl[lowest_priority_row_num]):
                             lowest_priority_row_num = row_num
                 return lowest_priority_row_num
         
@@ -127,7 +127,7 @@ class Clip_Pool_Data():
             
             while total_sec > prune_time() and num_clips_ready_to_prune < len(prune_order_dl):
                 #print('in loop, total_sec: ', total_sec)
-                total_sec -= int(prune_order_dl[num_clips_ready_to_prune]['duration'])
+                total_sec -= self.main_duration(prune_order_dl[num_clips_ready_to_prune])
                 #print("int(prune_order_dl[num_clips_ready_to_prune]['duration']: ", int(prune_order_dl[num_clips_ready_to_prune]['duration']))
                 #print('new calc total_sec: ', total_sec)
                 if total_sec >= prune_time():
@@ -140,7 +140,7 @@ class Clip_Pool_Data():
             total_sec = self.get_total_time(self.row_dl)
 #             print("in clip pool data, total sec: ", utils.sec_to_min_str(total_sec))#``````````````````````````````````````````
 #             print("int(prune_order_dl[0]['duration']: ", int(prune_order_dl[0]['duration']))#`1`````````````````````````````````````````
-            sec_needed = prune_time() - (total_sec - int(prune_order_dl[0]['duration']))
+            sec_needed = prune_time() - (total_sec - self.main_duration(prune_order_dl[0]))
 #             print("in clip pool data, sec_needed: ", utils.sec_to_min_str(sec_needed))#``````````````````````````````````````````
 
             return utils.sec_to_min_str(sec_needed)
