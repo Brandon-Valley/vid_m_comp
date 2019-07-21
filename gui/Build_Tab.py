@@ -145,13 +145,13 @@ class Build_Tab(Tab.Tab):
 #         self.trim_cbtn_sel = IntVar(value = self.clip_data.use_trimmed_clip)#value sets default     
 #         self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
         
-        # auto accept cbtn
-        self.auto_accept_trim_cbtn_sel = IntVar(value = self.gui_vars['auto_accept_trimmed_clip'])#value sets default     
-        self.auto_accept_trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Auto Accept")#, variable=self.auto_accept_trim_cbtn_sel)#, command = trim_cbtn_clk)
-        self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
+#         # auto accept cbtn
+#         self.auto_accept_trim_cbtn_sel = IntVar(value = self.gui_vars['auto_accept_trimmed_clip'])#value sets default     
+#         self.auto_accept_trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Auto Accept")#, variable=self.auto_accept_trim_cbtn_sel)#, command = trim_cbtn_clk)
+#         self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
         
-        # trim clip btn
-        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip And Re-Evaluate", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), False, self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
+#         # trim clip btn
+#         self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip And Re-Evaluate", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), False, self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # trim widget group
         def trim_scales_update(event=None):
@@ -162,10 +162,10 @@ class Build_Tab(Tab.Tab):
             self.clip_data = GUI_commands.get_current_clip_data()
 
             if not self.clip_data.trim_times_same_as_og:
-                self.trim_clip_btn.config(state = 'normal')
+#                 self.trim_clip_btn.config(state = 'normal')
                 GUI_commands.log('use_trimmed_clip', 1)
             else:
-                self.trim_clip_btn.config(state = 'disabled')
+#                 self.trim_clip_btn.config(state = 'disabled')
                 GUI_commands.log('use_trimmed_clip', '')
 
                 
@@ -178,7 +178,7 @@ class Build_Tab(Tab.Tab):
         trim_scales_update()
         
         # bind widgets to log
-        self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
+#         self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
 #         self.bind_to_update(self.trim_wg.start_scale,   lambda: GUI_commands.log('start_trim_time', self.trim_wg.start_scale.get()))
 #         self.bind_to_update(self.trim_wg.end_scale,     lambda: GUI_commands.log('end_trim_time'  , self.trim_wg.end_scale.get()))
         
@@ -414,7 +414,7 @@ class Build_Tab(Tab.Tab):
         self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
 #         self.trim_cbtn              .grid(column=1, row=1)
 #         self.auto_accept_trim_cbtn  .grid(column=2, row=1, sticky="E", padx=5)
-        self.trim_clip_btn          .grid(column=1, row=1, columnspan=2, sticky="w", padx=5)
+#         self.trim_clip_btn          .grid(column=1, row=1, columnspan=2, sticky="w", padx=5)
         self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
         self.trim_wg.diff_lbl       .grid(column=2, row=2)
         self.trim_wg.end_lbl        .grid(column=3, row=2, sticky='E', padx=5)
