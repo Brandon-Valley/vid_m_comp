@@ -143,9 +143,9 @@ def move_current_to_row_num(row_num):
 
 
 def get_main_clip_path_from_row_d(row_d):
-    if row_d['use_text_overlay'] == '1' and row_d['txt_overlay_clip_path'] != '':
+    if   row_d['use_text_overlay'] == '1' and row_d['txt_overlay_clip_path'] != '':
         return row_d['txt_overlay_clip_path']
-    if row_d['use_trimmed_clip'] == '1' and row_d['trimmed_clip_path'] != '':
+    elif row_d['use_trimmed_clip'] == '1' and row_d['trimmed_clip_path'] != '':
         return row_d['trimmed_clip_path']
     else:
         return row_d['clip_path']

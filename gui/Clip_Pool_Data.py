@@ -28,7 +28,13 @@ class Clip_Pool_Data():
         
         
  
-        
+    def main_duration(self, row_d):
+        if row_d['use_trimmed_clip'] == '1' and row_d['trimmed_clip_path'] != '':
+            return int(row_d['end_trim_time']) - int(row_d['start_trim_time'])
+        else:
+            return int(row_d['duration'])
+    
+    
         
     def get_num_status_clips(self, row_dl, status):
         num_status = 0
@@ -44,7 +50,7 @@ class Clip_Pool_Data():
         total_sec = 0
         for row_d in row_dl:
             if row_d['status'] == 'accepted':
-                total_sec += int(row_d['duration'])
+                total_sec += self.main_duration(row_d) #int(row_d['duration'])
         return total_sec
     
    

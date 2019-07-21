@@ -214,18 +214,7 @@ def trim_clip(trim_tup):
     row_num = pool_clips_data_handler.get_cur_row_num()
     vid_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
     pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
-#         if not auto_accept:
-#             pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
-#     print('done with making trim_clip, saved in: ', trimmed_clip_path)
-         
-#     thread = Thread(target=create_and_log_trimmed_clip)  
-#     thread.start()
-#     create_and_log_trimmed_clip()
-    
-#     if auto_accept:
-#         accept(master, tab_control, skip_evaluated, skip_to_priority)
-#     else:
-#         next(master, tab_control, skip_evaluated, skip_to_priority)   
+ 
     
 
 
