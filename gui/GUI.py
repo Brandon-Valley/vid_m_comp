@@ -4,7 +4,9 @@ from tkinter.ttk import *
 from tkinter import *
 
 import os
+import sys
 os.chdir( os.path.dirname(__file__)) # so everything still works when you call main from another dir (like widget_groups)
+sys.path.insert(1, os.path.dirname(__file__)) # so that you can call this from file above gui dir (like pool_clips)
 
 
 #from GUI_tools import Tab

@@ -83,8 +83,6 @@ def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority)
 #         print('Cant close vid because cant import vid_player_pontrol')
     
     if skip_evaluated and not pool_clips_data_handler.non_eval_clips_exist():
-        print('all evaluated')
-        print('in gui commands,   pool_clips_data_handler.non_eval_clips_exist(): ', pool_clips_data_handler.non_eval_clips_exist())#``````````````````````````````````````````````````````````
         showinfo("Info", "All Clips Have Been Evaluated")
         return
     
@@ -103,9 +101,13 @@ def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority)
     restart_build_tab(master, tab_control, 0)
     
     try:
+        print('in gui_commands, trying to open vid')#``````````````````````````````````````````````````````````````````````````````
+        print('in gui_commands, pool_clips_data_handler.get_current_main_clip_path(): ', pool_clips_data_handler.get_current_main_clip_path())
         vid_player_control.open_vid(pool_clips_data_handler.get_current_main_clip_path())
     except NameError:
         print('Cant open vid because cant import vid_player_pontrol')
+#     except:#`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+#         print('GOT NON NAMEERROR EXEPTION WHEN opening vid')
         
     print('in gui utils, navigation total time: ', time.time() - start_time)
     
