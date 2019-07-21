@@ -63,15 +63,6 @@ class Upload_Tab(Tab.Tab):
             print('in upload tab, updated 2')
             self.vid_path_txt_box.xview_moveto(1)
             
-        #VVVVVVVVVVVVVVVVVVVVVVVVVVVVV`````````````````````````````````````````````````````````````````````````````
-# #         self.test_sel = StringVar()
-# #         self.test_sel.set('aaa')
-#         self.test_sel = Variable(value = 2)
-#         self.vid_path_txt_box.config(textvariable = self.test_sel)
-#         print('    in upload_tab, self.vid_path_txt_box["textvariable"]', self.vid_path_txt_box['textvariable'], type(self.vid_path_txt_box['textvariable']))
-#         self.bind_to_update(self.vid_path_txt_box, update_func)
-#         self.bind_to_update(self.vid_path_txt_box, update_func_2)
-# #         print(self.var_type(self.vid_path_txt_box))
 
         
         

@@ -13,6 +13,8 @@ class Trim_WG():
                  max,
                  min,
                  min_diff,
+                 start_set,
+                 end_set,
                  display_type,
                  set_var):
         
@@ -39,22 +41,24 @@ class Trim_WG():
             diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
     
         
-
+        # set scales
         self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
         self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
         start_val = IntVar(value = min)  # IntVars to hold
         end_val   = IntVar(value = max)  # values of scales
         set_var(self.start_scale, start_val)
         set_var(self.end_scale  , end_val)
+        if start_set != None:
+            self.start_scale.set(start_set)
+        if end_set != None:
+            self.end_scale.set(end_set)
 
         
         start_scale_time_str = StringVar()
         end_scale_time_str = StringVar()
         diff_time_str = StringVar()
         
-#         print('self.start_scale.get(): ', self.start_scale.get())#`````````````````````````````````````````````````````````
-#         print('self.start_scale["variable"]: ', self.start_scale["variable"], type(self.start_scale["variable"]))#```````````````````````````````````````````````
-#     
+
         
         start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
         end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))

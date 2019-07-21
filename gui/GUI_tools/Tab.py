@@ -213,6 +213,8 @@ class Tab():
                  max,
                  min = 0,
                  min_diff = 0,
+                 start_set = None,
+                 end_set = None,
                  display_type = 'time'):
         
         wg = Trim_WG.Trim_WG(
@@ -220,6 +222,8 @@ class Tab():
                              max,
                              min,
                              min_diff,
+                             start_set,
+                             end_set,
                              display_type,
                              self.set_var)
         return wg        

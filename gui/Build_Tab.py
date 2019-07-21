@@ -152,8 +152,9 @@ class Build_Tab(Tab.Tab):
         self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), self.auto_accept_trim_cbtn_sel.get(), self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # trim widget group
-        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.end_trim_time,
-                                                       min = self.clip_data.start_trim_time, min_diff = MIN_TRIM_DIFF)
+        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF,
+                                    start_set = self.clip_data.start_trim_time,
+                                    end_set   = self.clip_data.end_trim_time) 
         
         trim_cbtn_clk()
         
