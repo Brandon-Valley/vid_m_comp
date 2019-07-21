@@ -111,18 +111,7 @@ class Build_Tab(Tab.Tab):
         #use text overlay check button
         self.use_txt_overlay_cbtn_sel = IntVar(value = self.clip_data.use_txt_overlay)#value sets default
         self.use_txt_overlay_cbtn =   Checkbutton(self.txt_overlay_lbl_frm, text="Text Overlay", variable=self.use_txt_overlay_cbtn_sel, command = use_txt_overlay_cbtn_clk)
-        use_txt_overlay_cbtn_clk() #disabled folder name by default if use_txt_overlay_cbtn is 0 by default
-
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
+        use_txt_overlay_cbtn_clk() #disabled folder name by default if use_txt_overlay_cbtn is 0 by default       
     
     def trim_clip_____widget_setup(self):
         self.trim_lbl_frm = LabelFrame(self.master, text=" Trip Clip: ")
@@ -141,10 +130,7 @@ class Build_Tab(Tab.Tab):
             else:
                 GUI_commands.log('use_trimmed_clip', '')
                 self.trim_wg.diff_lbl.grid_forget()
-
-
-
-                
+                        
             
         self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF,
                                     start_set = self.clip_data.start_trim_time, update_func=trim_scales_update,
@@ -152,16 +138,6 @@ class Build_Tab(Tab.Tab):
         
         trim_scales_update()
         
-
-
-        
-    
-    
-    
-    
-    
-    
-    
     
     def accept_decline_____widget_setup(self):
         # accept and decline radio btns
