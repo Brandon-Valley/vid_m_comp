@@ -13,13 +13,16 @@ class Trim_WG():
                  max,
                  min,
                  min_diff,
-                 type):
+                 display_type):
+        
+        test_var = StringVar()
+        self.txt_box = Entry(master, textvariable = test_var)#,width=TEXT_OVERLAY_TEXT_BOX_WIDTH) #````````````````````````````````````````````````````
+
         
         
         which_scale_moving = StringVar()
         
         def prevent_overlap_and_update_lbls(event=None):
-#             print('which_scale_moving.get(): ', which_scale_moving.get())#`````````````````````````````````````````````````````
             def _trying_to_overlap():
                 return self.end_scale.get() < self.start_scale.get() + min_diff or self.start_scale.get() > self.end_scale.get() - min_diff
                 
@@ -37,7 +40,7 @@ class Trim_WG():
         
         start_val = IntVar()  # IntVars to hold
         end_val = IntVar() # values of scales
-        
+        print('start_val: ', start_val, type(start_val))#``````````````````````````````````````````````````````````````````````````````````````
                 
         self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=start_val, command=prevent_overlap_and_update_lbls)
         self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=end_val  , command=prevent_overlap_and_update_lbls)
@@ -48,15 +51,14 @@ class Trim_WG():
         end_scale_time_str = StringVar()
         diff_time_str = StringVar()
         
+        print('self.start_scale.get(): ', self.start_scale.get())#`````````````````````````````````````````````````````````
+        print('self.start_scale["variable"]: ', self.start_scale["variable"], type(self.start_scale["variable"]))#```````````````````````````````````````````````
+    
+        
         start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
         end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
-        print('in trim_wg,GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get())    ',GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
 
         diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
-        print('diff_time_str.get(): ', diff_time_str.get())#111111111111111````````````````````````````````````````````````
-        print('in trim_wg,(end_val.get() - start_val.get())', ((end_val.get() - start_val.get())), start_val.get() ,end_val.get())#```````````````
-        print('in trim_wg,GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get())    ',GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
-        
         
         self.start_lbl = Label(master, textvariable=start_scale_time_str)   # labels that will update
         self.end_lbl   = Label(master, textvariable=end_scale_time_str) # with IntVars as start_scale moves
@@ -73,6 +75,15 @@ class Trim_WG():
         self.start_scale.bind("<Button-1>",start_scale_clk)
         self.end_scale.bind("<Button-1>",end_scale_clk)
     
+    
+    
+    def disable_all(self):
+        self.start_scale.config(state = 'disabled')
+        self.end_scale.config  (state = 'disabled')
+
+    def enable_all(self):
+        self.start_scale.config(state = 'normal')
+        self.end_scale.config  (state = 'normal')
     
 if __name__ == '__main__':
     import os

@@ -128,22 +128,62 @@ class Build_Tab(Tab.Tab):
 
         # trim cbtn
         def trim_cbtn_clk(event=None):
-            print('in build tab, trim_cbtn clk')
             GUI_commands.log('use_trimmed_clip', self.trim_cbtn_sel.get())
+            
+            self.trim_wg.enable_all()
+            self.auto_accept_trim_cbtn.config(state = 'normal')
+            self.trim_clip_btn        .config(state = 'normal')
+            
+            if self.trim_cbtn_sel.get() == 0:
+                self.trim_wg.disable_all()
+                self.auto_accept_trim_cbtn.config(state = 'disabled')
+                self.trim_clip_btn        .config(state = 'disabled')
+                
         
         self.trim_cbtn_sel = IntVar(value = self.clip_data.use_trimmed_clip)#value sets default     
         self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
         
+        # auto accept cbtn
+        self.auto_accept_trim_cbtn_sel = IntVar(value = 1)#value sets default     
+        self.auto_accept_trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Auto Accept")#, variable=self.auto_accept_trim_cbtn_sel)#, command = trim_cbtn_clk)
+#         self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
+        
+        # trim clip btn
+        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip")#, command = GUI_commands.replay)
+
+
         # trim widget group
         self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF)
         
+        trim_cbtn_clk()
         
         
+        def test(event=None):
+            print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
+        # bind widgets to log
+        self.bind_to_update(self.auto_accept_trim_cbtn, test)
         
+#         def test(event=None):
+#             print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
+#         self.bind_to_update(self.trim_wg.start_lbl, test)
         
-        
-        
-        
+#         print('in build_tab, self.trim_wg.start_scale["variable"]: ', self.trim_wg.start_scale["variable"], type(self.trim_wg.start_scale["variable"]))#```````````````````````````````````````````````
+#         print('in build_tab, self.trim_wg.start_scale["variable"]: ', self.trim_wg.start_lbl["textvariable"], type(self.trim_wg.start_lbl["textvariable"]))#```````````````````````````````````````````````
+
+
+#         self.test_lbl    = Label(self.trim_lbl_frm, text="test: ")
+#         self.bind_to_update(self.test_lbl, test)
+
+#         print('testing self.trim_wg.txt_box VVVVVVV')
+#         self.bind_to_update(self.trim_wg.txt_box, test)
+#         
+#         
+#         print('new test VVVVVVVVVVV VVVVVVV VVVVVVVVVV')
+#         t_var = StringVar()
+#         self.test_lbl    = Label(self.trim_lbl_frm, text="test: ")
+#         self.test_lbl['textvariable'] = t_var
+#         print(self.test_lbl['textvariable'])
+# #         print(self.var_type(self.prune_time_txt_box))
         
         
         
@@ -191,6 +231,11 @@ class Build_Tab(Tab.Tab):
         self.bind_to_edit(self.rating_sbox, log_rating)
         self.rating_sbox.configure(command = log_rating)
         log_rating()        
+        
+#         # ``````````````````````````````````````````````````````````````````````````````
+#         self.rating_sbox.delete(0, "end") #gets rid of 0 so the next line makes the default value 40 instead of 400
+#         print('in build tab, ', type(self.rating_sbox.get()))
+#         print(self.rating_sbox['textvariable'])
         
         
         
@@ -354,6 +399,8 @@ class Build_Tab(Tab.Tab):
         self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
         self.trim_cbtn              .grid(column=1, row=1)
+        self.auto_accept_trim_cbtn  .grid(column=2, row=1, sticky="E", padx=5)
+        self.trim_clip_btn          .grid(column=3, row=1, sticky="E", padx=5)
         self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
         self.trim_wg.diff_lbl       .grid(column=2, row=2)
         self.trim_wg.end_lbl        .grid(column=3, row=2, sticky='E', padx=5)

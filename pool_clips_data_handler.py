@@ -5,7 +5,7 @@ import project_vars_handler
 # status	title	duration	rating	use_text_overlay	top_text	bottom_text	clip_path	current
 
 POOL_CLIPS_DATA_CSV_PATH = project_vars_handler.get_var('current_data_dir_path') + "/pool_clips_data.csv"
-HEADER_LIST = ["current", "priority_next", "status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "use_trimmed_clip", "begin_trim_time", "end_trim_time", "clip_path", "txt_overlay_clip_path", "trimmed_clip_path", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
+HEADER_LIST = ["current", "priority_next", "status", "title", "duration", "rating", "use_text_overlay", "top_text", "bottom_text", "use_trimmed_clip", "start_trim_time", "end_trim_time", "clip_path", "txt_overlay_clip_path", "trimmed_clip_path", "postId", "postTitle", "postSubmitter", "postType", "postURL", "postSubreddit"]#['status', 'postTitle', 'duration', 'rating', 'use_text_overlay', 'top_text', 'bottom_text', 'clip_path', 'current']
 
 def get_csv_row_dl():
     return logger.readCSV(POOL_CLIPS_DATA_CSV_PATH)

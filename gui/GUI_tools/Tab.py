@@ -29,6 +29,8 @@ class Tab():
         self.tabs = None
         self.widget_str_var_d = {}
         
+        self.widget_var_d = {}
+        
         self.digits_only = (self.master.register(self.validate), DIGITS, '%P')
          
     def validate(self, allowed_chars, value_if_allowed):
@@ -41,20 +43,66 @@ class Tab():
                 return False
         return True
     
-    #bind keys to widget such that func gets called any time the contents of the widget change
     
-    # only tested with entry
+    
+    # sets var to widget and puts it in self.widget_var_d so bind_to_update will work
+    def set_var(self, widget, var):
+        # returns a string saying which variable type is needed for the given widget
+        def _var_type(widget):
+            if   isinstance(widget, Label) or \
+                 isinstance(widget, Entry) or \
+                 isinstance(widget, Spinbox):
+                return 'textvariable'
+            elif isinstance(widget, Listbox):
+                return 'listvariable'
+            elif isinstance(widget, Radiobutton) or \
+                 isinstance(widget, Checkbutton) or \
+                 isinstance(widget, Scale):
+                return 'variable'
+            else:
+                raise Exception('FUNC INCOMPLETE:  In Tab.py in set_var() in _var_type(), the given widget type does not have a variable type assigned yet, please update, type(widget): ', type(widget))
+
+        widget[_var_type(widget)] = var
+        self.widget_var_d[widget] = var
+            
+        
+    # MIGHT GET WEIRD WITH STUFF LIKE LISTBOX AND SPINBOX
+    #bind keys to widget such that func gets called any time the contents of the widget change
     def bind_to_update(self, widget, func):
-        # add new trace to StringVar if you have already used this func on this widget before
-        if widget in self.widget_str_var_d.keys():
-            sv = self.widget_str_var_d[widget]
-            sv.trace("w", lambda name, index, mode, sv=sv: func())
+        # get contents of widget in such a way that they can be assigned to a Variable
+        def _get_widget_contents(widget):
+            if isinstance(widget, Label):
+                return widget['text']
+            else:
+                try:
+                    return widget.get()
+                except AttributeError:
+                    raise Exception('ERROR:  Tried to use self.bind_to_update() on a widget without .get() (without having a var), to use this func, you must first use self.set_var() to set a Variable to the widget, type(widget): ', type(widget))
+                
+                
+        
+        
+        
+#         try:
+#             print('in tab, at top of bind_to_update, widget["textvariable"] ' , widget['textvariable'], type(widget['textvariable']))#`````````````````````````````````````````````````````````````````````````````````````            
+#         except:
+#             pass
+        
+#         # add new trace to StringVar if you have already used this func on this widget before
+#         if widget in self.widget_str_var_d.keys():
+        if widget in self.widget_var_d.keys():
+             
+             
+#             sv = self.widget_str_var_d[widget]
+            var = self.widget_var_d[widget]
+#             var.trace("w", lambda name, index, mode, var=var: func())
         else:
-            sv = StringVar()
-            sv.set(widget.get())
-            sv.trace("w", lambda name, index, mode, sv=sv: func())
-            widget.configure(textvariable=sv)
-            self.widget_str_var_d[widget] = sv
+            widget_contents = _get_widget_contents(widget)
+            var = Variable(value = widget_contents)
+            self.set_var(widget, var)
+            
+        var.trace("w", lambda name, index, mode, var=var: func())
+
     
     
     def bind_to_edit(self, widget, func):
@@ -165,19 +213,23 @@ class Tab():
                  max,
                  min = 0,
                  min_diff = 0,
-                 type = 'time'):
+                 display_type = 'time'):
         
         wg = Trim_WG.Trim_WG(
                              master, 
                              max,
                              min,
                              min_diff,
-                             type)
+                             display_type)
         return wg        
         
         
         
 if __name__ == '__main__':
+    import os
+    sys.path.insert(1, os.path.join(sys.path[0], '..')) # to import from parent dir
+    #from parent dir
+    import GUI
     GUI.main()
 
 

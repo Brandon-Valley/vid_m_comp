@@ -211,6 +211,9 @@ def log_to_clip_pool_csv(clip_save_path, post_info_d, clip_duration):
     row_d['top_text'] = trim_bad_tk_chars(post_info_d['postTitle'])
     row_d['clip_path'] = os.path.abspath(clip_save_path)
     row_d['title'] = trim_bad_tk_chars(post_info_d['postTitle'])
+    row_d['start_trim_time'] = 0
+    row_d['end_trim_time'] = clip_duration
+    
     
     pool_clips_data_handler.add_to_clip_pool(row_d)
     

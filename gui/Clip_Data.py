@@ -26,6 +26,11 @@ class Clip_Data():
         self.eval_color = self.get_eval_color(row_d['status'])
         self.use_trimmed_clip = self.get_use_trimmed_clip(row_d['use_trimmed_clip'])
         
+        self.start_trim_time = row_d['start_trim_time']
+        self.end_trim_time   = row_d['end_trim_time']
+        
+        
+        
         
     def get_use_trimmed_clip(self, use_trimmed_clip):
         if use_trimmed_clip == '1':
