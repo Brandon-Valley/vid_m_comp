@@ -144,13 +144,12 @@ class Build_Tab(Tab.Tab):
         self.trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Trim Clip", variable=self.trim_cbtn_sel, command = trim_cbtn_clk)
         
         # auto accept cbtn
-        self.auto_accept_trim_cbtn_sel = IntVar(value = 1)#value sets default     
+        self.auto_accept_trim_cbtn_sel = IntVar(value = self.gui_vars['auto_accept_trimmed_clip'])#value sets default     
         self.auto_accept_trim_cbtn = Checkbutton(self.trim_lbl_frm, text="Auto Accept")#, variable=self.auto_accept_trim_cbtn_sel)#, command = trim_cbtn_clk)
         self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
         
         # trim clip btn
-        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip")#, command = GUI_commands.replay)
-
+        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), self.auto_accept_trim_cbtn_sel.get(), self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # trim widget group
         self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.end_trim_time,
@@ -158,46 +157,20 @@ class Build_Tab(Tab.Tab):
         
         trim_cbtn_clk()
         
-        
-
         # bind widgets to log
         self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
         self.bind_to_update(self.trim_wg.start_scale,   lambda: GUI_commands.log('start_trim_time', self.trim_wg.start_scale.get()))
         self.bind_to_update(self.trim_wg.end_scale,     lambda: GUI_commands.log('end_trim_time'  , self.trim_wg.end_scale.get()))
         
-        
-        
-        
-#         def test(event=None):
-#             print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
-#         self.bind_to_update(self.trim_wg.start_lbl, test)
-        
-#         print('in build_tab, self.trim_wg.start_scale["variable"]: ', self.trim_wg.start_scale["variable"], type(self.trim_wg.start_scale["variable"]))#```````````````````````````````````````````````
-#         print('in build_tab, self.trim_wg.start_scale["variable"]: ', self.trim_wg.start_lbl["textvariable"], type(self.trim_wg.start_lbl["textvariable"]))#```````````````````````````````````````````````
-
-
-#         self.test_lbl    = Label(self.trim_lbl_frm, text="test: ")
-#         self.bind_to_update(self.test_lbl, test)
-
-#         print('testing self.trim_wg.txt_box VVVVVVV')
-#         self.bind_to_update(self.trim_wg.txt_box, test)
-#         
-#         
-#         print('new test VVVVVVVVVVV VVVVVVV VVVVVVVVVV')
-#         t_var = StringVar()
-#         self.test_lbl    = Label(self.trim_lbl_frm, text="test: ")
-#         self.test_lbl['textvariable'] = t_var
-#         print(self.test_lbl['textvariable'])
-# #         print(self.var_type(self.prune_time_txt_box))
-        
-        
-        
-        
-        
-        
 
         
-
+    
+    
+    
+    
+    
+    
+    
     
     def accept_decline_____widget_setup(self):
         # accept and decline radio btns

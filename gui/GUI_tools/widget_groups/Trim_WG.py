@@ -39,14 +39,14 @@ class Trim_WG():
             diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
     
         
-        start_val = IntVar(value = min)  # IntVars to hold
-        end_val   = IntVar(value = max)  # values of scales
+
         self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
         self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
+        start_val = IntVar(value = min)  # IntVars to hold
+        end_val   = IntVar(value = max)  # values of scales
         set_var(self.start_scale, start_val)
         set_var(self.end_scale  , end_val)
-#         self.start_scale.set(min)
-#         self.end_scale  .set(max)
+
         
         start_scale_time_str = StringVar()
         end_scale_time_str = StringVar()
@@ -85,6 +85,9 @@ class Trim_WG():
     def enable_all(self):
         self.start_scale.config(state = 'normal')
         self.end_scale.config  (state = 'normal')
+        
+    def get(self):
+        return (self.start_scale.get(), self.end_scale.get())
     
 if __name__ == '__main__':
     import os

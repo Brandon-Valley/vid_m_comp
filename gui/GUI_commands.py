@@ -40,6 +40,7 @@ import json_logger
 import project_vars_handler
 import youtube_upload
 import file_system_utils
+import vid_utils
 
 
 try:
@@ -199,6 +200,28 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
     
     
     
+    
+def trim_clip(trim_tup, auto_accept, master, tab_control, skip_evaluated, skip_to_priority):
+    cur_clip_path = pool_clips_data_handler.read_from_current('clip_path')
+    #trim off the .mp4
+    trimmed_cur_clip_path = cur_clip_path[:-4]
+    trimmed_clip_path = trimmed_cur_clip_path + '__trimmed.mp4'  
+      
+    def create_and_log_trimmed_clip():
+        row_num = pool_clips_data_handler.get_cur_row_num()
+        vid_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
+        pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
+        if not auto_accept:
+            pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
+        print('done with making trim_clip, saved in: ', trimmed_clip_path)
+         
+    thread = Thread(target=create_and_log_trimmed_clip)  
+    thread.start()
+    
+    if auto_accept:
+        accept(master, tab_control, skip_evaluated, skip_to_priority)
+    else:
+        next(master, tab_control, skip_evaluated, skip_to_priority)   
     
 
 
