@@ -162,7 +162,8 @@ class Build_Tab(Tab.Tab):
 
         # bind widgets to log
         self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
-        self.bind_to_update(self.trim_wg.start_scale, lambda: GUI_commands.log('start_trim_time', self.trim_wg.start_scale.get()))
+        self.bind_to_update(self.trim_wg.start_scale,   lambda: GUI_commands.log('start_trim_time', self.trim_wg.start_scale.get()))
+        self.bind_to_update(self.trim_wg.end_scale,     lambda: GUI_commands.log('end_trim_time'  , self.trim_wg.end_scale.get()))
         
         
         

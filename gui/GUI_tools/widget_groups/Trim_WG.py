@@ -13,7 +13,8 @@ class Trim_WG():
                  max,
                  min,
                  min_diff,
-                 display_type):
+                 display_type,
+                 set_var):
         
         test_var = StringVar()
         self.txt_box = Entry(master, textvariable = test_var)#,width=TEXT_OVERLAY_TEXT_BOX_WIDTH) #````````````````````````````````````````````````````
@@ -38,22 +39,22 @@ class Trim_WG():
             diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
     
         
-        start_val = IntVar()  # IntVars to hold
-        end_val = IntVar() # values of scales
-        print('start_val: ', start_val, type(start_val))#``````````````````````````````````````````````````````````````````````````````````````
-                
-        self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=start_val, command=prevent_overlap_and_update_lbls)
-        self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, variable=end_val  , command=prevent_overlap_and_update_lbls)
-        self.start_scale.set(min)
-        self.end_scale  .set(max)
+        start_val = IntVar(value = min)  # IntVars to hold
+        end_val   = IntVar(value = max)  # values of scales
+        self.start_scale  = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
+        self.end_scale    = Scale(master, from_=0, to=max, orient = "horizontal", showvalue=0, command=prevent_overlap_and_update_lbls)
+        set_var(self.start_scale, start_val)
+        set_var(self.end_scale  , end_val)
+#         self.start_scale.set(min)
+#         self.end_scale  .set(max)
         
         start_scale_time_str = StringVar()
         end_scale_time_str = StringVar()
         diff_time_str = StringVar()
         
-        print('self.start_scale.get(): ', self.start_scale.get())#`````````````````````````````````````````````````````````
-        print('self.start_scale["variable"]: ', self.start_scale["variable"], type(self.start_scale["variable"]))#```````````````````````````````````````````````
-    
+#         print('self.start_scale.get(): ', self.start_scale.get())#`````````````````````````````````````````````````````````
+#         print('self.start_scale["variable"]: ', self.start_scale["variable"], type(self.start_scale["variable"]))#```````````````````````````````````````````````
+#     
         
         start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
         end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))

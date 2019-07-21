@@ -220,7 +220,8 @@ class Tab():
                              max,
                              min,
                              min_diff,
-                             display_type)
+                             display_type,
+                             self.set_var)
         return wg        
         
         
