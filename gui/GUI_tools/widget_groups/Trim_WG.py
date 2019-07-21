@@ -15,8 +15,10 @@ class Trim_WG():
                  min_diff,
                  start_set,
                  end_set,
+                 update_func,
                  display_type,
-                 set_var):
+                 set_var,
+                 bind_to_update):
         
         test_var = StringVar()
         self.txt_box = Entry(master, textvariable = test_var)#,width=TEXT_OVERLAY_TEXT_BOX_WIDTH) #````````````````````````````````````````````````````
@@ -79,6 +81,11 @@ class Trim_WG():
         # bind to mouse clk
         self.start_scale.bind("<Button-1>",start_scale_clk)
         self.end_scale.bind("<Button-1>",end_scale_clk)
+        
+        # set update func
+        if update_func != None:
+            bind_to_update(self.start_scale, update_func)
+            bind_to_update(self.end_scale  , update_func)
     
     
     

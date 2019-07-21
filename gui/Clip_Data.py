@@ -26,9 +26,14 @@ class Clip_Data():
         self.eval_color = self.get_eval_color(row_d['status'])
         self.use_trimmed_clip = self.get_use_trimmed_clip(row_d['use_trimmed_clip'])
         
-        self.start_trim_time = row_d['start_trim_time']
-        self.end_trim_time   = row_d['end_trim_time']
+        self.start_trim_time = int(row_d['start_trim_time'])
+        self.end_trim_time   = int(row_d['end_trim_time'])
         
+        
+    def trim_times_diff_from_og(self):
+        if self.end_trim_time - self.start_trim_time == self.duration:
+            return False
+        return True
         
         
         
