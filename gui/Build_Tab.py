@@ -150,7 +150,7 @@ class Build_Tab(Tab.Tab):
         self.set_var(self.auto_accept_trim_cbtn, self.auto_accept_trim_cbtn_sel)
         
         # trim clip btn
-        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip And Re-Evaluate", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), self.auto_accept_trim_cbtn_sel.get(), self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
+        self.trim_clip_btn = Button(self.trim_lbl_frm, text="Trim Clip And Re-Evaluate", command = lambda: GUI_commands.trim_clip(self.trim_wg.get(), False, self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # trim widget group
         def trim_scales_update(event=None):
@@ -160,14 +160,14 @@ class Build_Tab(Tab.Tab):
             # update clip data
             self.clip_data = GUI_commands.get_current_clip_data()
 
-            if not self.clip_data.trim_times_diff_from_og():
-                self.trim_clip_btn.config(state = 'disabled')
-                GUI_commands.log('use_trimmed_clip', '')
-            else:
+            if not self.clip_data.trim_times_same_as_og:
                 self.trim_clip_btn.config(state = 'normal')
                 GUI_commands.log('use_trimmed_clip', 1)
+            else:
+                self.trim_clip_btn.config(state = 'disabled')
+                GUI_commands.log('use_trimmed_clip', '')
+
                 
-#             print('in build_tab, ', )
             
         self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF,
                                     start_set = self.clip_data.start_trim_time,
@@ -199,7 +199,16 @@ class Build_Tab(Tab.Tab):
         # evaluation lbl frame
         self.eval_lbl_frm = LabelFrame(self.master, text=" Evaluation: ", fg = self.clip_data.eval_color)
         
-        self.accept_rad_btn   = Radiobutton(self.eval_lbl_frm,text='Accept' , value='accepted' , variable = status, command = lambda: GUI_commands.accept (self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
+        # accept rad btn
+        def accept_rad_btn_clk(event=None):
+            if self.clip_data.trim_times_same_as_og:
+                GUI_commands.accept(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
+            else:
+                GUI_commands.trim_clip(self.trim_wg.get(), True, self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
+        
+        self.accept_rad_btn   = Radiobutton(self.eval_lbl_frm,text='Accept' , value='accepted' , variable = status, command = accept_rad_btn_clk)
+        
+        # decline rad_btn
         self.decline_rad_btn  = Radiobutton(self.eval_lbl_frm,text='Decline', value='declined' , variable = status, command = lambda: GUI_commands.decline(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
         # replay and close btns
@@ -396,7 +405,7 @@ class Build_Tab(Tab.Tab):
         self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
 #         self.trim_cbtn              .grid(column=1, row=1)
-        self.auto_accept_trim_cbtn  .grid(column=2, row=1, sticky="E", padx=5)
+#         self.auto_accept_trim_cbtn  .grid(column=2, row=1, sticky="E", padx=5)
         self.trim_clip_btn          .grid(column=3, row=1, sticky="E", padx=5)
         self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
         self.trim_wg.diff_lbl       .grid(column=2, row=2)

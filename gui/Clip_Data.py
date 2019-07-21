@@ -29,11 +29,12 @@ class Clip_Data():
         self.start_trim_time = int(row_d['start_trim_time'])
         self.end_trim_time   = int(row_d['end_trim_time'])
         
+        self.trim_times_same_as_og = (self.end_trim_time - self.start_trim_time == self.duration)
         
-    def trim_times_diff_from_og(self):
-        if self.end_trim_time - self.start_trim_time == self.duration:
-            return False
-        return True
+#     def trim_times_diff_from_og(self):
+#         if self.end_trim_time - self.start_trim_time == self.duration:
+#             return False
+#         return True
         
         
         
