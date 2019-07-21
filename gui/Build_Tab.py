@@ -137,8 +137,12 @@ class Build_Tab(Tab.Tab):
 
             if not self.clip_data.trim_times_same_as_og:
                 GUI_commands.log('use_trimmed_clip', 1)
+                self.trim_wg.diff_lbl       .grid(column=2, row=1)
             else:
                 GUI_commands.log('use_trimmed_clip', '')
+                self.trim_wg.diff_lbl.grid_forget()
+
+
 
                 
             
@@ -379,11 +383,11 @@ class Build_Tab(Tab.Tab):
         # trim
         self.trim_lbl_frm           .grid(column=1, row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
         self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
-        self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
-        self.trim_wg.diff_lbl       .grid(column=2, row=2)
-        self.trim_wg.end_lbl        .grid(column=3, row=2, sticky='E', padx=5)
-        self.trim_wg.end_scale      .grid(column=1, row=3, columnspan=3, sticky="EW", padx=5)
-        self.trim_wg.start_scale    .grid(column=1, row=4, columnspan=3, sticky="EW", padx=5)
+        self.trim_wg.start_lbl      .grid(column=1, row=1, sticky='W', padx=5)
+#         self.trim_wg.diff_lbl       .grid(column=2, row=1)
+        self.trim_wg.end_lbl        .grid(column=3, row=1, sticky='E', padx=5)
+        self.trim_wg.end_scale      .grid(column=1, row=2, columnspan=3, sticky="EW", padx=5)
+        self.trim_wg.start_scale    .grid(column=1, row=3, columnspan=3, sticky="EW", padx=5)
         
         
         #eval
