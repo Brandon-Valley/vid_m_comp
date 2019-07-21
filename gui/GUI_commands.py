@@ -101,13 +101,10 @@ def navigate(move_amount, master, tab_control, skip_evaluated, skip_to_priority)
     restart_build_tab(master, tab_control, 0)
     
     try:
-        print('in gui_commands, trying to open vid')#``````````````````````````````````````````````````````````````````````````````
-        print('in gui_commands, pool_clips_data_handler.get_current_main_clip_path(): ', pool_clips_data_handler.get_current_main_clip_path())
         vid_player_control.open_vid(pool_clips_data_handler.get_current_main_clip_path())
     except NameError:
         print('Cant open vid because cant import vid_player_pontrol')
-#     except:#`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-#         print('GOT NON NAMEERROR EXEPTION WHEN opening vid')
+
         
     print('in gui utils, navigation total time: ', time.time() - start_time)
     
@@ -173,7 +170,7 @@ def decline(master, tab_control, skip_evaluated, skip_to_priority):
     
 def replay():
     vid_player_control.close_vid_if_open()
-    vid_player_control.open_vid(pool_clips_data_handler.read_from_current('clip_path'))
+    vid_player_control.open_vid(pool_clips_data_handler.get_current_main_clip_path())
     
 def close_clip():
     vid_player_control.close_vid_if_open()
@@ -198,32 +195,34 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
         
     text_overlay_thread = Thread(target=create_and_log_txt_overlay_clip)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     text_overlay_thread.start()
+    create_and_log_txt_overlay_clip()
     next(master, tab_control, skip_evaluated, skip_to_priority)
     
     
     
     
-def trim_clip(trim_tup, auto_accept, master, tab_control, skip_evaluated, skip_to_priority):
+def trim_clip(trim_tup, master, tab_control, skip_evaluated, skip_to_priority):
     cur_clip_path = pool_clips_data_handler.read_from_current('clip_path')
     #trim off the .mp4
     trimmed_cur_clip_path = cur_clip_path[:-4]
     trimmed_clip_path = trimmed_cur_clip_path + '__trimmed.mp4'  
       
-    def create_and_log_trimmed_clip():
-        row_num = pool_clips_data_handler.get_cur_row_num()
-        vid_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
-        pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
-        if not auto_accept:
-            pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
-        print('done with making trim_clip, saved in: ', trimmed_clip_path)
+    # create and log trimmed clip
+    row_num = pool_clips_data_handler.get_cur_row_num()
+    vid_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
+    pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
+#         if not auto_accept:
+#             pool_clips_data_handler.write_to_row_num(row_num, 'priority_next', '1')
+#     print('done with making trim_clip, saved in: ', trimmed_clip_path)
          
-    thread = Thread(target=create_and_log_trimmed_clip)  
-    thread.start()
+#     thread = Thread(target=create_and_log_trimmed_clip)  
+#     thread.start()
+#     create_and_log_trimmed_clip()
     
-    if auto_accept:
-        accept(master, tab_control, skip_evaluated, skip_to_priority)
-    else:
-        next(master, tab_control, skip_evaluated, skip_to_priority)   
+#     if auto_accept:
+#         accept(master, tab_control, skip_evaluated, skip_to_priority)
+#     else:
+#         next(master, tab_control, skip_evaluated, skip_to_priority)   
     
 
 

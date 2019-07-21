@@ -211,8 +211,15 @@ class Build_Tab(Tab.Tab):
         # decline rad_btn
         self.decline_rad_btn  = Radiobutton(self.eval_lbl_frm,text='Decline', value='declined' , variable = status, command = lambda: GUI_commands.decline(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get()))
 
-        # replay and close btns
-        self.replay_btn = Button(self.eval_lbl_frm, text="Replay Clip", command = GUI_commands.replay)
+        # replay btn
+        def replay_btn_clk(event=None):
+            if not self.clip_data.trim_times_same_as_og:
+                GUI_commands.trim_clip(self.trim_wg.get(), self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
+            GUI_commands.replay()
+                
+        self.replay_btn = Button(self.eval_lbl_frm, text="Replay Clip", command = replay_btn_clk)
+        
+        # close btn
         self.close_btn  = Button(self.eval_lbl_frm, text="Close Clip" , command = GUI_commands.close_clip)
 
 
