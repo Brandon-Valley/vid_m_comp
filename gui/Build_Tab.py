@@ -2,6 +2,7 @@ from tkinter.ttk import *
 from tkinter import *
 
 import os
+import time # need???????????
 
 from GUI_tools import Tab
 
@@ -201,10 +202,9 @@ class Build_Tab(Tab.Tab):
         
         # accept rad btn
         def accept_rad_btn_clk(event=None):
-            if self.clip_data.trim_times_same_as_og:
-                GUI_commands.accept(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
-            else:
-                GUI_commands.trim_clip(self.trim_wg.get(), True, self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
+            if not self.clip_data.trim_times_same_as_og:
+                GUI_commands.trim_clip(self.trim_wg.get())
+            GUI_commands.accept(self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())                
         
         self.accept_rad_btn   = Radiobutton(self.eval_lbl_frm,text='Accept' , value='accepted' , variable = status, command = accept_rad_btn_clk)
         
@@ -214,7 +214,8 @@ class Build_Tab(Tab.Tab):
         # replay btn
         def replay_btn_clk(event=None):
             if not self.clip_data.trim_times_same_as_og:
-                GUI_commands.trim_clip(self.trim_wg.get(), self.master, self.tab_control, self.skip_evaluated_cbtn_sel.get(), self.skip_to_prority_cbtn_sel.get())
+                GUI_commands.trim_clip(self.trim_wg.get())
+#                 time.sleep(3)
             GUI_commands.replay()
                 
         self.replay_btn = Button(self.eval_lbl_frm, text="Replay Clip", command = replay_btn_clk)

@@ -170,6 +170,9 @@ def decline(master, tab_control, skip_evaluated, skip_to_priority):
     
 def replay():
     vid_player_control.close_vid_if_open()
+    print('in gui_commands, pool_clips_data_handler.get_current_main_clip_path(): ', pool_clips_data_handler.get_current_main_clip_path())
+    
+    time.sleep(0.2) # without this it gets stuck loading sometimes, maybe only when using trimmed clips?
     vid_player_control.open_vid(pool_clips_data_handler.get_current_main_clip_path())
     
 def close_clip():
@@ -201,7 +204,7 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
     
     
     
-def trim_clip(trim_tup, master, tab_control, skip_evaluated, skip_to_priority):
+def trim_clip(trim_tup):
     cur_clip_path = pool_clips_data_handler.read_from_current('clip_path')
     #trim off the .mp4
     trimmed_cur_clip_path = cur_clip_path[:-4]
