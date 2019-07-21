@@ -406,7 +406,7 @@ class Build_Tab(Tab.Tab):
         self.trim_lbl_frm.grid_columnconfigure(2, weight=1)
 #         self.trim_cbtn              .grid(column=1, row=1)
 #         self.auto_accept_trim_cbtn  .grid(column=2, row=1, sticky="E", padx=5)
-        self.trim_clip_btn          .grid(column=3, row=1, sticky="E", padx=5)
+        self.trim_clip_btn          .grid(column=1, row=1, columnspan=2, sticky="w", padx=5)
         self.trim_wg.start_lbl      .grid(column=1, row=2, sticky='W', padx=5)
         self.trim_wg.diff_lbl       .grid(column=2, row=2)
         self.trim_wg.end_lbl        .grid(column=3, row=2, sticky='E', padx=5)
