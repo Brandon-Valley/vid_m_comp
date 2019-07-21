@@ -145,8 +145,9 @@ def move_current_to_row_num(row_num):
 def get_main_clip_path_from_row_d(row_d):
     if row_d['use_text_overlay'] == '1' and row_d['txt_overlay_clip_path'] != '':
         return row_d['txt_overlay_clip_path']
-    if row_d['use_trimmed_clip'] == '1' and row_d['use_trimmed_clip'] != '':
-        print('in pool_clips_data_handler, returning row_d["trimmed_clip_path"]: ', row_d['trimmed_clip_path'])#``````````````````````
+    if row_d['use_trimmed_clip'] == '1' and row_d['trimmed_clip_path'] != '':
+#         print('in pool_clips, row_d: ', row_d)#````````````````````````````````````````````````````````````````````````````````
+#         print('in pool_clips_data_handler, returning row_d["trimmed_clip_path"]: ', row_d['trimmed_clip_path'])#``````````````````````
         return row_d['trimmed_clip_path']
     else:
         return row_d['clip_path']
@@ -173,23 +174,6 @@ def get_rated_clip_path_dl():
 
 
 
-# def delete_csv():
-#     os.remove(POOL_CLIPS_DATA_CSV_PATH)
-
-
-
-# logger.logSingle({'a':1, 'b': 2}, POOL_CLIPS_DATA_CSV_PATH, False, ['a', 'b', 'c'], 'append')
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -199,4 +183,3 @@ if __name__ == '__main__':
 
 
 
-#move_current(1)
