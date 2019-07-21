@@ -153,15 +153,19 @@ class Build_Tab(Tab.Tab):
 
 
         # trim widget group
-        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF)
+        self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.end_trim_time,
+                                                       min = self.clip_data.start_trim_time, min_diff = MIN_TRIM_DIFF)
         
         trim_cbtn_clk()
         
         
-        def test(event=None):
-            print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````
+
         # bind widgets to log
         self.bind_to_update(self.auto_accept_trim_cbtn, lambda: GUI_commands.log_gui_var('auto_accept_trimmed_clip', self.auto_accept_trim_cbtn_sel.get()))
+        self.bind_to_update(self.trim_wg.start_scale, lambda: GUI_commands.log('start_trim_time', self.trim_wg.start_scale.get()))
+        
+        
+        
         
 #         def test(event=None):
 #             print('TEEEEEEEEEEEEEEEEST!')#``````````````````````````````````````````````````````````````

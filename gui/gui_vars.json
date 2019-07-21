@@ -1,6 +1,10 @@
 {
-    "prune_rating": "5",
+    "prune_clips": 1,
+    "skip_evaluated": 1,
+    "tags": "Memes, funny, ylyl",
     "prune_time": "10:30",
+    "prune_rating": "5",
+    "description": "FRESH MEMES!!!!",
     "subreddit_list": [
         "dankvideos",
         "videos",
@@ -9,13 +13,9 @@
         "h",
         "r"
     ],
-    "description": "FRESH MEMES!!!!",
-    "tags": "Memes, funny, ylyl",
-    "compiled_output_file_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/output.mp4",
-    "skip_to_priority": "1",
-    "skip_evaluated": 1,
     "thumbnail_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/thumbnail.png",
     "auto_accept_trimmed_clip": 1,
+    "skip_to_priority": "1",
     "use_trimmed_clip": 1,
-    "prune_clips": 1
+    "compiled_output_file_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/output.mp4"
 }
