@@ -216,6 +216,7 @@ class Tab():
                  start_set = None,
                  end_set = None,
                  update_func = None,
+                 diff_leading_txt = '',
                  display_type = 'time'):
         
         wg = Trim_WG.Trim_WG(
@@ -226,6 +227,7 @@ class Tab():
                              start_set,
                              end_set,
                              update_func,
+                             diff_leading_txt,
                              display_type,
                              self.set_var,
                              self.bind_to_update)

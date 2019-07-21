@@ -16,6 +16,7 @@ class Trim_WG():
                  start_set,
                  end_set,
                  update_func,
+                 diff_leading_txt,
                  display_type,
                  set_var,
                  bind_to_update):
@@ -40,7 +41,7 @@ class Trim_WG():
                     
             start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
             end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
-            diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
+            diff_time_str.set(diff_leading_txt + GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
     
         
         # set scales
@@ -64,8 +65,7 @@ class Trim_WG():
         
         start_scale_time_str.set(GUI_tools_utils.sec_to_min_str(start_val.get()))
         end_scale_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get()))
-
-        diff_time_str.set(GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
+        diff_time_str.set(diff_leading_txt + GUI_tools_utils.sec_to_min_str(end_val.get() - start_val.get()))
         
         self.start_lbl = Label(master, textvariable=start_scale_time_str)   # labels that will update
         self.end_lbl   = Label(master, textvariable=end_scale_time_str) # with IntVars as start_scale moves

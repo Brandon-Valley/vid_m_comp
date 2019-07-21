@@ -48,7 +48,7 @@ class Build_Tab(Tab.Tab):
         self.title_lbl_lbl = Label(self.clip_info_lbl_frm, text="Title: ")
         self.title_lbl     = Label(self.clip_info_lbl_frm, text=self.clip_data.title)
         
-        self.duration_lbl_lbl = Label(self.clip_info_lbl_frm, text="Duration: ")
+        self.duration_lbl_lbl = Label(self.clip_info_lbl_frm, text="OG Duration: ")
         self.duration_lbl     = Label(self.clip_info_lbl_frm, text=self.clip_data.duration_str)
      
 
@@ -143,8 +143,8 @@ class Build_Tab(Tab.Tab):
                 
             
         self.trim_wg = self.Trim_WG(self.trim_lbl_frm, max = self.clip_data.duration, min_diff = MIN_TRIM_DIFF,
-                                    start_set = self.clip_data.start_trim_time,
-                                    end_set   = self.clip_data.end_trim_time  , update_func=trim_scales_update) 
+                                    start_set = self.clip_data.start_trim_time, update_func=trim_scales_update,
+                                    end_set   = self.clip_data.end_trim_time  , diff_leading_txt='Trimmed Duration: ') 
         
         trim_scales_update()
         
