@@ -227,23 +227,23 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = 
                         clip_duration = False
                         try:
                             clip_duration = dl_utils.get_vid_duration__youtube(post_info_d['postURL'])
+                        except ValueError as e:
+                            print(e)
+                            fail_reason ='error: value error: ' + str(e)
                         except subprocess.CalledProcessError as e:
                             if e.output == NO_INTERNET_YT_STR:
                                 raise NoInternetError('ERROR:  No internet connection')
                             else:
                                 print("Status : FAIL",  e.output)#`````````````````````````````````````````````````````````````````````````
                                 
-    
-                                
-                                
                                 print(INDENT + 'Video not available, possably removed, skipping...')
                                 fail_reason = 'error: youtube video unavailable, possably removed -- subprocess.CalledProcessError'
                         except custom_errors.NotYoutubeVideoError:
                             print(INDENT + 'not a youtube vid, skipping...')
                             fail_reason = 'error: url_not_youtube_vid'
-                        except RegexNotFoundError:
-                            print(INDENT + 'RegexNotFoundError on youtube vid, MIGHT be possable to fix, keep an eye on how often this happens')
-                            fail_reason = 'error: RegexNotFoundError' #vid is available, MIGHT be able to fix later, one time vid had title with weird chars but not always
+#                         except RegexNotFoundError:
+#                             print(INDENT + 'RegexNotFoundError on youtube vid, MIGHT be possable to fix, keep an eye on how often this happens')
+#                             fail_reason = 'error: RegexNotFoundError' #vid is available, MIGHT be able to fix later, one time vid had title with weird chars but not always
                         
                         
                         
@@ -314,7 +314,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = 
         
 
 def test():
-    download_vids(500, ['dankvideos'], 'overwrite', QUICK_TEST = False, continue_from_last_pos=False, include_youtube_downloads=True, start_from_pos = None)    
+    download_vids(500, ['dankvideos'], 'append', QUICK_TEST = True, continue_from_last_pos=True, include_youtube_downloads=True, start_from_pos = None)    
            
 if __name__ == '__main__':
     test()
