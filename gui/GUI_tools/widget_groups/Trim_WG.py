@@ -1,7 +1,10 @@
 from tkinter.ttk import *
 from tkinter import *
 
-from gui.GUI_tools import GUI_tools_utils
+import os
+sys.path.insert(1, os.path.join(sys.path[0], '..\\..')) # to import from parent dir
+#from parent_dir
+import GUI_tools_utils
 
 
 
