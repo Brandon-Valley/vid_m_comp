@@ -12,11 +12,11 @@
     {
         "schedule_event": 1,
         "event_name": "aa",
-        "am_pm": "PM",
+        "am_pm": "AM",
         "day": "Saterday",
         "subreddit_l": [
             "dankvideos"
         ],
-        "time": "3:21"
+        "time": "7:58"
     }
 ]

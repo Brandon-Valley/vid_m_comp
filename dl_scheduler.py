@@ -26,7 +26,6 @@ class Download_Event():
         self.subreddit_l    = dl_schedule_d['subreddit_l']
         self.day            = dl_schedule_d['day']
         self.time           = dl_schedule_d['time']
-        print('in dl_scheduler, time: ', dl_schedule_d['time'])#``````````````````````````````````````````````
         self.am_pm          = dl_schedule_d['am_pm']
         
         self.dl_date        = self.get_dl_date()
@@ -68,7 +67,7 @@ class Download_Event():
             return (hour, min, 0)
             
         time = _make_time_tup()
-        print('in dl_sch, (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]): ', (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]))
+        #print('in dl_sch, (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]): ', (self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2]))
         return datetime.datetime(self.dl_date.year, self.dl_date.month, self.dl_date.day, time[0], time[1], time[2])
         
 
@@ -127,7 +126,7 @@ def main():
         print('sleeping for', wait_sec, 'seconds...')
         time.sleep(wait_sec)
         import download_vids
-        download_vids.download_vids(500, soonest_dl_event.subreddit_l, 'overwrite')
+        download_vids.download_vids(750, soonest_dl_event.subreddit_l, 'overwrite')
         main()
         
         
