@@ -1,16 +1,22 @@
 
+cant compile unless clips_to_compile folder maualy added
+
+cant get thumbnail to appear with load btn, but copies it?
+
+trim all messed up
+
+text overlay threading broken
+
+progress info shows pruned clips as accepted and also probably adds to time
+
+
+
+
+
 
 make ability to set clip as first / last, maybe with list indexes, like 0 = 1st, -1 = last
 
-add % under clip #
-
-add option to trim out lower rated memes if vid is over x min
-
 add logo to vid (what is the name for logo?) - watermark
-
-add download tab
-
-add compile path in comile tab
 
 add & # ,% accepted, declined, unevaluated
 
