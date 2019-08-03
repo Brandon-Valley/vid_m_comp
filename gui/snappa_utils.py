@@ -24,8 +24,6 @@ def load_snappa_dl_as_thumbnail(thumbnail_path):
     for file_path in reversed(dl_file_paths):
         file_name = file_system_utils.get_filename_from_path(file_path)
         if file_name.startswith('Untitled Design'):
-            print('renaming: ', file_path)#`````````````````````````````````````````````````````````````````````````````
-#             os.rename(file_path, thumbnail_path)
             file_system_utils.rename_file_overwrite(file_path, thumbnail_path)
             return
 # load_snappa_dl_as_thumbnail('ddd')
