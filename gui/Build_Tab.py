@@ -21,7 +21,6 @@ class Build_Tab(Tab.Tab):
         self.tab_control = tab_control
         Tab.Tab.__init__(self, master)
         
-        print('in build_tab, os.path.exists(project_vars.POOL_CLIPS_DATA_CSV_PATH): ', os.path.exists(project_vars.POOL_CLIPS_DATA_CSV_PATH), (project_vars.POOL_CLIPS_DATA_CSV_PATH))#````````````
         
         if os.path.exists(project_vars.POOL_CLIPS_DATA_CSV_PATH):
             GUI_commands.init_current_if_needed()

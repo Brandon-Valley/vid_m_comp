@@ -453,8 +453,9 @@ def compile_clips(clip_path_list, output_file_path, prog_widget_d = None):
 #         prog_widget_d['lbl_frm'].grid(column=1, row=40)
     
 #     print('in compile, about to comile these clips:  ', clip_path_list)
-    print('deleting all files in dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
-    file_system_utils.delete_all_files_in_dir(CLIPS_TO_COMPILE_DIR_PATH)
+    print('deleting all files in dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' if it exists...')
+    if os.path.exists(CLIPS_TO_COMPILE_DIR_PATH):
+        file_system_utils.delete_all_files_in_dir(CLIPS_TO_COMPILE_DIR_PATH)
     
     print('copying accepted clips to new dir: ' + CLIPS_TO_COMPILE_DIR_PATH + ' ...')
     file_system_utils.copy_files_to_dest(clip_path_list, CLIPS_TO_COMPILE_DIR_PATH)
