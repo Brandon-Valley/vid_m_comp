@@ -1,5 +1,4 @@
 
-cant compile unless clips_to_compile folder maualy added
 
 trim all messed up and cant compile
 

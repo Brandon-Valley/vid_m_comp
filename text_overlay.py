@@ -11,6 +11,7 @@ from PIL import Image
 import os
 
 import meme_caption
+import vid_edit_utils
 
 BACKGROUND_COLOR = (0,255,0)
 
@@ -44,15 +45,15 @@ def make_transparent_text_img(top_text, bottom_text, dims, output_file_path):
     os.remove('t2.png')
 
 
-def get_int_vid_dims(vid_file_path):
-    vid = cv2.VideoCapture(vid_file_path)
-    vid_w_float, vid_h_float = vid.get(cv2.CAP_PROP_FRAME_WIDTH), vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    return(int(vid_w_float), int(vid_h_float))
+# def get_int_vid_dims(vid_file_path):
+#     vid = cv2.VideoCapture(vid_file_path)
+#     vid_w_float, vid_h_float = vid.get(cv2.CAP_PROP_FRAME_WIDTH), vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
+#     return(int(vid_w_float), int(vid_h_float))
 
 
 def text_overlay(top_text, bottom_text, vid_file_path, output_vid_file_path):
     import moviepy.editor as mp # this here so long load and print dosnt happen when open gui
-    vid_dims = get_int_vid_dims(vid_file_path)
+    vid_dims = vid_edit_utils.get_vid_dims(vid_file_path)
     
 #     print('vid_dims:  ', vid_dims)
     

@@ -142,12 +142,19 @@ def drawText(text, pos, font, img, draw):
         y = lastY + h
         drawTextWithOutline(lines[i], x, y, font, draw)
         lastY = y
+        
+
+TEXT_TO_VID_HIEGHT_RATIO = 1 / 15
+def decide_font_size(vid_dims):
+    vid_h = vid_dims[1]
+    return int(vid_h * TEXT_TO_VID_HIEGHT_RATIO)
 
 
 def add_caption(in_img_path, out_img_path, top_text, bottom_text):
     img  = Image.open(in_img_path)
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("impact.ttf", 80)
+    font_size = decide_font_size(img.size)
+    font = ImageFont.truetype("impact.ttf", font_size)
 
     drawText(top_text,    "top",    font, img, draw)
     drawText(bottom_text, "bottom", font, img, draw)
@@ -156,5 +163,15 @@ def add_caption(in_img_path, out_img_path, top_text, bottom_text):
 
 
 if __name__ == '__main__':  
-    add_caption('pics/test_thumb.png', 'pics/t2.png', 'dhllllllllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
+    in_img_path = "C:\\Users\\Brandon\\Documents\\Personal_Projects\\vid_m_comp_big_data\\test_pics\\tp_426x240.png"
+    out_img_path = "C:\\Users\\Brandon\\Documents\\Personal_Projects\\vid_m_comp_big_data\\test_pics\\text__tp_426x240.png"
+    
 
+        
+    
+    
+    
+#     add_caption('pics/test_thumb.png', 'pics/t2.png', 'dhllllllllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo', 'dhl kkkkk kkk aaaaaaa iiiiiiiiiii bbbbbbbbbb nnnnnnnnnnnzzzzzzz ggggggggggg')
+    add_caption(in_img_path, out_img_path, 'test text on the top', 'bottom text')
+    img  = Image.open(out_img_path)
+    img.show()
