@@ -126,7 +126,7 @@ def main():
         print('sleeping for', wait_sec, 'seconds...')
         time.sleep(wait_sec)
         import download_vids
-        download_vids.download_vids(750, soonest_dl_event.subreddit_l, 'overwrite')
+        download_vids.download_vids(300, soonest_dl_event.subreddit_l, 'overwrite')
         main()
         
         

@@ -120,6 +120,7 @@ import dl_utils
 import historical_data
 import project_vars_handler
 import custom_errors
+import dl_report
 
 import testing_utils
 # from test.test_optparse import _check_duration
@@ -229,7 +230,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = 
                             clip_duration = dl_utils.get_vid_duration__youtube(post_info_d['postURL'])
                         except ValueError as e:
                             print(e)
-                            fail_reason ='error: value error: ' + str(e)
+                            fail_reason ='error: value error: ' + str(e)  # <----------------- this error happening too much???
                         except subprocess.CalledProcessError as e:
                             if e.output == NO_INTERNET_YT_STR:
                                 raise NoInternetError('ERROR:  No internet connection')
@@ -311,7 +312,7 @@ def download_vids(num_posts, subreddit_list, dl_type = 'overwrite',QUICK_TEST = 
         print(INDENT + '          Download attept time: ', dl_time)
         dl_utils.log_attempted_download(vid_save_path, post_info_d, clip_duration, dl_time, fail_reason)
 
-        
+    dl_report.print_dl_report()
 
 def test():
     download_vids(500, ['dankvideos'], 'append', QUICK_TEST = True, continue_from_last_pos=True, include_youtube_downloads=True, start_from_pos = None)    

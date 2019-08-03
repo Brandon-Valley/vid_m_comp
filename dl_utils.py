@@ -94,7 +94,7 @@ def get_vid_duration__youtube(url):
     dur_time_b = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
     
 
-#     print(dur_time_b)#`````````````````````````````````````````````````````````````````````````````````````````````
+    print('in dl_utils, dur_time_b: ', dur_time_b)#`````````````````````````````````````````````````````````````````````````````````````````````
     dur_time_str = str(dur_time_b)[2:-3]
 #     print(dur_time_str)#````````````````````````````````````````````````````````````````````````````
     
@@ -104,19 +104,23 @@ def get_vid_duration__youtube(url):
     if '\\' in split_dur_time_str_l[0]:
         raise custom_errors.NotYoutubeVideoError('Error:  got invalid duration so url is not a youtube video, maybe a channle, split_dur_time_str_l[0]: ' + split_dur_time_str_l[0] + '  url: ' + url )
     
-#     print(split_dur_time_str_l)#````````````````````````````````````````````````````````````````````
-    if len(split_dur_time_str_l) == 3:
-        num_hour = int(split_dur_time_str_l[0])
-        num_min  = int(split_dur_time_str_l[1])
-        num_sec  = int(split_dur_time_str_l[2])
-        return (num_hour * 3600) + (num_min * 60) + num_sec
-    elif len(split_dur_time_str_l) == 2:
-        num_min = int(split_dur_time_str_l[0])
-        num_sec = int(split_dur_time_str_l[1])
-        return num_min * 60 + num_sec
+    print('in dl_utils, split_dur_time_str_l:  ', split_dur_time_str_l)#````````````````````````````````````````````````````````````````````
+    if split_dur_time_str_l != ['WARNING', ' Unable to extract video title\\n15']:
+        if len(split_dur_time_str_l) == 3:
+            num_hour = int(split_dur_time_str_l[0])
+            num_min  = int(split_dur_time_str_l[1])
+            num_sec  = int(split_dur_time_str_l[2])
+            return (num_hour * 3600) + (num_min * 60) + num_sec
+        elif len(split_dur_time_str_l) == 2:
+            num_min = int(split_dur_time_str_l[0])
+            num_sec = int(split_dur_time_str_l[1])
+            return num_min * 60 + num_sec
+        else:
+            return int(split_dur_time_str_l[0])
     else:
-        return int(split_dur_time_str_l[0])
-    
+        myVideo = YouTube(url)
+        return myVideo.length 
+     
 
     
     
@@ -299,14 +303,17 @@ def start_pos(start_from_pos, continue_from_last_pos):
 #     
     
             
-import download_vids
+
 if __name__ == '__main__':
+    import download_vids
 #     import pytube
-    download_vids.test()
+#     download_vids.test()
 #     download_reddit_vid('https://v.redd.it/hmngsw5agv131/DASH_360', 'test', 'test_vid')
 #     correct_failed_vid_audio_combine('vids_to_compile','post_0001' )
 #     print(get_vid_duration__reddit("bvtsbd"))
 #     download_youtube_vid('https://www.youtube.com/watch?v=nKp9d0XCrA0', 'vids', 'yt_test_dl.mp4')
+
+    print(get_vid_duration__youtube("https://www.youtube.com/watch?v=ax6cGe6VbCI&feature=youtu.be"))
 
 
 

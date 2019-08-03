@@ -50,13 +50,18 @@ def print_dl_report():
             
         overall_fail_reason_occ_d = __fail_reason_occ_d(row_dl)
         
+        num_attempts = len(row_dl)
         total_fails = sum(overall_fail_reason_occ_d.values())
 
         print('')
-        print('Total Fails: ', total_fails)        
+        print('Total Fails: ', total_fails, '  %', int((total_fails / num_attempts) * 100))        
+        print('')
+        print('% Fails Of     % Fails Of     # Fails:     Fail Reason:')
+        print('Attempts:      Fails:')
         for fail_reason, num_occ in overall_fail_reason_occ_d.items():
-            percent = int((num_occ / total_fails) * 100)
-            print('% ', percent, '  ', num_occ, '  ', fail_reason)
+            percent_of_attempts = int((num_occ / num_attempts) * 100)
+            percent_of_fails    = int((num_occ / total_fails)  * 100)
+            print('%', percent_of_attempts, '           %', percent_of_fails, '            ', num_occ, '            ', fail_reason)
         
             
             

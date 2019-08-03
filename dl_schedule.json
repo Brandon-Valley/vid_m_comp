@@ -4,19 +4,19 @@
         "subreddit_l": [
             "dankvideos"
         ],
-        "schedule_event": 1,
         "event_name": "saterday_test",
-        "am_pm": "PM",
-        "time": "3:00"
+        "time": "3:00",
+        "schedule_event": 1,
+        "am_pm": "PM"
     },
     {
         "day": "Saterday",
         "subreddit_l": [
             "dankvideos"
         ],
-        "schedule_event": 1,
         "event_name": "aa",
-        "am_pm": "AM",
-        "time": "10:28"
+        "time": "1:06",
+        "schedule_event": 1,
+        "am_pm": "PM"
     }
 ]
