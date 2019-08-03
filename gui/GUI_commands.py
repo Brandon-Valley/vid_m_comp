@@ -214,6 +214,8 @@ def trim_clip(trim_tup):
     row_num = pool_clips_data_handler.get_cur_row_num()
     vid_edit_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
     pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
+    
+    time.sleep(0.1) # maybe this helps with sometimes freeze when replaying to trim?
  
     
 
