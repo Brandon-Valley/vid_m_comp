@@ -1,15 +1,16 @@
 from tkinter.ttk import *
 from tkinter import *
 
-from GUI_tools import Tab
-
 import os
 
+from GUI_tools import Tab
 
 import GUI_commands
 
-
-
+# import sys
+# sys.path.insert(1, os.path.join(sys.path[0], '..')) # to import from parent dir
+# from parent dir
+import project_vars
 
 
 PATH_TEXT_BOX_WIDTH  = 80
@@ -38,6 +39,15 @@ class Upload_Tab(Tab.Tab):
            not os.path.exists(self.vid_path_txt_box.get()) or \
            not os.path.exists(self.thumbnail_path_txt_box.get()):
             self.upload_btn.configure( state = 'disabled' )
+
+
+
+    def thumbnail_path_txt_box_edit(self, event = None):
+        GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
+        self.update_upload_ability()
+        self.tabs['compile'].update_compile_upload_log_btn_state()
+        GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
+
 
         
     def input_data_____widget_setup(self):
@@ -80,21 +90,21 @@ class Upload_Tab(Tab.Tab):
         
 
 
-        def thumbnail_path_txt_box_edit(event = None):
-            GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
-            self.update_upload_ability()
-            self.tabs['compile'].update_compile_upload_log_btn_state()
-            GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
+#         def self.thumbnail_path_txt_box_edit(event = None):
+#             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
+#             self.update_upload_ability()
+#             self.tabs['compile'].update_compile_upload_log_btn_state()
+#             GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
 
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)
         self.thumbnail_path_txt_box.insert(END, self.gui_vars['thumbnail_path']) #default
         self.thumbnail_path_txt_box.bind('<Expose>', xview_event_handler)#scrolls text to end if needed
-        self.bind_to_edit(self.thumbnail_path_txt_box, thumbnail_path_txt_box_edit)
+        self.bind_to_edit(self.thumbnail_path_txt_box, self.thumbnail_path_txt_box_edit)
                 
         def thumbnail_path_browse_btn_clk():
             self.path_tb_browse_btn_clk(self.thumbnail_path_txt_box, 'file')
-            thumbnail_path_txt_box_edit()
+            self.thumbnail_path_txt_box_edit()
             
         self.thumbnail_path_browse_btn = Button(self.input_lbl_frm, text="Browse...", command = thumbnail_path_browse_btn_clk)
 
@@ -154,7 +164,16 @@ class Upload_Tab(Tab.Tab):
         self.snappa_lbl_frm = LabelFrame(self.master, text=" Snappa: ")
         
         self.open_snappa_btn = Button(self.snappa_lbl_frm, text="Open Snappa In Chrome", command = GUI_commands.open_snappa_in_chrome)
-        self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download\n as thumbnail", command = lambda: GUI_commands.load_snappa_dl_as_thumbnail(self.thumbnail_path_txt_box.get()))
+        
+        # load snappa download as thumbnail btn
+        def load_snappa_dl_as_thumb_btn_clk(event=None):
+            GUI_commands.load_snappa_dl_as_thumbnail(project_vars.THUMBNAIL_PATH_INTENDED)
+            self.thumbnail_path_txt_box.delete(0, "end")
+            self.thumbnail_path_txt_box.insert(END, project_vars.THUMBNAIL_PATH_INTENDED)
+            self.thumbnail_path_txt_box_edit()
+            
+#         self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download\n as thumbnail", command = lambda: GUI_commands.load_snappa_dl_as_thumbnail(self.thumbnail_path_txt_box.get()))
+        self.load_snappa_dl_as_thumb_btn = Button(self.snappa_lbl_frm, text="Load Snappa Download\n as thumbnail", command = load_snappa_dl_as_thumb_btn_clk)
 
 
 

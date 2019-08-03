@@ -32,7 +32,7 @@ def youtube_upload(vid_file_path, title, description, keywords, category, privac
     cur_file_abs_path = file_system_utils.get_path_to_current_file(__file__)
 #     upload_video_script_abs_path = file_system_utils.get_path_to_current_file(__file__) + '/upload_video.py'
     vid_upload_cmd  = 'python ' + cur_file_abs_path + '/upload_video.py'
-    vid_upload_cmd += ' --file='          + vid_file_path 
+    vid_upload_cmd += ' --file="'         + vid_file_path + '"'
     vid_upload_cmd += ' --title='         + title 
     vid_upload_cmd += ' --description='   + description 
     vid_upload_cmd += ' --keywords='      + keywords 
@@ -49,7 +49,7 @@ def youtube_upload(vid_file_path, title, description, keywords, category, privac
      
     thumbnail_upload_cmd  = 'python ' + cur_file_abs_path + '/upload_thumbnail.py'
     thumbnail_upload_cmd += ' --video-id=' + vid_id
-    thumbnail_upload_cmd += ' --file='     + thumbnail_pic_path
+    thumbnail_upload_cmd += ' --file="'    + thumbnail_pic_path + '"'
      
     print(thumbnail_upload_cmd)
      

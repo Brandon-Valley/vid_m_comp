@@ -21,7 +21,7 @@ class Build_Tab(Tab.Tab):
         self.tab_control = tab_control
         Tab.Tab.__init__(self, master)
         
-        if os.path.exists(project_vars.CURRENT_DATA_DIR_PATH):
+        if os.path.exists(project_vars.POOL_CLIPS_DATA_CSV_PATH):
             GUI_commands.init_current_if_needed()
             
             self.clip_data      = GUI_commands.get_current_clip_data()

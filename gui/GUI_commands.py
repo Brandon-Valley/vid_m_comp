@@ -37,7 +37,7 @@ sys.path.append(parent_dir_path[0:-1])
 
 import pool_clips_data_handler
 import json_logger
-import project_vars_handler
+# import project_vars_handler
 import youtube_upload
 import file_system_utils
 import vid_utils
@@ -198,7 +198,7 @@ def apply_txt_overlay(top_text, bottom_text, master, tab_control, skip_evaluated
         
     text_overlay_thread = Thread(target=create_and_log_txt_overlay_clip)#, args=(img_path_list[3], 'option_3' , qo_dict)))  
     text_overlay_thread.start()
-    create_and_log_txt_overlay_clip()
+    #create_and_log_txt_overlay_clip()
     next(master, tab_control, skip_evaluated, skip_to_priority)
     
     

@@ -149,7 +149,7 @@ def rename_file_overwrite(src_file_path, dest_file_path):
 # the only reason this function is here is because I know that
 # if it isn't, I wont be able to find it later
 def get_path_to_current_file(file_obj):
-    return os.path.dirname(file_obj) # os.path.dirname(os.path.abspath(file_obj))
+    return os.path.dirname(os.path.abspath(file_obj)) # need abs path so it doesn't end with /.. b/c that will get messed up later when using dirname
 
 
 
