@@ -87,14 +87,6 @@ class Upload_Tab(Tab.Tab):
         
         # thumbnail path
         self.thumbnail_path_txt_box_lbl = Label(self.input_lbl_frm, text="Thumbnail Path: ")
-        
-
-
-#         def self.thumbnail_path_txt_box_edit(event = None):
-#             GUI_commands.log_gui_var('thumbnail_path', self.thumbnail_path_txt_box.get())
-#             self.update_upload_ability()
-#             self.tabs['compile'].update_compile_upload_log_btn_state()
-#             GUI_commands.update_thumbnail_canvas(self.thumbnail_path_txt_box.get(), self.thumnail_canvas)
 
          
         self.thumbnail_path_txt_box = Entry(self.input_lbl_frm,width=PATH_TEXT_BOX_WIDTH)

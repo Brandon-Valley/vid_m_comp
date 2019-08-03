@@ -5,19 +5,12 @@ cant get thumbnail to appear with load btn, but copies it?
 
 trim all messed up and cant compile
 
-text overlay threading broken
+text overlay threading broken - fixed?
 
 progress info shows pruned clips as accepted and also probably adds to time
 
-thumbnail upload messed up
+thumbnail upload messed up - fixed?
 
-python C:\Users\Brandon\Documents\Personal_Projects\vid_m_comp/upload_thumbnail.py --video-id=ABSFaJ9WEw0 --file=C:/Users/Brandon/Downloads/Untitled Design (3) - Copy.png
-usage: upload_thumbnail.py [--auth_host_name AUTH_HOST_NAME]
-                           [--noauth_local_webserver]
-                           [--auth_host_port [AUTH_HOST_PORT [AUTH_HOST_PORT ...]]]
-                           [--logging_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                           --video-id VIDEO_ID --file FILE
-upload_thumbnail.py: error: unrecognized arguments: Design (3) - Copy.png
 
 
 

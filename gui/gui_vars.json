@@ -1,6 +1,14 @@
 {
+    "skip_to_priority": "1",
+    "prune_time": "10:30",
+    "tags": "dank memes,dank,meme,memes,edgy,dankest,funny af,offensive memes,vine videos,dont laugh,meme compilation,dank meme compilation,freememeskids,family friendly,grandayy,dolan dark,fortnite memes,meme review,cringe compilation",
     "prune_rating": "5",
+    "compiled_output_file_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/output.mp4",
+    "thumbnail_path": "C:/Users/Brandon/Downloads/Untitled Design (3) - Copy - Copy - Copy - Copy.png",
+    "description": "If a child refuses to sleep during nap time, are they guilty of resisting a rest?",
     "auto_accept_trimmed_clip": 0,
+    "skip_evaluated": 1,
+    "prune_clips": 1,
     "subreddit_list": [
         "dankvideos",
         "videos",
@@ -9,13 +17,5 @@
         "h",
         "r"
     ],
-    "prune_time": "10:30",
-    "prune_clips": 1,
-    "skip_evaluated": 1,
-    "use_trimmed_clip": 1,
-    "skip_to_priority": "1",
-    "tags": "dank memes,dank,meme,memes,edgy,dankest,funny af,offensive memes,vine videos,dont laugh,meme compilation,dank meme compilation,freememeskids,family friendly,grandayy,dolan dark,fortnite memes,meme review,cringe compilation",
-    "thumbnail_path": "C:\\Users\\Brandon\\Documents\\Personal_Projects\\vid_m_comp_big_data\\current_data\\thumbnail.png",
-    "compiled_output_file_path": "C:/Users/Brandon/Documents/Personal_Projects/vid_m_comp_big_data/current_data/output.mp4",
-    "description": "If a child refuses to sleep during nap time, are they guilty of resisting a rest?"
+    "use_trimmed_clip": 1
 }
