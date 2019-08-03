@@ -26,6 +26,7 @@ import time
 #  
 import file_system_utils
 import project_vars_handler
+import vid_edit_utils
 
 
 # VIDS_TO_COMPILE_FOLDER_PATH = 'vids_to_compile'
@@ -72,9 +73,9 @@ def write_text_file(file_path, line_list):
 #     vid = cv2.VideoCapture(vid_file_path)
 #     return vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-def get_vid_dims(vid_file_path):
-    vid = cv2.VideoCapture(vid_file_path)
-    return (vid.get(cv2.CAP_PROP_FRAME_WIDTH), vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
+# def get_vid_dims(vid_file_path):
+#     vid = cv2.VideoCapture(vid_file_path)
+#     return (vid.get(cv2.CAP_PROP_FRAME_WIDTH), vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
     
     
 def get_height_of_tallest_vid_in_dir(dir_path):
@@ -82,7 +83,7 @@ def get_height_of_tallest_vid_in_dir(dir_path):
     
     max_height = 0
     for vid_file_path in vid_file_paths:
-        height = get_vid_dims(vid_file_path)[1]
+        height = vid_edit_utils.get_vid_dims(vid_file_path)[1]
         if height > max_height:
             max_height = height
     return max_height
@@ -149,7 +150,7 @@ def resize_all_vids_in_dir(dims, dir_path):
         temp_file_path = 'temp_' + vid_file_path.split('\\')[-1] 
         
         
-        vid_dims = get_vid_dims(vid_file_path)
+        vid_dims = vid_edit_utils.get_vid_dims(vid_file_path)
         scaled_w = get_scaled_width(vid_dims, dims[0]) # put back in after test !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         if dims != vid_dims:  

@@ -40,7 +40,7 @@ import json_logger
 # import project_vars_handler
 import youtube_upload
 import file_system_utils
-import vid_utils
+import vid_edit_utils
 
 
 try:
@@ -212,7 +212,7 @@ def trim_clip(trim_tup):
       
     # create and log trimmed clip
     row_num = pool_clips_data_handler.get_cur_row_num()
-    vid_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
+    vid_edit_utils.trim_vid(cur_clip_path, trimmed_clip_path, trim_tup)
     pool_clips_data_handler.write_to_row_num(row_num, 'trimmed_clip_path', trimmed_clip_path)
  
     
